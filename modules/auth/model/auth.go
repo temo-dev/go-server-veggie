@@ -16,3 +16,7 @@ type LoginInput struct {
 	NameAccount string `json:"name_account" validate:"required"`
 	Password    string `json:"password" validate:"required"`
 }
+
+type LogoutInput struct {
+	Token string `json:"name_account" validate:"required"`
+}

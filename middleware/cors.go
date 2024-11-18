@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	commonError "server-veggie/common/error"
 	"server-veggie/src/utils"
@@ -18,7 +17,9 @@ func CORSMiddleware() gin.HandlerFunc {
 	return func(content *gin.Context) {
 		allowOrigin := utils.GoDotEnvVariable("ALLOW_ORIGIN")
 		origin := content.Request.Header.Get("Origin")
-		fmt.Println("origin", origin)
+		// readUserIP(content.Request)
+		// fmt.Println("origin", origin)
+		// getUserIP(content.Writer, content.Request)
 		if origin == allowOrigin {
 			content.Writer.Header().Set("Access-Control-Allow-Origin", allowOrigin)
 			content.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -32,3 +33,39 @@ func CORSMiddleware() gin.HandlerFunc {
 		content.Next()
 	}
 }
+
+// func readUserIP(r *http.Request) string {
+// 	ip, port, err := net.SplitHostPort(r.RemoteAddr)
+// 	userIp := net.ParseIP(ip)
+// 	if userIp == nil {
+// 		fmt.Println("err====")
+// 	}
+// 	forward := r.Header.Get("X-Forwarded-For")
+// 	fmt.Println("userIp", userIp)
+// 	fmt.Println("port", port)
+// 	fmt.Println("err", err)
+// 	fmt.Println("forward", forward)
+// 	return ""
+// }
+
+// Get the IP address of the server's connected user.
+// func getUserIP(httpWriter http.ResponseWriter, httpServer *http.Request) {
+// 	var userIP string
+// 	if len(httpServer.Header.Get("CF-Connecting-IP")) > 1 {
+// 		userIP = httpServer.Header.Get("CF-Connecting-IP")
+// 		fmt.Println(net.ParseIP(userIP))
+// 	} else if len(httpServer.Header.Get("X-Forwarded-For")) > 1 {
+// 		userIP = httpServer.Header.Get("X-Forwarded-For")
+// 		fmt.Println(net.ParseIP(userIP))
+// 	} else if len(httpServer.Header.Get("X-Real-IP")) > 1 {
+// 		userIP = httpServer.Header.Get("X-Real-IP")
+// 		fmt.Println(net.ParseIP(userIP))
+// 	} else {
+// 		userIP = httpServer.RemoteAddr
+// 		if strings.Contains(userIP, ":") {
+// 			fmt.Println(net.ParseIP(strings.Split(userIP, ":")[0]))
+// 		} else {
+// 			fmt.Println(net.ParseIP(userIP))
+// 		}
+// 	}
+// }
