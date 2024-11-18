@@ -15,6 +15,7 @@ func main() {
 	router := gin.Default()
 	//middleware for all request
 	router.Use(middleware.Recovery())
+	router.Use(middleware.CORSMiddleware())
 	// check ip
 	router.SetTrustedProxies(nil)
 	// manage route

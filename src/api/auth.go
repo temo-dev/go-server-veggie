@@ -14,6 +14,8 @@ func AuthRoutes(router *gin.Engine, db *gorm.DB) {
 		{
 			//Login
 			auth.POST("/login" /*middleware.Recovery(),*/, ginAuth.Login(db)) // add middleware for each api
+			//log-out
+			auth.GET("/logout", ginAuth.Logout(db))
 		}
 	}
 }
