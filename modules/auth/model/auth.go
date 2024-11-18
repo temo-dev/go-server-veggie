@@ -8,7 +8,7 @@ const (
 )
 
 var (
-	ErrWrongPassword = errors.New("wrong password")
+	ErrWrongPassword = errors.New("wrong password or account")
 )
 
 // model

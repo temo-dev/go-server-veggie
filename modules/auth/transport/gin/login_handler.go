@@ -1,7 +1,6 @@
 package gin
 
 import (
-	"fmt"
 	"net/http"
 
 	commonError "server-veggie/common/error"
@@ -47,7 +46,6 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 		//create token
 		token, err := utils.GenerateToken(data.NameAccount)
 		if err != nil {
-			fmt.Println("err", err)
 			content.JSON(http.StatusUnauthorized, err)
 			return
 		}

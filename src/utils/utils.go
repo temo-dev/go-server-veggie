@@ -26,7 +26,7 @@ var jwtSecret = []byte(GoDotEnvVariable("SECRET"))
 func GenerateToken(name_account string) (string, error) {
 	claims := jwt.MapClaims{
 		"name_account": name_account,
-		"exp":          time.Now().Add(time.Hour * 24).Unix(),
+		"exp":          time.Now().Add(time.Hour * 1).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(jwtSecret)
