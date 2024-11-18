@@ -1,7 +1,7 @@
 package business
 
 import (
-	"server-veggie/common"
+	commonError "server-veggie/common/error"
 	"server-veggie/modules/user/model"
 )
 
@@ -19,7 +19,7 @@ func NewCreateUserBiz(store CreateUserStorage) *createUsersBiz {
 
 func (biz *createUsersBiz) CreateNewUser(data *model.UserCreationType) error {
 	if err := biz.store.InsertUser(data); err != nil {
-		return common.ErrCannotCreateUser(model.EntityName, err)
+		return commonError.ErrCannotCreateUser(model.EntityName, err)
 	}
 	return nil
 }

@@ -2,7 +2,7 @@ package gin
 
 import (
 	"net/http"
-	"server-veggie/common"
+	commonError "server-veggie/common/error"
 	"server-veggie/modules/user/business"
 	"server-veggie/modules/user/model"
 	"server-veggie/modules/user/storage"
@@ -16,7 +16,7 @@ func FindUserById(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
 		id, err := strconv.Atoi(content.Param("id"))
 		if err != nil {
-			content.JSON(http.StatusExpectationFailed, common.ErrValidateInput(model.EntityName, err))
+			content.JSON(http.StatusExpectationFailed, commonError.ErrValidateInput(model.EntityName, err))
 			return
 		}
 		//storage

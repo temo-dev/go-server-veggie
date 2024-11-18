@@ -1,14 +1,11 @@
 package utils
 
 import (
-	"crypto/rand"
-	"encoding/base64"
-	"errors"
 	"log"
 	"os"
-	"server-veggie/common"
+	"time"
 
-	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
 )
 
@@ -23,17 +20,24 @@ func GoDotEnvVariable(key string) string {
 	return os.Getenv(key)
 }
 
-func GenerateToken(length int) string {
-	bytes := make([]byte, length)
-	if _, err := rand.Read(bytes); err != nil {
-		log.Fatalf("Failed to generate token: %v", err)
+// generate-token
+var jwtSecret = []byte(GoDotEnvVariable("SECRET"))
+
+func GenerateToken(name_account string) (string, error) {
+	claims := jwt.MapClaims{
+		"name_account": name_account,
+		"exp":          time.Now().Add(time.Hour * 24).Unix(),
 	}
-	return base64.URLEncoding.EncodeToString(bytes)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(jwtSecret)
 }
 
-func Protected(content *gin.Context, method string) error {
-	if content.Request.Method != method {
-		return common.ErrMethodNotAllowed(errors.New("method is not allowed"))
+func ValidateToken(tokenStr string) (jwt.MapClaims, error) {
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		return jwtSecret, nil
+	})
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		return claims, nil
 	}
-	return nil
+	return nil, err
 }

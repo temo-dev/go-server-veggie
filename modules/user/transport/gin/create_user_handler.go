@@ -2,7 +2,7 @@ package gin
 
 import (
 	"net/http"
-	"server-veggie/common"
+	commonError "server-veggie/common/error"
 	"server-veggie/modules/user/business"
 	model "server-veggie/modules/user/model"
 	"server-veggie/modules/user/storage"
@@ -19,7 +19,7 @@ func CreateUser(db *gorm.DB) gin.HandlerFunc {
 		if err := content.ShouldBindJSON(&data); err == nil {
 			validate := validator.New()
 			if err := validate.Struct(&data); err != nil {
-				content.JSON(http.StatusBadRequest, common.ErrValidateInput(model.EntityName, err))
+				content.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
 				return
 			}
 		}

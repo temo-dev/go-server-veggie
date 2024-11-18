@@ -1,7 +1,7 @@
 package business
 
 import (
-	"server-veggie/common"
+	commonError "server-veggie/common/error"
 	"server-veggie/modules/user/model"
 )
 
@@ -22,15 +22,15 @@ func (biz *updateUserBiz) UpdateUser(data *model.UpdateUserType) error {
 	//check isExist user
 	user, err := biz.store.SelectUserById(map[string]interface{}{"id": data.Id})
 	if err != nil {
-		return common.ErrCannotGetUser(model.EntityName, err)
+		return commonError.ErrCannotGetUser(model.EntityName, err)
 	}
 	// update user
 	if user == nil {
-		return common.ErrCannotUpdateUser(model.EntityName, model.ErrorUpdateUser)
+		return commonError.ErrCannotUpdateUser(model.EntityName, model.ErrorUpdateUser)
 	}
 
 	if err := biz.store.UpdateUserById(data); err != nil {
-		return common.ErrCannotUpdateUser(model.EntityName, err)
+		return commonError.ErrCannotUpdateUser(model.EntityName, err)
 	}
 	return nil
 }

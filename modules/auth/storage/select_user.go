@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"server-veggie/common"
+	commonError "server-veggie/common/error"
 	"server-veggie/database/query"
 	"server-veggie/modules/auth/model"
 )
@@ -10,7 +10,7 @@ func (s *sqlStore) SelectUser(data *model.LoginInput) (password string, err erro
 	var result model.LoginInput
 	rows, err := s.db.Raw(query.QueryLogin, data.NameAccount).Rows()
 	if err != nil {
-		return "", common.ErrDB(err)
+		return "", commonError.ErrDB(err)
 	}
 	defer rows.Close()
 	for rows.Next() {

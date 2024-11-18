@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"server-veggie/common"
+	commonError "server-veggie/common/error"
 	"server-veggie/database/query"
 	"server-veggie/modules/user/model"
 	"time"
@@ -13,7 +13,7 @@ func (s *sqlStore) InsertUser(data *model.UserCreationType) error {
 	id := uuid.NewString()
 	_, err := s.db.Raw(query.QueryCreateUser, time.Now(), data.NameAccount, data.Password, data.Status, data.Role, id).Rows()
 	if err != nil {
-		return common.ErrDB(err)
+		return commonError.ErrDB(err)
 	}
 	return nil
 }

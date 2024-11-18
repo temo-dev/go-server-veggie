@@ -1,7 +1,7 @@
 package business
 
 import (
-	"server-veggie/common"
+	commonError "server-veggie/common/error"
 	"server-veggie/modules/auth/model"
 )
 
@@ -21,10 +21,10 @@ func (biz *loginBiz) LoginUser(data *model.LoginInput) (err error) {
 	//handle logic bussiness
 	password, err := biz.store.SelectUser(data)
 	if err != nil {
-		return common.ErrCannotLogin(model.EntityName, err)
+		return commonError.ErrCannotLogin(model.EntityName, err)
 	}
 	if password != data.Password {
-		return common.ErrCannotLogin(model.EntityName, model.ErrWrongPassword)
+		return commonError.ErrCannotLogin(model.EntityName, model.ErrWrongPassword)
 	} else {
 		return nil
 	}

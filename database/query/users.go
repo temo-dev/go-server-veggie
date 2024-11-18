@@ -7,3 +7,4 @@ const QueryAllUsers = `select id, status, name_account, role, status, created_at
 const QueryUserById = `select id, status, name_account, role, status, created_at, updated_at from users where id = ?`
 
 const QueryLogin = `select id, name_account, password, status, role from users where name_account = ?`
+const QueryUserFromToken = `select id from users where name_account = ?`

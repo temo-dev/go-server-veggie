@@ -1,7 +1,7 @@
 package business
 
 import (
-	"server-veggie/common"
+	commonError "server-veggie/common/error"
 	"server-veggie/modules/user/model"
 )
 
@@ -20,11 +20,11 @@ func NewFindUserBiz(store FindUserStorage) *findUserBiz {
 func (biz *findUserBiz) FindUserById(id int) (*model.UserType, error) {
 	user, err := biz.store.SelectUserById(map[string]interface{}{"id": id})
 	if err != nil {
-		return nil, common.ErrCannotGetUser(model.EntityName, err)
+		return nil, commonError.ErrCannotGetUser(model.EntityName, err)
 	}
 	//handle logic
 	if user == nil {
-		return nil, common.ErrCannotGetUser(model.EntityName, model.ErrorUserNotFound)
+		return nil, commonError.ErrCannotGetUser(model.EntityName, model.ErrorUserNotFound)
 	}
 	return user, nil
 }

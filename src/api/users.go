@@ -1,6 +1,7 @@
 package api
 
 import (
+	middlewareToken "server-veggie/middleware/auth/transport/gin"
 	ginUser "server-veggie/modules/user/transport/gin"
 
 	"github.com/gin-gonic/gin"
@@ -11,7 +12,7 @@ func UserRoutes(router *gin.Engine, db *gorm.DB) {
 
 	v1 := router.Group("/v1")
 	{
-		user := v1.Group("/users")
+		user := v1.Group("/users", middlewareToken.TokenMiddleware(db)) //middleware token
 		{
 			//create account
 			user.POST("", ginUser.CreateUser(db))

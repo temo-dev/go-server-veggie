@@ -1,7 +1,7 @@
 package business
 
 import (
-	"server-veggie/common"
+	commonError "server-veggie/common/error"
 	"server-veggie/modules/user/model"
 )
 
@@ -22,15 +22,15 @@ func (biz *deleteUserBiz) DeleteUserById(id int) error {
 	//Check user isExist
 	user, err := biz.store.SelectUserById(map[string]interface{}{"id": id})
 	if err != nil {
-		return common.ErrCannotGetUser(model.EntityName, err)
+		return commonError.ErrCannotGetUser(model.EntityName, err)
 	}
 	//Delete user by id
 	if user == nil {
-		return common.ErrCannotDeleteUser(model.EntityName, model.ErrorUserNotFound)
+		return commonError.ErrCannotDeleteUser(model.EntityName, model.ErrorUserNotFound)
 
 	}
 	if err := biz.store.DeleteUserById(map[string]interface{}{"id": id}); err != nil {
-		return common.ErrCannotDeleteUser(model.EntityName, err)
+		return commonError.ErrCannotDeleteUser(model.EntityName, err)
 	}
 	return nil
 }

@@ -1,10 +1,10 @@
 package gin
 
 import (
+	"fmt"
 	"net/http"
-	"time"
 
-	"server-veggie/common"
+	commonError "server-veggie/common/error"
 	"server-veggie/modules/auth/business"
 	"server-veggie/modules/auth/model"
 	"server-veggie/modules/auth/storage"
@@ -25,20 +25,13 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 		// 	fmt.Println([]int{}[0]) // ham tao loi
 		// }()
 
-		//protect method
-		if err := utils.Protected(content, "POST"); err != nil {
-			content.JSON(http.StatusBadRequest, err)
-			return
-		}
-
 		// main function
-
 		var data model.LoginInput
 		//check data input
 		if err := content.ShouldBindJSON(&data); err == nil {
 			validate := validator.New()
 			if err := validate.Struct(&data); err != nil {
-				content.JSON(http.StatusExpectationFailed, common.ErrValidateInput(model.EntityName, err))
+				content.JSON(http.StatusExpectationFailed, commonError.ErrValidateInput(model.EntityName, err))
 				return
 			}
 		}
@@ -51,26 +44,15 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			content.JSON(http.StatusExpectationFailed, err)
 			return
 		}
-
-		sessionToken := utils.GenerateToken(32)
-		csrfToken := utils.GenerateToken(32)
-		//Set session cookie
-		http.SetCookie(content.Writer, &http.Cookie{
-			Name:     "session_token",
-			Value:    sessionToken,
-			Expires:  time.Now().Add(24 * time.Hour),
-			HttpOnly: true,
-		})
-		// Set CSRF token in a cookie
-		http.SetCookie(content.Writer, &http.Cookie{
-			Name:     "csrf_token",
-			Value:    csrfToken,
-			Expires:  time.Now().Add(24 * time.Hour),
-			HttpOnly: false,
-		})
-
+		//create token
+		token, err := utils.GenerateToken(data.NameAccount)
+		if err != nil {
+			fmt.Println("err", err)
+			content.JSON(http.StatusUnauthorized, err)
+			return
+		}
 		content.JSON(http.StatusOK, gin.H{
-			"data": "Login Successfully",
+			"token": token,
 		})
 	}
 }
