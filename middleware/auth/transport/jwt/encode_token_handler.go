@@ -36,7 +36,6 @@ func EnCodeToken(authHeader string, db *gorm.DB) error {
 	//claims
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
-
 		return commonError.ErrInvalidClaims(model.EntityName, model.ErrInvalidClaims)
 	}
 	if float64(time.Now().Unix()) > claims["exp"].(float64) {

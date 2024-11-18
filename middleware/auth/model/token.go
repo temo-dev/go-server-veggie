@@ -8,7 +8,7 @@ const (
 )
 
 var (
-	ErrTokenMissing         = errors.New("wrong password")
+	ErrTokenMissing         = errors.New("token is missing")
 	ErrInvalidTokenFormat   = errors.New("wrong format token")
 	ErrAuthorizationMissing = errors.New("authorization header is missing")
 	ErrInvalidToken         = errors.New("invalid token")
