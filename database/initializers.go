@@ -3,22 +3,20 @@ package database
 import (
 	"fmt"
 	"log"
+	"server-veggie/config"
 	"server-veggie/database/schema"
-	"server-veggie/src/utils"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Initializers() *gorm.DB {
-	//connect
-	host := utils.GoDotEnvVariable("RDS_HOSTNAME")
-	port := utils.GoDotEnvVariable("RDS_PORT")
-	user := utils.GoDotEnvVariable("RDS_USER")
-	password := utils.GoDotEnvVariable("RDS_PASSWORD")
-	dbname := utils.GoDotEnvVariable("RDS_DB_NAME")
+	config, err := config.LoadConfig("./")
+	if err != nil {
+		log.Fatalf("error loading config: %v", err)
+	}
 	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable TimeZone=UTC",
-		host, port, user, password, dbname)
+		config.RDSHostName, config.RDSPort, config.RDSUser, config.RDSPassword, config.RDSDBName)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {

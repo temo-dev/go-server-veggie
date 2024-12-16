@@ -1,11 +1,12 @@
 package jwt
 
 import (
+	"log"
 	commonError "server-veggie/common/error"
+	"server-veggie/config"
 	"server-veggie/middleware/auth/business"
 	"server-veggie/middleware/auth/model"
 	"server-veggie/middleware/auth/strorage"
-	"server-veggie/src/utils"
 	"strings"
 	"time"
 
@@ -14,6 +15,10 @@ import (
 )
 
 func EnCodeToken(authHeader string, db *gorm.DB) error {
+	config, err := config.LoadConfig("../../")
+	if err != nil {
+		log.Fatalf("error loading config: %v", err)
+	}
 	//check-bear-token
 	authToken := strings.Split(authHeader, " ")
 	if len(authToken) != 2 || authToken[0] != "Bearer" {
@@ -26,7 +31,7 @@ func EnCodeToken(authHeader string, db *gorm.DB) error {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, commonError.ErrAuthorizationMissing(model.EntityName, model.ErrAuthorizationMissing)
 		}
-		return []byte(utils.GoDotEnvVariable("SECRET")), nil
+		return []byte(config.Secret), nil
 	})
 
 	if err != nil || !token.Valid {
