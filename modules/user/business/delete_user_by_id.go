@@ -18,7 +18,7 @@ func NewDeleteUserBiz(store DeleteUserStorage) *deleteUserBiz {
 	return &deleteUserBiz{store: store}
 }
 
-func (biz *deleteUserBiz) DeleteUserById(id int) error {
+func (biz *deleteUserBiz) DeleteUserById(id string) error {
 	//Check user isExist
 	user, err := biz.store.SelectUserById(map[string]interface{}{"id": id})
 	if err != nil {

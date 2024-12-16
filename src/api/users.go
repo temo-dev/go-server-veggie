@@ -12,18 +12,18 @@ func UserRoutes(router *gin.Engine, db *gorm.DB) {
 
 	v1 := router.Group("/v1")
 	{
-		user := v1.Group("/users", middlewareToken.TokenMiddleware(db)) //middleware token
+		user := v1.Group("/users") //middleware token
 		{
 			//create account
 			user.POST("", ginUser.CreateUser(db))
 			//get all account
-			user.GET("", ginUser.FindListUsers(db))
+			user.GET("", middlewareToken.TokenMiddleware(db), ginUser.FindListUsers(db))
 			//get account by id
-			user.PUT("/:id", ginUser.FindUserById(db))
+			user.PUT("/:id", middlewareToken.TokenMiddleware(db), ginUser.FindUserById(db))
 			//udpate account
-			user.PUT("", ginUser.UpdateUser(db))
+			user.PUT("", middlewareToken.TokenMiddleware(db), ginUser.UpdateUser(db))
 			//delete account
-			user.DELETE("/:id", ginUser.DeleteUserById(db))
+			user.DELETE("/:id", middlewareToken.TokenMiddleware(db), ginUser.DeleteUserById(db))
 		}
 	}
 }

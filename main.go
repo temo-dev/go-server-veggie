@@ -22,5 +22,5 @@ func main() {
 	api.UserRoutes(router, db)
 	api.AuthRoutes(router, db)
 	// server run
-	router.Run(":3001")
+	router.Run(":8080")
 }

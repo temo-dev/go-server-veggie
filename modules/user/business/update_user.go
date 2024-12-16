@@ -20,7 +20,7 @@ func NewUpdateUserBiz(store UpdateUserStorage) *updateUserBiz {
 
 func (biz *updateUserBiz) UpdateUser(data *model.UpdateUserType) error {
 	//check isExist user
-	user, err := biz.store.SelectUserById(map[string]interface{}{"id": data.Id})
+	user, err := biz.store.SelectUserById(map[string]interface{}{"user_id": data.UserId})
 	if err != nil {
 		return commonError.ErrCannotGetUser(model.EntityName, err)
 	}

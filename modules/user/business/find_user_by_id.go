@@ -17,7 +17,7 @@ func NewFindUserBiz(store FindUserStorage) *findUserBiz {
 	return &findUserBiz{store: store}
 }
 
-func (biz *findUserBiz) FindUserById(id int) (*model.UserType, error) {
+func (biz *findUserBiz) FindUserById(id string) (*model.UserType, error) {
 	user, err := biz.store.SelectUserById(map[string]interface{}{"id": id})
 	if err != nil {
 		return nil, commonError.ErrCannotGetUser(model.EntityName, err)

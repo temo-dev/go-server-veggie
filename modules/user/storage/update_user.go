@@ -8,7 +8,7 @@ import (
 )
 
 func (s *sqlStore) UpdateUserById(data *model.UpdateUserType) error {
-	_, err := s.db.Raw(query.QueryUpdateUser, data.NameAccount, data.Status, data.Role, time.Now(), data.Id).Rows()
+	_, err := s.db.Raw(query.QueryUpdateUser, data.UserName, data.Status, time.Now(), data.UserId).Rows()
 	if err != nil {
 		return commonError.ErrDB(err)
 	}

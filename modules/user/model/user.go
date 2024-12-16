@@ -18,26 +18,25 @@ var (
 
 // Create User
 type UserCreationType struct {
-	NameAccount string `json:"name_account" validate:"required"`
-	Password    string `json:"password" validate:"required"`
-	Status      string `json:"status" validate:"required"`
-	Role        string `json:"role" validate:"required"`
+	UserName string `json:"user_name" validate:"required"`
+	Password string `json:"password" validate:"required"`
+	Status   string `json:"status" validate:"required"`
 }
 
 // Get Users
 type UserType struct {
-	Id          string     `json:"id"`
-	NameAccount *string    `json:"name_account"`
-	Role        *string    `json:"role"`
-	Status      *string    `json:"status"`
-	CreatedAt   *time.Time `json:"created_at"`
-	UpdatedAt   *time.Time `json:"updated_at"`
+	Id        string    `json:"id"`
+	UserId    string    `json:"user_id"`
+	UserName  string    `json:"user_name"`
+	RoleId    string    `json:"role_id"`
+	Status    string    `json:"status"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // Update User
 type UpdateUserType struct {
-	Id          string `json:"id" validate:"required"`
-	NameAccount string `json:"name_account" validate:"required"`
-	Status      string `json:"status" validate:"required"`
-	Role        string `json:"role" validate:"required"`
+	UserId   string `json:"user_id" validate:"required"`
+	UserName string `json:"user_name" validate:"required"`
+	Status   string `json:"status" validate:"required"`
 }

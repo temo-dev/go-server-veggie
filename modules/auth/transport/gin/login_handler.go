@@ -16,13 +16,6 @@ import (
 
 func Login(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
-		//test error
-		// fmt.Println([]int{}[0]) // ham tao loi
-		// khi dung Go routine can co 1 ham bat loi neu nhu routine do bi loi
-		// go func() {
-		// 	defer common.Recovery() // ham bat loi
-		// 	fmt.Println([]int{}[0]) // ham tao loi
-		// }()
 
 		// main function
 		var data model.LoginInput
@@ -44,7 +37,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 		//create token
-		token, err := utils.GenerateToken(data.NameAccount)
+		token, err := utils.GenerateToken(data.UserName)
 		if err != nil {
 			content.JSON(http.StatusUnauthorized, err)
 			return

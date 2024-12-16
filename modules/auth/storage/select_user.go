@@ -8,7 +8,7 @@ import (
 
 func (s *sqlStore) SelectUser(data *model.LoginInput) (password string, err error) {
 	var result model.LoginInput
-	rows, err := s.db.Raw(query.QueryLogin, data.NameAccount).Rows()
+	rows, err := s.db.Raw(query.QueryLogin, data.UserName).Rows()
 	if err != nil {
 		return "", commonError.ErrDB(err)
 	}

@@ -2,11 +2,8 @@ package gin
 
 import (
 	"net/http"
-	commonError "server-veggie/common/error"
 	"server-veggie/modules/user/business"
-	"server-veggie/modules/user/model"
 	"server-veggie/modules/user/storage"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -14,11 +11,7 @@ import (
 
 func FindUserById(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
-		id, err := strconv.Atoi(content.Param("id"))
-		if err != nil {
-			content.JSON(http.StatusExpectationFailed, commonError.ErrValidateInput(model.EntityName, err))
-			return
-		}
+		id := content.Param("id")
 		//storage
 		store := storage.NewSQLStore(db)
 		//calculate business
