@@ -2,10 +2,8 @@ package middleware
 
 import (
 	"errors"
-	"log"
 	"net/http"
 	commonError "server-veggie/common/error"
-	"server-veggie/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,19 +14,19 @@ var (
 
 func CORSMiddleware() gin.HandlerFunc {
 	return func(content *gin.Context) {
-		config, err := config.LoadConfig("../")
-		if err != nil {
-			log.Fatalf("error loading config: %v", err)
-		}
-		origin := content.Request.Header.Get("Origin")
 		// readUserIP(content.Request)
 		// fmt.Println("origin", origin)
-		// getUserIP(content.Writer, content.Request)
-		if origin == config.AllowedOrigins {
-			content.Writer.Header().Set("Access-Control-Allow-Origin", config.AllowedOrigins)
+
+		if true {
+			content.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
 			content.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-			content.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type,Authorization")
-			content.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+			content.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Authorization, Accept, X-Requested-With")
+			content.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+
+			if content.Request.Method == "OPTIONS" {
+				content.AbortWithStatus(204)
+				return
+			}
 		} else {
 			content.JSON(http.StatusInternalServerError, commonError.ErrInternal(errorNoContent))
 			content.AbortWithStatus(http.StatusInternalServerError)

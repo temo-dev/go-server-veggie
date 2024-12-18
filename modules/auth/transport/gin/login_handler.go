@@ -1,6 +1,7 @@
 package gin
 
 import (
+	"log"
 	"net/http"
 
 	commonError "server-veggie/common/error"
@@ -16,7 +17,6 @@ import (
 
 func Login(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
-
 		// main function
 		var data model.LoginInput
 		//check data input
@@ -31,6 +31,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 		// create Storage
 		store := storage.NewSQLStore(db)
 		//calculate business
+		log.Println("data", data)
 		business := business.NewLoginBiz(store)
 		if err := business.LoginUser(&data); err != nil {
 			content.JSON(http.StatusExpectationFailed, err)
