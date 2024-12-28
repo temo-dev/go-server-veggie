@@ -6,7 +6,7 @@ import (
 )
 
 type LoginStorage interface {
-	SelectUser(data *model.LoginInput) (password string, err error)
+	SelectUser(data *model.LoginInput) (user model.UserOutput, err error)
 }
 
 type loginBiz struct {
@@ -17,17 +17,17 @@ func NewLoginBiz(store LoginStorage) *loginBiz {
 	return &loginBiz{store: store}
 }
 
-func (biz *loginBiz) LoginUser(data *model.LoginInput) (err error) {
+func (biz *loginBiz) LoginUser(data *model.LoginInput) (user model.UserOutput, err error) {
 	//handle logic bussiness
-	password, err := biz.store.SelectUser(data)
+	user, err = biz.store.SelectUser(data)
 	if err != nil {
-		return commonError.ErrCannotLogin(model.EntityName, err)
+		return user, commonError.ErrCannotLogin(model.EntityName, err)
 	}
-	if password != data.Password {
-		return commonError.ErrCannotLogin(model.EntityName, model.ErrWrongPassword)
-	} else if password == "" {
-		return commonError.ErrCannotLogin(model.EntityName, model.ErrWrongPassword)
+	if user.Password != data.Password {
+		return user, commonError.ErrCannotLogin(model.EntityName, model.ErrWrongPassword)
+	} else if user.Password == "" {
+		return user, commonError.ErrCannotLogin(model.EntityName, model.ErrWrongPassword)
 	} else {
-		return nil
+		return user, nil
 	}
 }

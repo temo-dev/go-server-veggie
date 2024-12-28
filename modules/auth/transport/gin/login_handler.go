@@ -1,7 +1,6 @@
 package gin
 
 import (
-	"log"
 	"net/http"
 
 	commonError "server-veggie/common/error"
@@ -27,13 +26,12 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 				return
 			}
 		}
-
 		// create Storage
 		store := storage.NewSQLStore(db)
 		//calculate business
-		log.Println("data", data)
 		business := business.NewLoginBiz(store)
-		if err := business.LoginUser(&data); err != nil {
+		user, err := business.LoginUser(&data)
+		if err != nil {
 			content.JSON(http.StatusExpectationFailed, err)
 			return
 		}
@@ -43,8 +41,17 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			content.JSON(http.StatusUnauthorized, err)
 			return
 		}
+		userResponse := model.UserResponse{
+			Id:       user.Id,
+			UserName: user.UserName,
+			UserId:   user.UserId,
+			Status:   user.Status,
+			RoleId:   user.RoleId,
+			Email:    user.Email,
+		}
 		content.JSON(http.StatusOK, gin.H{
 			"token": token,
+			"data":  userResponse,
 		})
 	}
 }

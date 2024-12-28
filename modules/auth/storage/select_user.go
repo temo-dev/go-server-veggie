@@ -6,16 +6,16 @@ import (
 	"server-veggie/modules/auth/model"
 )
 
-func (s *sqlStore) SelectUser(data *model.LoginInput) (password string, err error) {
-	var result model.LoginInput
+func (s *sqlStore) SelectUser(data *model.LoginInput) (user model.UserOutput, err error) {
+	var result model.UserOutput
 	rows, err := s.db.Raw(query.QueryLogin, data.UserName).Rows()
 	if err != nil {
-		return "", commonError.ErrDB(err)
+		return result, commonError.ErrDB(err)
 	}
 	defer rows.Close()
 	for rows.Next() {
 		s.db.ScanRows(rows, &result)
 
 	}
-	return result.Password, nil
+	return result, nil
 }

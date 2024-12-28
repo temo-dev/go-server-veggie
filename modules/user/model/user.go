@@ -20,6 +20,7 @@ var (
 type UserCreationType struct {
 	UserName string `json:"user_name" validate:"required"`
 	Password string `json:"password" validate:"required"`
+	Email    string `json:"email" validate:"required"`
 	Status   string `json:"status" validate:"required"`
 }
 
