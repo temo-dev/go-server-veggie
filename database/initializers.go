@@ -22,7 +22,16 @@ func Initializers() *gorm.DB {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	if err := db.AutoMigrate(&schema.User{}, &schema.Role{}, &schema.Permission{}); err != nil {
+	if err := db.AutoMigrate(
+		&schema.User{},
+		&schema.Role{},
+		&schema.Permission{},
+		&schema.UserRole{},
+		&schema.Supplier{},
+		&schema.Category{},
+		&schema.Product{},
+		&schema.SupplierProduct{},
+	); err != nil {
 		log.Fatalln(err)
 	}
 	return db
