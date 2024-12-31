@@ -2,20 +2,20 @@ package storage
 
 import (
 	commonError "server-veggie/common/error"
-	"server-veggie/database/query"
+	"server-veggie/database/schema"
 	"server-veggie/modules/auth/model"
 )
 
-func (s *sqlStore) SelectUser(data *model.LoginInput) (user model.UserOutput, err error) {
-	var result model.UserOutput
-	rows, err := s.db.Raw(query.QueryLogin, data.UserName).Rows()
-	if err != nil {
-		return result, commonError.ErrDB(err)
-	}
-	defer rows.Close()
-	for rows.Next() {
-		s.db.ScanRows(rows, &result)
+func (s *sqlStore) SelectUser(data *model.LoginInput) (user *schema.User, err error) {
+	var out_put *schema.User
+	tx := s.db.Begin()
+	result := tx.Where("user_name = ?", data.UserName).First(&schema.User{})
 
+	if result.Error != nil {
+		tx.Rollback()
+		return user, commonError.ErrDB(err)
 	}
-	return result, nil
+	result.Scan(&out_put)
+	tx.Commit()
+	return out_put, nil
 }

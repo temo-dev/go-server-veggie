@@ -1,6 +1,7 @@
 package gin
 
 import (
+	"fmt"
 	"net/http"
 	"server-veggie/modules/user/business"
 	"server-veggie/modules/user/storage"
@@ -12,6 +13,7 @@ import (
 func FindUserById(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
 		id := content.Param("id")
+		fmt.Println("id", id)
 		//storage
 		store := storage.NewSQLStore(db)
 		//calculate business

@@ -6,7 +6,7 @@ import (
 
 type User struct {
 	UserID    string     `gorm:"type:uuid;primaryKey"`
-	UserName  string     `gorm:"type:varchar;not null"`
+	UserName  string     `gorm:"type:varchar;unique;not null"`
 	Email     string     `gorm:"type:varchar;unique;not null"`
 	Password  string     `gorm:"type:varchar;not null"`
 	Status    string     `gorm:"type:varchar;default:'inactive'"`
@@ -26,6 +26,12 @@ type Permission struct {
 	PermissionID   string `gorm:"type:uuid;primaryKey"`
 	PermissionName string `gorm:"type:varchar;not null"`
 	Description    string `gorm:"type:varchar"`
+}
+
+type RolePermission struct {
+	RolePermissionID string `gorm:"type:uuid;primaryKey"`
+	RoleID           string `gorm:"type:uuid;not null"`
+	PermissionID     string `gorm:"type:uuid;not null"`
 }
 
 type UserRole struct {

@@ -1,7 +1,6 @@
 package gin
 
 import (
-	"log"
 	"net/http"
 	"server-veggie/modules/user/business"
 	"server-veggie/modules/user/storage"
@@ -13,7 +12,6 @@ import (
 func DeleteUserById(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
 		userId := content.Param("id")
-		log.Println("userId", userId)
 		//storage
 		store := storage.NewSQLStore(db)
 		// calculate business

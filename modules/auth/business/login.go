@@ -2,11 +2,12 @@ package business
 
 import (
 	commonError "server-veggie/common/error"
+	"server-veggie/database/schema"
 	"server-veggie/modules/auth/model"
 )
 
 type LoginStorage interface {
-	SelectUser(data *model.LoginInput) (user model.UserOutput, err error)
+	SelectUser(data *model.LoginInput) (user *schema.User, err error)
 }
 
 type loginBiz struct {
@@ -17,7 +18,7 @@ func NewLoginBiz(store LoginStorage) *loginBiz {
 	return &loginBiz{store: store}
 }
 
-func (biz *loginBiz) LoginUser(data *model.LoginInput) (user model.UserOutput, err error) {
+func (biz *loginBiz) LoginUser(data *model.LoginInput) (user *schema.User, err error) {
 	//handle logic bussiness
 	user, err = biz.store.SelectUser(data)
 	if err != nil {

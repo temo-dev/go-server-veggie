@@ -17,11 +17,11 @@ import (
 func Login(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
 		// main function
-		var data model.LoginInput
+		var data *model.LoginInput
 		//check data input
 		if err := content.ShouldBindJSON(&data); err == nil {
 			validate := validator.New()
-			if err := validate.Struct(&data); err != nil {
+			if err := validate.Struct(data); err != nil {
 				content.JSON(http.StatusExpectationFailed, commonError.ErrValidateInput(model.EntityName, err))
 				return
 			}
@@ -30,7 +30,7 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 		store := storage.NewSQLStore(db)
 		//calculate business
 		business := business.NewLoginBiz(store)
-		user, err := business.LoginUser(&data)
+		user, err := business.LoginUser(data)
 		if err != nil {
 			content.JSON(http.StatusExpectationFailed, err)
 			return
@@ -42,11 +42,9 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 		userResponse := model.UserResponse{
-			Id:       user.Id,
 			UserName: user.UserName,
-			UserId:   user.UserId,
+			UserId:   user.UserID,
 			Status:   user.Status,
-			RoleId:   user.RoleId,
 			Email:    user.Email,
 		}
 		content.JSON(http.StatusOK, gin.H{

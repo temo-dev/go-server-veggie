@@ -6,7 +6,7 @@ import (
 )
 
 type TokenStrorage interface {
-	SelectUser(data string) (int, error)
+	SelectUser(data string) error
 }
 
 type tokenBiz struct {
@@ -18,8 +18,7 @@ func NewTokenBiz(store TokenStrorage) *tokenBiz {
 }
 
 func (biz *tokenBiz) TokenUser(data string) error {
-	_, err := biz.store.SelectUser(data)
-	if err != nil {
+	if err := biz.store.SelectUser(data); err != nil {
 		return commonError.ErrInvalidExpToken(model.EntityName, model.ErrInvalidAccount)
 	}
 	return nil

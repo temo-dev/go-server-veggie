@@ -2,6 +2,7 @@ package utils
 
 import (
 	"log"
+	"net/smtp"
 	"os"
 	"time"
 
@@ -40,4 +41,22 @@ func ValidateToken(tokenStr string) (jwt.MapClaims, error) {
 		return claims, nil
 	}
 	return nil, err
+}
+
+func SendEmail(smtpHost string, smtpPort string, senderEmail string, senderPassword string, recipientEmail string, subject string, body string) error {
+	//define header email
+	headers := "From: " + senderEmail + "\r\n" +
+		"To: " + recipientEmail + "\r\n" +
+		"Subject: " + subject + "\r\n\r\n"
+	// Gộp headers và body
+	message := headers + body
+
+	// Kết nối đến SMTP server
+	auth := smtp.PlainAuth("", senderEmail, senderPassword, smtpHost)
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, senderEmail, []string{recipientEmail}, []byte(message))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -20,7 +20,7 @@ func NewDeleteUserBiz(store DeleteUserStorage) *deleteUserBiz {
 
 func (biz *deleteUserBiz) DeleteUserById(id string) error {
 	//Check user isExist
-	user, err := biz.store.SelectUserById(map[string]interface{}{"id": id})
+	user, err := biz.store.SelectUserById(map[string]interface{}{"user_id": id})
 	if err != nil {
 		return commonError.ErrCannotGetUser(model.EntityName, err)
 	}
@@ -29,7 +29,7 @@ func (biz *deleteUserBiz) DeleteUserById(id string) error {
 		return commonError.ErrCannotDeleteUser(model.EntityName, model.ErrorUserNotFound)
 
 	}
-	if err := biz.store.DeleteUserById(map[string]interface{}{"id": id}); err != nil {
+	if err := biz.store.DeleteUserById(map[string]interface{}{"user_id": id}); err != nil {
 		return commonError.ErrCannotDeleteUser(model.EntityName, err)
 	}
 	return nil

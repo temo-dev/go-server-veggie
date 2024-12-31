@@ -2,20 +2,20 @@ package storage
 
 import (
 	commonError "server-veggie/common/error"
-	"server-veggie/database/query"
+	"server-veggie/database/schema"
 	"server-veggie/modules/user/model"
 )
 
 func (s *sqlStore) SelectUserById(cond map[string]interface{}) (*model.UserType, error) {
-	rows, err := s.db.Raw(query.QueryUserById, cond["id"]).Rows()
-	if err != nil {
-		return nil, commonError.ErrDB(err)
-	}
+	tx := s.db.Begin()
+	var user *model.UserType
+	result := tx.Where("user_id = ?", cond["user_id"]).First(&schema.User{})
 
-	var result *model.UserType
-	defer rows.Close()
-	for rows.Next() {
-		s.db.ScanRows(rows, &result)
+	if result.Error != nil {
+		tx.Rollback()
+		return nil, commonError.ErrDB(result.Error)
 	}
-	return result, nil
+	result.Scan(&user)
+	tx.Commit()
+	return user, nil
 }

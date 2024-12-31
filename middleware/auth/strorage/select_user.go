@@ -2,18 +2,15 @@ package strorage
 
 import (
 	commonError "server-veggie/common/error"
-	"server-veggie/database/query"
+	"server-veggie/database/schema"
 )
 
-func (s *sqlStore) SelectUser(data string) (int, error) {
-	var result int
-	rows, err := s.db.Raw(query.QueryUserFromToken, "data").Rows()
-	if err != nil {
-		return 0, commonError.ErrDB(err)
+func (s *sqlStore) SelectUser(data string) error {
+	tx := s.db.Begin()
+	if err := tx.Where("user_name = ?", data).First(&schema.User{}).Error; err != nil {
+		tx.Rollback()
+		return commonError.ErrDB(err)
 	}
-	defer rows.Close()
-	for rows.Next() {
-		s.db.ScanRows(rows, &result)
-	}
-	return result, nil
+	tx.Commit()
+	return nil
 }

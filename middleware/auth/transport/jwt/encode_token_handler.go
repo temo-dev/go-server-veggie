@@ -45,7 +45,6 @@ func EnCodeToken(authHeader string, db *gorm.DB) error {
 	}
 	if float64(time.Now().Unix()) > claims["exp"].(float64) {
 		return commonError.ErrInvalidExpToken(model.EntityName, model.ErrInvalidExpToken)
-
 	}
 	//create store
 	store := strorage.NewSQLStore(db)

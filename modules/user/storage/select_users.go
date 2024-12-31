@@ -2,21 +2,17 @@ package storage
 
 import (
 	commonError "server-veggie/common/error"
-	"server-veggie/database/query"
 	"server-veggie/modules/user/model"
 )
 
 func (s *sqlStore) SelectUsers() ([]model.UserType, error) {
-	rows, err := s.db.Raw(query.QueryAllUsers).Rows()
-	if err != nil {
-		return nil, commonError.ErrDB(err)
+	tx := s.db.Begin()
+	var listUser []model.UserType
+	result := tx.Table("users").Scan(&listUser)
+	if result.Error != nil {
+		tx.Rollback()
+		return nil, commonError.ErrDB(result.Error)
 	}
-	var data []model.UserType
-	defer rows.Close()
-	for rows.Next() {
-		var result model.UserType
-		s.db.ScanRows(rows, &result)
-		data = append(data, result)
-	}
-	return data, nil
+	tx.Commit()
+	return listUser, nil
 }

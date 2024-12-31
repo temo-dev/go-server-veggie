@@ -21,20 +21,9 @@ type LogoutInput struct {
 	Token string `json:"token" validate:"required"`
 }
 
-type UserOutput struct {
-	Id       int    `json:"id"`
-	UserName string `json:"user_name"`
-	UserId   string `json:"user_id"`
-	Password string `json:"password"`
-	Status   string `json:"status"`
-	RoleId   string `json:"role_id"`
-	Email    string `json:"email"`
-}
 type UserResponse struct {
-	Id       int    `json:"id"`
 	UserName string `json:"user_name"`
 	UserId   string `json:"user_id"`
 	Status   string `json:"status"`
-	RoleId   string `json:"role_id"`
 	Email    string `json:"email"`
 }

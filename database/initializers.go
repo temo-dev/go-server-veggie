@@ -26,6 +26,7 @@ func Initializers() *gorm.DB {
 		&schema.User{},
 		&schema.Role{},
 		&schema.Permission{},
+		&schema.RolePermission{},
 		&schema.UserRole{},
 		&schema.Supplier{},
 		&schema.Category{},
