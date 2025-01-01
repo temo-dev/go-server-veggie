@@ -1,10 +1,14 @@
 package main
 
 import (
+	"fmt"
+	"net/http"
 	"server-veggie/database"
 	_ "server-veggie/docs"
 	"server-veggie/middleware"
 	api "server-veggie/src/api"
+
+	_ "net/http/pprof" // Kích hoạt pprof
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -19,6 +23,11 @@ import (
 // @name Authorization
 // @host localhost:8080
 func main() {
+	//PPROF
+	go func() {
+		fmt.Println("Starting pprof at :6060")
+		http.ListenAndServe("localhost:6060", nil)
+	}()
 	// implement database
 	db := database.Initializers()
 	// implement server
