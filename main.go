@@ -13,11 +13,11 @@ import (
 
 // @title Veggie API
 // @version 1.0
-// @description This is a sample server for a Veggie application.
-
+// @description Đây là tài liệu API cho ứng dụng Hệ Thống Veggie
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 // @host localhost:8080
-// @BasePath /v1
-
 func main() {
 	// implement database
 	db := database.Initializers()

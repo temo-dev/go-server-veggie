@@ -13,7 +13,7 @@ func (s *sqlStore) SelectUser(data *model.LoginInput) (user *schema.User, err er
 
 	if result.Error != nil {
 		tx.Rollback()
-		return user, commonError.ErrDB(err)
+		return nil, commonError.ErrDB(result.Error)
 	}
 	result.Scan(&out_put)
 	tx.Commit()

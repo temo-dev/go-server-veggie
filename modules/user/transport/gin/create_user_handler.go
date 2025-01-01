@@ -12,14 +12,19 @@ import (
 	"gorm.io/gorm"
 )
 
+type UserCreationResponse struct {
+	Message string `json:"message"`
+}
+
 // CreateUser godoc
 // @Summary Tạo Tài Khoản
-// @Description Tạo Tài Khoản Bằng Email
-// @Praram users body UserCreationType true "User data"
-// @Produce application/json
-// @Tags users
-// @Success 200 {string} string "Created Successfully"
-// @Router /users [post]
+// @Description Tạo tài khoản mới bằng email
+// @Tags Tài Khoản
+// @Accept json
+// @Produce json
+// @Param users body model.UserCreationType true "User data"
+// @Success 200 {object} UserCreationResponse "Tạo Tài Khoản Thành Công"
+// @Router /v1/users [post]
 func CreateUser(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
 		var data *model.UserCreationType
@@ -43,8 +48,13 @@ func CreateUser(db *gorm.DB) gin.HandlerFunc {
 			content.JSON(http.StatusExpectationFailed, err)
 			return
 		}
+
+		response := UserCreationResponse{
+			Message: "Created Successfully",
+		}
+
 		content.JSON(http.StatusOK, gin.H{
-			"message": "Created Successfully",
+			response.Message: response,
 		})
 	}
 }

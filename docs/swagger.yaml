@@ -1,22 +1,194 @@
-basePath: /v1
-host: localhost:8080
+definitions:
+  gin.DeleteUserByIdResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  gin.FindListUsersResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/model.UserType'
+        type: array
+    type: object
+  gin.FindUserByIdResponse:
+    properties:
+      data:
+        $ref: '#/definitions/model.UserType'
+    type: object
+  gin.LoginResponse:
+    properties:
+      data:
+        $ref: '#/definitions/model.UserResponse'
+      token:
+        type: string
+    type: object
+  gin.UserCreationResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  model.LoginInput:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    required:
+    - password
+    - user_name
+    type: object
+  model.UserCreationType:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      user_name:
+        type: string
+    required:
+    - email
+    - password
+    - user_name
+    type: object
+  model.UserResponse:
+    properties:
+      email:
+        type: string
+      status:
+        type: string
+      user_id:
+        type: string
+      user_name:
+        type: string
+    type: object
+  model.UserType:
+    properties:
+      created_at:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+      user_name:
+        type: string
+    type: object
 info:
   contact: {}
-  description: This is a sample server for a Veggie application.
+  description: Đây là tài liệu API cho ứng dụng Hệ Thống Veggie
   title: Veggie API
   version: "1.0"
 paths:
-  /users:
+  /v1/auth/login:
     post:
-      description: Tạo Tài Khoản Bằng Email
+      consumes:
+      - application/json
+      description: Đăng Nhập tài khoản mới bằng email
+      parameters:
+      - description: User data
+        in: body
+        name: users
+        required: true
+        schema:
+          $ref: '#/definitions/model.LoginInput'
       produces:
       - application/json
       responses:
         "200":
-          description: Created Successfully
+          description: Đăng Nhập Tài Khoản Thành Công
           schema:
-            type: string
+            $ref: '#/definitions/gin.LoginResponse'
+      summary: Đăng Nhập Tài Khoản
+      tags:
+      - Authorization
+  /v1/users:
+    get:
+      consumes:
+      - application/json
+      description: Lấy danh sách tài khoản
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lấy danh sách tài khoản Thành Công
+          schema:
+            $ref: '#/definitions/gin.FindListUsersResponse'
+      security:
+      - BearerAuth: []
+      summary: Lấy danh sách tài khoản
+      tags:
+      - Tài Khoản
+    post:
+      consumes:
+      - application/json
+      description: Tạo tài khoản mới bằng email
+      parameters:
+      - description: User data
+        in: body
+        name: users
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserCreationType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tạo Tài Khoản Thành Công
+          schema:
+            $ref: '#/definitions/gin.UserCreationResponse'
       summary: Tạo Tài Khoản
       tags:
-      - users
+      - Tài Khoản
+  /v1/users/:{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Xóa tài khoản theo id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Xóa tài khoản theo id Thành Công
+          schema:
+            $ref: '#/definitions/gin.DeleteUserByIdResponse'
+      security:
+      - BearerAuth: []
+      summary: Xóa tài khoản theo id
+      tags:
+      - Tài Khoản
+    put:
+      consumes:
+      - application/json
+      description: Lấy tài khoản theo id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lấy tài khoản theo id Thành Công
+          schema:
+            $ref: '#/definitions/gin.FindUserByIdResponse'
+      security:
+      - BearerAuth: []
+      summary: Lấy tài khoản theo id
+      tags:
+      - Tài Khoản
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

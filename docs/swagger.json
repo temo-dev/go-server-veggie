@@ -1,33 +1,303 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server for a Veggie application.",
+        "description": "Đây là tài liệu API cho ứng dụng Hệ Thống Veggie",
         "title": "Veggie API",
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
-    "basePath": "/v1",
     "paths": {
-        "/users": {
+        "/v1/auth/login": {
             "post": {
-                "description": "Tạo Tài Khoản Bằng Email",
+                "description": "Đăng Nhập tài khoản mới bằng email",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "Authorization"
                 ],
-                "summary": "Tạo Tài Khoản",
+                "summary": "Đăng Nhập Tài Khoản",
+                "parameters": [
+                    {
+                        "description": "User data",
+                        "name": "users",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.LoginInput"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Created Successfully",
+                        "description": "Đăng Nhập Tài Khoản Thành Công",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/gin.LoginResponse"
                         }
                     }
                 }
             }
+        },
+        "/v1/users": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Lấy danh sách tài khoản",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tài Khoản"
+                ],
+                "summary": "Lấy danh sách tài khoản",
+                "responses": {
+                    "200": {
+                        "description": "Lấy danh sách tài khoản Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.FindListUsersResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Tạo tài khoản mới bằng email",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tài Khoản"
+                ],
+                "summary": "Tạo Tài Khoản",
+                "parameters": [
+                    {
+                        "description": "User data",
+                        "name": "users",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserCreationType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Tài Khoản Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.UserCreationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/:{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Lấy tài khoản theo id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tài Khoản"
+                ],
+                "summary": "Lấy tài khoản theo id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy tài khoản theo id Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.FindUserByIdResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa tài khoản theo id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tài Khoản"
+                ],
+                "summary": "Xóa tài khoản theo id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa tài khoản theo id Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.DeleteUserByIdResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "gin.DeleteUserByIdResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "gin.FindListUsersResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.UserType"
+                    }
+                }
+            }
+        },
+        "gin.FindUserByIdResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/model.UserType"
+                }
+            }
+        },
+        "gin.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/model.UserResponse"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "gin.UserCreationResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.LoginInput": {
+            "type": "object",
+            "required": [
+                "password",
+                "user_name"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UserCreationType": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "user_name"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UserResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UserType": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

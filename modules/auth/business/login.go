@@ -25,9 +25,9 @@ func (biz *loginBiz) LoginUser(data *model.LoginInput) (user *schema.User, err e
 		return user, commonError.ErrCannotLogin(model.EntityName, err)
 	}
 	if user.Password != data.Password {
-		return user, commonError.ErrCannotLogin(model.EntityName, model.ErrWrongPassword)
+		return nil, commonError.ErrCannotLogin(model.EntityName, model.ErrWrongPassword)
 	} else if user.Password == "" {
-		return user, commonError.ErrCannotLogin(model.EntityName, model.ErrWrongPassword)
+		return nil, commonError.ErrCannotLogin(model.EntityName, model.ErrWrongPassword)
 	} else {
 		return user, nil
 	}

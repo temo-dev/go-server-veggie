@@ -9,6 +9,20 @@ import (
 	"gorm.io/gorm"
 )
 
+type DeleteUserByIdResponse struct {
+	Message string `json:"message"`
+}
+
+// DeleteUserById godoc
+// @Summary Xóa tài khoản theo id
+// @Description  Xóa tài khoản theo id
+// @Security BearerAuth
+// @Tags Tài Khoản
+// @Accept json
+// @Produce json
+// @Param id path string true "id"
+// @Success 200 {object} DeleteUserByIdResponse "Xóa tài khoản theo id Thành Công"
+// @Router /v1/users/:{id}	[delete]
 func DeleteUserById(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
 		userId := content.Param("id")
@@ -20,8 +34,11 @@ func DeleteUserById(db *gorm.DB) gin.HandlerFunc {
 			content.JSON(http.StatusExpectationFailed, err)
 			return
 		}
+		result := DeleteUserByIdResponse{
+			Message: "Delete user successfully",
+		}
 		content.JSON(http.StatusOK, gin.H{
-			"message": "Delete user successfully",
+			"message": result.Message,
 		})
 	}
 }

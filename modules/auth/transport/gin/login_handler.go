@@ -1,6 +1,7 @@
 package gin
 
 import (
+	"fmt"
 	"net/http"
 
 	commonError "server-veggie/common/error"
@@ -14,6 +15,20 @@ import (
 	"gorm.io/gorm"
 )
 
+type LoginResponse struct {
+	Token string             `json:"token"`
+	Data  model.UserResponse `json:"data"`
+}
+
+// Login godoc
+// @Summary Đăng Nhập Tài Khoản
+// @Description Đăng Nhập tài khoản mới bằng email
+// @Tags Authorization
+// @Accept json
+// @Produce json
+// @Param users body model.LoginInput true "User data"
+// @Success 200 {object} LoginResponse "Đăng Nhập Tài Khoản Thành Công"
+// @Router /v1/auth/login [post]
 func Login(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
 		// main function
@@ -47,9 +62,13 @@ func Login(db *gorm.DB) gin.HandlerFunc {
 			Status:   user.Status,
 			Email:    user.Email,
 		}
+		response := LoginResponse{
+			Token: fmt.Sprintf("Bearer %s", token),
+			Data:  userResponse,
+		}
 		content.JSON(http.StatusOK, gin.H{
-			"token": token,
-			"data":  userResponse,
+			"token": response.Token,
+			"data":  response.Data,
 		})
 	}
 }
