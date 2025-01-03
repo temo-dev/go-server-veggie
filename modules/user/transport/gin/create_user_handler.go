@@ -19,7 +19,7 @@ type UserCreationResponse struct {
 // CreateUser godoc
 // @Summary Tạo Tài Khoản
 // @Description Tạo tài khoản mới bằng email
-// @Tags Tài Khoản
+// @Tags Authorization
 // @Accept json
 // @Produce json
 // @Param users body model.UserCreationType true "User data"

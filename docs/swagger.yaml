@@ -28,6 +28,13 @@ definitions:
       message:
         type: string
     type: object
+  model.CategoryCreationType:
+    properties:
+      category_name:
+        type: string
+      description:
+        type: string
+    type: object
   model.LoginInput:
     properties:
       password:
@@ -37,6 +44,15 @@ definitions:
     required:
     - password
     - user_name
+    type: object
+  model.ProductCreationType:
+    properties:
+      description:
+        type: string
+      product_name:
+        type: string
+    type: object
+  model.SupplierCreationType:
     type: object
   model.UserCreationType:
     properties:
@@ -103,6 +119,78 @@ paths:
       summary: Đăng Nhập Tài Khoản
       tags:
       - Authorization
+  /v1/categories:
+    post:
+      consumes:
+      - application/json
+      description: Tạo Nhóm Sản Phẩm
+      parameters:
+      - description: category
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/model.CategoryCreationType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tạo Nhóm Sản Phẩm Thành Công
+          schema:
+            $ref: '#/definitions/gin.UserCreationResponse'
+      security:
+      - BearerAuth: []
+      summary: Tạo Nhóm Sản Phẩm
+      tags:
+      - Nhóm Sản Phẩm
+  /v1/products:
+    post:
+      consumes:
+      - application/json
+      description: Tạo Sản Phẩm Mới
+      parameters:
+      - description: product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/model.ProductCreationType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tạo Tài Khoản Thành Công
+          schema:
+            $ref: '#/definitions/gin.UserCreationResponse'
+      security:
+      - BearerAuth: []
+      summary: Tạo Sản Phẩm
+      tags:
+      - Sản Phẩm
+  /v1/supplier:
+    post:
+      consumes:
+      - application/json
+      description: Tạo Nhà Cung Cấp
+      parameters:
+      - description: supplier
+        in: body
+        name: supplier
+        required: true
+        schema:
+          $ref: '#/definitions/model.SupplierCreationType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tạo Nhà Cung Cấp Thành Công
+          schema:
+            $ref: '#/definitions/gin.UserCreationResponse'
+      security:
+      - BearerAuth: []
+      summary: Tạo Nhà Cung Cấp
+      tags:
+      - Nhà Cung Cấp
   /v1/users:
     get:
       consumes:
@@ -140,7 +228,7 @@ paths:
             $ref: '#/definitions/gin.UserCreationResponse'
       summary: Tạo Tài Khoản
       tags:
-      - Tài Khoản
+      - Authorization
   /v1/users/:{id}:
     delete:
       consumes:

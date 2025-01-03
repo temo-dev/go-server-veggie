@@ -20,7 +20,6 @@ func NewCreateUserBiz(store CreateUserStorage) *createUsersBiz {
 }
 
 func (biz *createUsersBiz) CreateNewUser(data *model.UserCreationType) error {
-	fmt.Println("data---2", data)
 	if err := biz.store.InsertUser(data); err != nil {
 		return commonError.ErrCannotCreateUser(model.EntityName, err)
 	}

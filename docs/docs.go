@@ -49,6 +49,123 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/categories": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tạo Nhóm Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nhóm Sản Phẩm"
+                ],
+                "summary": "Tạo Nhóm Sản Phẩm",
+                "parameters": [
+                    {
+                        "description": "category",
+                        "name": "category",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CategoryCreationType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Nhóm Sản Phẩm Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.UserCreationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/products": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tạo Sản Phẩm Mới",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sản Phẩm"
+                ],
+                "summary": "Tạo Sản Phẩm",
+                "parameters": [
+                    {
+                        "description": "product",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ProductCreationType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Tài Khoản Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.UserCreationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/supplier": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tạo Nhà Cung Cấp",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nhà Cung Cấp"
+                ],
+                "summary": "Tạo Nhà Cung Cấp",
+                "parameters": [
+                    {
+                        "description": "supplier",
+                        "name": "supplier",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SupplierCreationType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Nhà Cung Cấp Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.UserCreationResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/users": {
             "get": {
                 "security": [
@@ -85,7 +202,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Tài Khoản"
+                    "Authorization"
                 ],
                 "summary": "Tạo Tài Khoản",
                 "parameters": [
@@ -229,6 +346,17 @@ const docTemplate = `{
                 }
             }
         },
+        "model.CategoryCreationType": {
+            "type": "object",
+            "properties": {
+                "category_name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
         "model.LoginInput": {
             "type": "object",
             "required": [
@@ -243,6 +371,20 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "model.ProductCreationType": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "product_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SupplierCreationType": {
+            "type": "object"
         },
         "model.UserCreationType": {
             "type": "object",

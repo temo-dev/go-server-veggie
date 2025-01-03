@@ -43,6 +43,8 @@ func main() {
 	api.UserRoutes(router, db)
 	api.AuthRoutes(router, db)
 	api.WorkerRoutes(router, db)
+	api.ProductRoutes(router, db)
+	api.CategoryRoutes(router, db)
 	// server run
 	router.Run(":8080")
 }
