@@ -31,6 +31,6 @@ WORKDIR /root/
 # Copy the Pre-built binary file and .env file from the previous stage
 COPY --from=builder /database/main /root/
 COPY --from=builder /database/app.env /root/
-EXPOSE 8088
+EXPOSE 8080
 # Command to run the executable
 ENTRYPOINT ["/root/main"]

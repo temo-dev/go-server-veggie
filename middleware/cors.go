@@ -18,7 +18,7 @@ func CORSMiddleware() gin.HandlerFunc {
 		// fmt.Println("origin", origin)
 
 		if true {
-			content.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
+			content.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 			content.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 			content.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Authorization, Accept, X-Requested-With")
 			content.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
