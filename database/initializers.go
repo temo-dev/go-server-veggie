@@ -15,8 +15,8 @@ func Initializers() *gorm.DB {
 	if err != nil {
 		log.Fatalf("error loading config: %v", err)
 	}
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=require TimeZone=UTC",
-		config.RDSHostName, config.RDSPort, config.RDSUser, config.RDSPassword, config.RDSDBName)
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s TimeZone=UTC",
+		config.RDSHostName, config.RDSPort, config.RDSUser, config.RDSPassword, config.RDSDBName, config.SSMode)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {

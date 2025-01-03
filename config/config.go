@@ -12,6 +12,7 @@ type Config struct {
 	RDSDBName      string `mapstructure:"RDS_DB_NAME"`
 	Secret         string `mapstructure:"SECRET"`
 	AllowedOrigins string `mapstructure:"ALLOW_ORIGIN"`
+	SSMode         string `mapstructure:"RDS_SSLMODE"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
