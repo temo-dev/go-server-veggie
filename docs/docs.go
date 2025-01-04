@@ -50,6 +50,32 @@ const docTemplate = `{
             }
         },
         "/v1/categories": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Nhóm Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nhóm Sản Phẩm"
+                ],
+                "summary": "Tìm Nhóm Sản Phẩm",
+                "responses": {
+                    "200": {
+                        "description": "Tìm Nhóm Sản Phẩm Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.FindCategoriesResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -69,7 +95,7 @@ const docTemplate = `{
                 "summary": "Tạo Nhóm Sản Phẩm",
                 "parameters": [
                     {
-                        "description": "category",
+                        "description": "category data",
                         "name": "category",
                         "in": "body",
                         "required": true,
@@ -88,8 +114,85 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/categories/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Nhóm Sản Phẩm Theo Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nhóm Sản Phẩm"
+                ],
+                "summary": "Tìm Nhóm Sản Phẩm Theo Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tìm Nhóm Sản Phẩm Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.FindCategoryByIdResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa Nhóm Sản Phẩm Theo Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nhóm Sản Phẩm"
+                ],
+                "summary": "Xóa Nhóm Sản Phẩm Theo Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa Nhóm Sản Phẩm Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.DeleteCategoryByIdResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/currencies": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Tạo Tiền Tệ mới",
                 "consumes": [
                     "application/json"
@@ -261,41 +364,6 @@ const docTemplate = `{
             }
         },
         "/v1/users/:{id}": {
-            "put": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Lấy tài khoản theo id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Tài Khoản"
-                ],
-                "summary": "Lấy tài khoản theo id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Lấy tài khoản theo id Thành Công",
-                        "schema": {
-                            "$ref": "#/definitions/gin.FindUserByIdResponse"
-                        }
-                    }
-                }
-            },
             "delete": {
                 "security": [
                     {
@@ -331,6 +399,43 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/users/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Lấy tài khoản theo id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tài Khoản"
+                ],
+                "summary": "Lấy tài khoản theo id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy tài khoản theo id Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.FindUserByIdResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -342,9 +447,42 @@ const docTemplate = `{
                 }
             }
         },
+        "gin.DeleteCategoryByIdResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "gin.DeleteUserByIdResponse": {
             "type": "object",
             "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "gin.FindCategoriesResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.CategoryType"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "gin.FindCategoryByIdResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/model.CategoryType"
+                },
                 "message": {
                     "type": "string"
                 }
@@ -390,11 +528,42 @@ const docTemplate = `{
         },
         "model.CategoryCreationType": {
             "type": "object",
+            "required": [
+                "category_name_eng",
+                "category_name_vn",
+                "dph"
+            ],
             "properties": {
-                "category_name": {
+                "category_name_eng": {
                     "type": "string"
                 },
-                "description": {
+                "category_name_vn": {
+                    "type": "string"
+                },
+                "dph": {
+                    "type": "integer"
+                },
+                "image_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.CategoryType": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "type": "string"
+                },
+                "category_name_eng": {
+                    "type": "string"
+                },
+                "category_name_vn": {
+                    "type": "string"
+                },
+                "dph": {
+                    "type": "integer"
+                },
+                "image_url": {
                     "type": "string"
                 }
             }

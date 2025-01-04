@@ -12,6 +12,17 @@ var (
 
 // Create Category
 type CategoryCreationType struct {
-	CategoryName string `json:"category_name"`
-	Description  string `json:"description"`
+	CategoryNameVN  string `json:"category_name_vn" validate:"required"`
+	CategoryNameENG string `json:"category_name_eng" validate:"required"`
+	Dph             int32  `json:"dph" validate:"required"`
+	ImageURL        string `json:"image_url"`
+}
+
+// Get Categorie
+type CategoryType struct {
+	CategoryID      string `json:"category_id"`
+	CategoryNameVN  string `json:"category_name_vn"`
+	CategoryNameENG string `json:"category_name_eng"`
+	ImageURL        string `json:"image_url"`
+	Dph             int32  `json:"dph"`
 }

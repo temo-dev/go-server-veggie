@@ -17,9 +17,9 @@ func (s *sqlStore) InsertNewCurrency(data *model.CurrencyCreationType) error {
 		ExchangeRate: data.ExchangeRate,
 	}
 	tx := s.db.Begin()
-	if err := tx.Create(&in_put); err != nil {
+	if err := tx.Create(&in_put).Error; err != nil {
 		tx.Rollback()
-		return commonError.ErrDB(err.Error)
+		return commonError.ErrDB(err)
 	}
 	tx.Commit()
 	return nil

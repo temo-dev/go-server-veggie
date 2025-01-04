@@ -1,11 +1,12 @@
 package business
 
 import (
-	"fmt"
+	commonError "server-veggie/common/error"
 	model "server-veggie/modules/category/model"
 )
 
 type CreateCategoryStorage interface {
+	InsertNewCategory(data *model.CategoryCreationType) error
 }
 
 type createCategoryBiz struct {
@@ -17,6 +18,8 @@ func NewCreateCategoryBiz(store CreateCategoryStorage) *createCategoryBiz {
 }
 
 func (biz *createCategoryBiz) CreateNewCategory(data *model.CategoryCreationType) error {
-	fmt.Println("data", data)
+	if err := biz.store.InsertNewCategory(data); err != nil {
+		return commonError.ErrCannotCreateCategory(model.EntityName, err)
+	}
 	return nil
 }

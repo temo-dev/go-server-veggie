@@ -4,8 +4,29 @@ definitions:
       message:
         type: string
     type: object
+  gin.DeleteCategoryByIdResponse:
+    properties:
+      message:
+        type: string
+    type: object
   gin.DeleteUserByIdResponse:
     properties:
+      message:
+        type: string
+    type: object
+  gin.FindCategoriesResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/model.CategoryType'
+        type: array
+      message:
+        type: string
+    type: object
+  gin.FindCategoryByIdResponse:
+    properties:
+      data:
+        $ref: '#/definitions/model.CategoryType'
       message:
         type: string
     type: object
@@ -35,9 +56,30 @@ definitions:
     type: object
   model.CategoryCreationType:
     properties:
-      category_name:
+      category_name_eng:
         type: string
-      description:
+      category_name_vn:
+        type: string
+      dph:
+        type: integer
+      image_url:
+        type: string
+    required:
+    - category_name_eng
+    - category_name_vn
+    - dph
+    type: object
+  model.CategoryType:
+    properties:
+      category_id:
+        type: string
+      category_name_eng:
+        type: string
+      category_name_vn:
+        type: string
+      dph:
+        type: integer
+      image_url:
         type: string
     type: object
   model.CurrencyCreationType:
@@ -161,12 +203,28 @@ paths:
       tags:
       - Authorization
   /v1/categories:
+    get:
+      consumes:
+      - application/json
+      description: Tìm Nhóm Sản Phẩm
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tìm Nhóm Sản Phẩm Thành Công
+          schema:
+            $ref: '#/definitions/gin.FindCategoriesResponse'
+      security:
+      - BearerAuth: []
+      summary: Tìm Nhóm Sản Phẩm
+      tags:
+      - Nhóm Sản Phẩm
     post:
       consumes:
       - application/json
       description: Tạo Nhóm Sản Phẩm
       parameters:
-      - description: category
+      - description: category data
         in: body
         name: category
         required: true
@@ -182,6 +240,51 @@ paths:
       security:
       - BearerAuth: []
       summary: Tạo Nhóm Sản Phẩm
+      tags:
+      - Nhóm Sản Phẩm
+  /v1/categories/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Xóa Nhóm Sản Phẩm Theo Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Xóa Nhóm Sản Phẩm Thành Công
+          schema:
+            $ref: '#/definitions/gin.DeleteCategoryByIdResponse'
+      security:
+      - BearerAuth: []
+      summary: Xóa Nhóm Sản Phẩm Theo Id
+      tags:
+      - Nhóm Sản Phẩm
+    put:
+      consumes:
+      - application/json
+      description: Tìm Nhóm Sản Phẩm Theo Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tìm Nhóm Sản Phẩm Thành Công
+          schema:
+            $ref: '#/definitions/gin.FindCategoryByIdResponse'
+      security:
+      - BearerAuth: []
+      summary: Tìm Nhóm Sản Phẩm Theo Id
       tags:
       - Nhóm Sản Phẩm
   /v1/currencies:
@@ -203,6 +306,8 @@ paths:
           description: Tạo Tiền Tệ Thành Công
           schema:
             $ref: '#/definitions/gin.CurrencyCreationResponse'
+      security:
+      - BearerAuth: []
       summary: Tạo Tiền Tệ
       tags:
       - Tiền Tệ
@@ -315,6 +420,7 @@ paths:
       summary: Xóa tài khoản theo id
       tags:
       - Tài Khoản
+  /v1/users/{id}:
     put:
       consumes:
       - application/json

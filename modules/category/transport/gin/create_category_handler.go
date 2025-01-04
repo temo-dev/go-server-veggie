@@ -12,6 +12,10 @@ import (
 	"gorm.io/gorm"
 )
 
+type CreateNewCategoryResponse struct {
+	Message string
+}
+
 // CreateCategory godoc
 // @Summary Tạo Nhóm Sản Phẩm
 // @Description Tạo Nhóm Sản Phẩm
@@ -19,7 +23,7 @@ import (
 // @Tags Nhóm Sản Phẩm
 // @Accept json
 // @Produce json
-// @Param category body model.CategoryCreationType true "category"
+// @Param category body model.CategoryCreationType true "category data"
 // @Success 200 {object} UserCreationResponse "Tạo Nhóm Sản Phẩm Thành Công"
 // @Router /v1/categories [post]“
 func CreateNewCategory(db *gorm.DB) gin.HandlerFunc {
@@ -38,13 +42,12 @@ func CreateNewCategory(db *gorm.DB) gin.HandlerFunc {
 		//calculate business
 		business := business.NewCreateCategoryBiz(store)
 		if err := business.CreateNewCategory(data); err != nil {
-			context.JSON(http.StatusBadRequest, gin.H{
-				"message": "create category failed",
-			})
+			context.JSON(http.StatusBadRequest, err)
 			return
 		}
-		context.JSON(http.StatusOK, gin.H{
-			"message": "create category successfully",
-		})
+		result := CreateNewCategoryResponse{
+			Message: "create category successfully",
+		}
+		context.JSON(http.StatusOK, result)
 	}
 }

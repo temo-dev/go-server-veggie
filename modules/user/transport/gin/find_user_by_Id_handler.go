@@ -1,7 +1,6 @@
 package gin
 
 import (
-	"fmt"
 	"net/http"
 	"server-veggie/modules/user/business"
 	model "server-veggie/modules/user/model"
@@ -24,11 +23,10 @@ type FindUserByIdResponse struct {
 // @Produce json
 // @Param id path string true "User ID"
 // @Success 200 {object} FindUserByIdResponse "Lấy tài khoản theo id Thành Công"
-// @Router /v1/users/:{id} [put]
+// @Router /v1/users/{id} [put]
 func FindUserById(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
 		id := content.Param("id")
-		fmt.Println("id", id)
 		//storage
 		store := storage.NewSQLStore(db)
 		//calculate business

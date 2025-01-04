@@ -15,6 +15,12 @@ func CategoryRoutes(router *gin.Engine, db *gorm.DB) {
 		{
 			//create category
 			categories.POST("/", middlewareToken.TokenMiddleware(db), ginCategory.CreateNewCategory(db))
+			// get categories
+			categories.GET("/", middlewareToken.TokenMiddleware(db), ginCategory.FindCategories(db))
+			// get category
+			categories.PUT("/:id", middlewareToken.TokenMiddleware(db), ginCategory.FindCategoryById(db))
+			// delete category
+			categories.DELETE("/:id", middlewareToken.TokenMiddleware(db), ginCategory.DeleteCategoryById(db))
 		}
 	}
 }

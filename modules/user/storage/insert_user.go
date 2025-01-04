@@ -1,7 +1,6 @@
 package storage
 
 import (
-	"fmt"
 	commonError "server-veggie/common/error"
 	"server-veggie/database/schema"
 	"server-veggie/modules/user/model"
@@ -17,7 +16,6 @@ func (s *sqlStore) InsertUser(data *model.UserCreationType) error {
 		Email:    data.Email,
 		Password: data.Password,
 	}
-	fmt.Println("user", user)
 	tx := s.db.Begin()
 	if err := tx.Create(&user).Error; err != nil {
 		tx.Rollback()

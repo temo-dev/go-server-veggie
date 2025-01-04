@@ -19,6 +19,7 @@ type CurrencyCreationResponse struct {
 // CreateCurrency godoc
 // @Summary Tạo Tiền Tệ
 // @Description Tạo Tiền Tệ mới
+// @Security BearerAuth
 // @Tags Tiền Tệ
 // @Accept json
 // @Produce json

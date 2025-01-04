@@ -47,6 +47,7 @@ type Category struct {
 	CategoryID      string    `gorm:"type:uuid;primaryKey"`
 	CategoryNameVN  string    `gorm:"type:varchar;unique;not null"`
 	CategoryNameENG string    `gorm:"type:varchar;unique;not null"`
+	ImageURL        string    `gorm:"type:varchar"`
 	Dph             int32     `gorm:"type:integer;not null"`
 	Products        []Product `gorm:"foreignKey:CategoryID"`
 }
