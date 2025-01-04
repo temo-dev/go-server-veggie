@@ -4,12 +4,13 @@ import (
 	"time"
 )
 
+// ============= user ===================
 type User struct {
 	UserID    string     `gorm:"type:uuid;primaryKey"`
 	UserName  string     `gorm:"type:varchar;unique;not null"`
 	Email     string     `gorm:"type:varchar;unique;not null"`
 	Password  string     `gorm:"type:varchar;not null"`
-	Status    string     `gorm:"type:varchar;default:'inactive'"`
+	Status    string     `gorm:"type:status_enum;default:'inactive'"`
 	CreatedAt time.Time  `gorm:"autoCreateTime"`
 	UpdatedAt time.Time  `gorm:"autoUpdateTime"`
 	UserRoles []UserRole `gorm:"foreignKey:UserID"`
@@ -20,6 +21,12 @@ type Role struct {
 	RoleName    string     `gorm:"type:varchar;not null"`
 	Description string     `gorm:"type:varchar"`
 	UserRoles   []UserRole `gorm:"foreignKey:RoleID"`
+}
+
+type UserRole struct {
+	UserRoleID string `gorm:"type:uuid;primaryKey"`
+	UserID     string `gorm:"type:uuid;not null"`
+	RoleID     string `gorm:"type:uuid;not null"`
 }
 
 type Permission struct {
@@ -34,43 +41,155 @@ type RolePermission struct {
 	PermissionID     string `gorm:"type:uuid;not null"`
 }
 
-type UserRole struct {
-	UserRoleID string `gorm:"type:uuid;primaryKey"`
-	UserID     string `gorm:"type:uuid;not null"`
-	RoleID     string `gorm:"type:uuid;not null"`
-}
-
-type Supplier struct {
-	SupplierID   string    `gorm:"type:uuid;primaryKey"`
-	SupplierName string    `gorm:"type:varchar;not null"`
-	TaxID        string    `gorm:"type:varchar;unique;not null"`
-	Country      string    `gorm:"type:varchar"`
-	Status       string    `gorm:"type:varchar;default:'active'"`
-	CreatedAt    time.Time `gorm:"autoCreateTime"`
-	UpdatedAt    time.Time `gorm:"autoUpdateTime"`
-	Products     []Product `gorm:"many2many:supplier_products;"`
-}
+//========== product ===============
 
 type Category struct {
-	CategoryID   string    `gorm:"type:uuid;primaryKey"`
-	CategoryName string    `gorm:"type:varchar;unique;not null"`
-	Description  string    `gorm:"type:varchar"`
-	Products     []Product `gorm:"foreignKey:CategoryID"`
+	CategoryID      string    `gorm:"type:uuid;primaryKey"`
+	CategoryNameVN  string    `gorm:"type:varchar;unique;not null"`
+	CategoryNameENG string    `gorm:"type:varchar;unique;not null"`
+	Dph             int32     `gorm:"type:integer;not null"`
+	Products        []Product `gorm:"foreignKey:CategoryID"`
+}
+
+type InStockProduct struct {
+	InStockProductID string    `gorm:"type:uuid;primaryKey"`
+	Quantity         int       `gorm:"type:int;not null"`
+	ProductID        string    `gorm:"type:uuid;not null"`
+	SupplierID       string    `gorm:"type:uuid;not null"`
+	EanCode          string    `gorm:"type:varchar;unique;not null"`
+	EanCodeBox       string    `gorm:"type:varchar;unique;not null"`
+	CreatedAt        time.Time `gorm:"autoCreateTime"`
+	UpdatedAt        time.Time `gorm:"autoUpdateTime"`
 }
 
 type Product struct {
-	ProductID   string     `gorm:"type:uuid;primaryKey"`
-	ProductName string     `gorm:"type:varchar;not null"`
-	Description string     `gorm:"type:varchar"`
-	Price       float64    `gorm:"type:float"`
-	Status      string     `gorm:"type:varchar;default:'available'"`
-	CreatedAt   time.Time  `gorm:"autoCreateTime"`
-	UpdatedAt   time.Time  `gorm:"autoUpdateTime"`
-	Suppliers   []Supplier `gorm:"many2many:supplier_products;"`
-	CategoryID  string     `gorm:"type:uuid;not null"`
+	ProductID       string           `gorm:"type:uuid;primaryKey"`
+	ProductNameVN   string           `gorm:"type:varchar;not null"`
+	ProductNameENG  string           `gorm:"type:varchar;not null"`
+	ProductCode     string           `gorm:"type:varchar;not null;unique"`
+	Dph             int32            `gorm:"type:integer"`
+	Description     string           `gorm:"type:varchar"`
+	Status          string           `gorm:"type:status_product_enum;default:'available'"`
+	Suppliers       []Supplier       `gorm:"many2many:supplier_products;"`
+	CategoryID      string           `gorm:"type:uuid;not null"`
+	PurchasePrices  []PurchasePrice  `gorm:"foreignKey:ProductID"`
+	SalesPrices     []SalesPrice     `gorm:"foreignKey:ProductID"`
+	InStockProducts []InStockProduct `gorm:"foreignKey:ProductID"`
+	CreatedAt       time.Time        `gorm:"autoCreateTime"`
+	UpdatedAt       time.Time        `gorm:"autoUpdateTime"`
+}
+
+// ================= supplier ================
+type Supplier struct {
+	SupplierID         string    `gorm:"type:uuid;primaryKey"`
+	SupplierName       string    `gorm:"type:varchar;not null"`
+	TaxID              string    `gorm:"type:varchar;unique;not null"`
+	CurrencyID         string    `gorm:"type:uuid;not null"`
+	OutstandingBalance float64   `gorm:"type:decimal(10,2);default:0.0"`
+	Status             string    `gorm:"type:varchar;default:'active'"`
+	Products           []Product `gorm:"many2many:supplier_products;"`
+	Invoices           []Invoice `gorm:"foreignKey:SupplierID"`
+	CreatedAt          time.Time `gorm:"autoCreateTime"`
+	UpdatedAt          time.Time `gorm:"autoUpdateTime"`
 }
 
 type SupplierProduct struct {
 	SupplierID string `gorm:"type:uuid;primaryKey"`
 	ProductID  string `gorm:"type:uuid;primaryKey"`
 }
+
+type Currency struct {
+	CurrencyID           string                `gorm:"type:uuid;primaryKey"`
+	CurrencyName         string                `gorm:"type:varchar"`
+	ExchangeRate         float64               `gorm:"type:decimal(10,2);not null"`
+	Suppliers            []Supplier            `gorm:"foreignKey:CurrencyID"`
+	PurchasePrices       []PurchasePrice       `gorm:"foreignKey:CurrencyID"`
+	SalesPrices          []SalesPrice          `gorm:"foreignKey:CurrencyID"`
+	Invoices             []Invoice             `gorm:"foreignKey:CurrencyID"`
+	PurchaseTransactions []PurchaseTransaction `gorm:"foreignKey:CurrencyID"`
+}
+
+// ============= customer =============
+type Customer struct {
+	CustomerID          string    `gorm:"type:uuid;primaryKey"`
+	CustomerName        string    `gorm:"type:varchar;not null"`
+	ContactInfo         string    `gorm:"type:varchar"`
+	TotalPurchaseAmount float64   `gorm:"type:decimal(10,2);default:0.0"`
+	ZoneID              string    `gorm:"type:uuid;not null"`
+	CurrencyID          string    `gorm:"type:uuid;not null"`
+	SalesPriceID        string    `gorm:"type:uuid"`
+	ZonePriceID         string    `gorm:"type:uuid;not null"`
+	CreatedAt           time.Time `gorm:"autoCreateTime"`
+	UpdatedAt           time.Time `gorm:"autoUpdateTime"`
+}
+
+type ZonePrice struct {
+	ZonePriceID  string     `gorm:"type:uuid;primaryKey"`
+	ZoneName     string     `gorm:"type:varchar;not null"`
+	Customers    []Customer `gorm:"foreignKey:ZoneID"`
+	SalesPriceID string     `gorm:"type:uuid;not null"`
+}
+
+// ============== pricing ===============
+type PurchasePrice struct {
+	PurchasePriceID string    `gorm:"type:uuid;primaryKey"`
+	ProductID       string    `gorm:"type:uuid;not null"`
+	CurrencyID      string    `gorm:"type:uuid;not null"`
+	Season          string    `gorm:"type:season_enum;not null"`
+	RetailPrice     float64   `gorm:"type:decimal(10,2); not null"`
+	BoxPrice        float64   `gorm:"type:decimal(10,2); not null"`
+	PalletPrice     float64   `gorm:"type:decimal(10,2); not null"`
+	ContainerPrice  float64   `gorm:"type:decimal(10,2); not null"`
+	CreatedAt       time.Time `gorm:"autoCreateTime"`
+	UpdatedAt       time.Time `gorm:"autoUpdateTime"`
+}
+
+type SalesPrice struct {
+	SalesPriceID   string      `gorm:"type:uuid;primaryKey"`
+	ProductID      string      `gorm:"type:uuid;not null"`
+	CurrencyID     string      `gorm:"type:uuid;not null"`
+	RetailPrice    float64     `gorm:"type:decimal(10,2); not null"`
+	BoxPrice       float64     `gorm:"type:decimal(10,2); not null"`
+	PalletPrice    float64     `gorm:"type:decimal(10,2); not null"`
+	ContainerPrice float64     `gorm:"type:decimal(10,2); not null"`
+	Season         string      `gorm:"type:season_enum;not null"`
+	Customers      []Customer  `gorm:"foreignKey:SalesPriceID"`
+	ZonePrices     []ZonePrice `gorm:"foreignKey:SalesPriceID"`
+	CreatedAt      time.Time   `gorm:"autoCreateTime"`
+	UpdatedAt      time.Time   `gorm:"autoUpdateTime"`
+}
+
+// ================ transaction ===========
+type Invoice struct {
+	InvoiceID            string                `gorm:"type:uuid;primaryKey"`
+	ExpiryDate           time.Time             `gorm:"type:date;not null"`
+	CurrencyID           string                `gorm:"uuid;not null"`
+	Description          string                `gorm:"type:varchar"`
+	Note                 string                `gorm:"type:varchar"`
+	Status               string                `gorm:"type:varchar;default:'pending'"`
+	Amount               float64               `gorm:"type:decimal(10,2);not null"`
+	ImageURL             string                `gorm:"type:varchar;not null"`
+	SupplierID           string                `gorm:"type:uuid;not null"`
+	PurchaseTransactions []PurchaseTransaction `gorm:"many2many:purchase_transaction_invoices;"`
+	CreatedAt            time.Time             `gorm:"autoCreateTime"`
+	UpdatedAt            time.Time             `gorm:"autoUpdateTime"`
+}
+
+type PurchaseTransaction struct {
+	PurchaseTransactionID string    `gorm:"type:uuid;primaryKey"`
+	CurrencyID            string    `gorm:"uuid;not null"`
+	TransferNumber        string    `gorm:"type:varchar;not null"`
+	Amount                float64   `gorm:"type:decimal(10,2); not null"`
+	Description           string    `gorm:"type:varchar"`
+	Invoices              []Invoice `gorm:"many2many:purchase_transaction_invoices;"`
+	ImageURL              string    `gorm:"type:varchar;not null"`
+	CreatedAt             time.Time `gorm:"autoCreateTime"`
+	UpdatedAt             time.Time `gorm:"autoUpdateTime"`
+}
+
+type PurchaseTransactionInvoice struct {
+	InvoiceID             string `gorm:"type:uuid;not null"`
+	PurchaseTransactionID string `gorm:"type:uuid;not null"`
+}
+
+// ============== Detail Product ===========

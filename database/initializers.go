@@ -22,16 +22,44 @@ func Initializers() *gorm.DB {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	// Tạo kiểu ENUM nếu chưa tồn tại
+	err = db.Exec(`
+        DO $$ BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'season_enum') THEN
+                CREATE TYPE season_enum AS ENUM ('spring', 'summer', 'autumn','winter');
+            END IF;
+			IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'status_enum') THEN
+                CREATE TYPE status_enum AS ENUM ('active','inactive');
+            END IF;
+			IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'status_product_enum') THEN
+                CREATE TYPE status_product_enum AS ENUM ('available','unavailable','expired','promotion','pending');
+            END IF;
+        END $$;
+    `).Error
+	if err != nil {
+		log.Fatal("Failed to create ENUM type:", err)
+	}
+
 	if err := db.AutoMigrate(
 		&schema.User{},
 		&schema.Role{},
+		&schema.UserRole{},
 		&schema.Permission{},
 		&schema.RolePermission{},
-		&schema.UserRole{},
-		&schema.Supplier{},
 		&schema.Category{},
+		&schema.InStockProduct{},
 		&schema.Product{},
+		&schema.Supplier{},
 		&schema.SupplierProduct{},
+		&schema.Currency{},
+		&schema.Customer{},
+		&schema.ZonePrice{},
+		&schema.PurchasePrice{},
+		&schema.SalesPrice{},
+		&schema.Invoice{},
+		&schema.PurchaseTransaction{},
+		&schema.PurchaseTransactionInvoice{},
 	); err != nil {
 		log.Fatalln(err)
 	}
