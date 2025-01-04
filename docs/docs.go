@@ -88,6 +88,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/currencies": {
+            "post": {
+                "description": "Tạo Tiền Tệ mới",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tiền Tệ"
+                ],
+                "summary": "Tạo Tiền Tệ",
+                "parameters": [
+                    {
+                        "description": "Curency data",
+                        "name": "currency",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CurrencyCreationType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Tiền Tệ Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.CurrencyCreationResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/products": {
             "post": {
                 "security": [
@@ -300,6 +334,14 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "gin.CurrencyCreationResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "gin.DeleteUserByIdResponse": {
             "type": "object",
             "properties": {
@@ -357,6 +399,24 @@ const docTemplate = `{
                 }
             }
         },
+        "model.CurrencyCreationType": {
+            "type": "object",
+            "required": [
+                "currency_code",
+                "currency_name"
+            ],
+            "properties": {
+                "currency_code": {
+                    "type": "string"
+                },
+                "currency_name": {
+                    "type": "string"
+                },
+                "exchange_rate": {
+                    "type": "number"
+                }
+            }
+        },
         "model.LoginInput": {
             "type": "object",
             "required": [
@@ -374,17 +434,52 @@ const docTemplate = `{
         },
         "model.ProductCreationType": {
             "type": "object",
+            "required": [
+                "product_code",
+                "product_name_eng",
+                "product_name_vn"
+            ],
             "properties": {
                 "description": {
                     "type": "string"
                 },
-                "product_name": {
+                "dph": {
+                    "type": "integer"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "product_name_eng": {
+                    "type": "string"
+                },
+                "product_name_vn": {
                     "type": "string"
                 }
             }
         },
         "model.SupplierCreationType": {
-            "type": "object"
+            "type": "object",
+            "required": [
+                "supplier_name",
+                "tax_id"
+            ],
+            "properties": {
+                "currencyID": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "supplier_name": {
+                    "type": "string"
+                },
+                "tax_id": {
+                    "type": "string"
+                }
+            }
         },
         "model.UserCreationType": {
             "type": "object",

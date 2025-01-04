@@ -12,6 +12,10 @@ var (
 
 // Create Product
 type ProductCreationType struct {
-	ProductName string `json:"product_name"`
-	Description string `json:"description"`
+	ProductNameVN  string `json:"product_name_vn" validate:"required"`
+	ProductNameENG string `json:"product_name_eng" validate:"required"`
+	Description    string `json:"description"`
+	ProductCode    string `json:"product_code" validate:"required"`
+	Dph            int32  `json:"dph"`
+	ImageURL       string `json:"image_url"`
 }

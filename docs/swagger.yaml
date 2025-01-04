@@ -1,4 +1,9 @@
 definitions:
+  gin.CurrencyCreationResponse:
+    properties:
+      message:
+        type: string
+    type: object
   gin.DeleteUserByIdResponse:
     properties:
       message:
@@ -35,6 +40,18 @@ definitions:
       description:
         type: string
     type: object
+  model.CurrencyCreationType:
+    properties:
+      currency_code:
+        type: string
+      currency_name:
+        type: string
+      exchange_rate:
+        type: number
+    required:
+    - currency_code
+    - currency_name
+    type: object
   model.LoginInput:
     properties:
       password:
@@ -49,10 +66,34 @@ definitions:
     properties:
       description:
         type: string
-      product_name:
+      dph:
+        type: integer
+      image_url:
         type: string
+      product_code:
+        type: string
+      product_name_eng:
+        type: string
+      product_name_vn:
+        type: string
+    required:
+    - product_code
+    - product_name_eng
+    - product_name_vn
     type: object
   model.SupplierCreationType:
+    properties:
+      currencyID:
+        type: string
+      description:
+        type: string
+      supplier_name:
+        type: string
+      tax_id:
+        type: string
+    required:
+    - supplier_name
+    - tax_id
     type: object
   model.UserCreationType:
     properties:
@@ -143,6 +184,28 @@ paths:
       summary: Tạo Nhóm Sản Phẩm
       tags:
       - Nhóm Sản Phẩm
+  /v1/currencies:
+    post:
+      consumes:
+      - application/json
+      description: Tạo Tiền Tệ mới
+      parameters:
+      - description: Curency data
+        in: body
+        name: currency
+        required: true
+        schema:
+          $ref: '#/definitions/model.CurrencyCreationType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tạo Tiền Tệ Thành Công
+          schema:
+            $ref: '#/definitions/gin.CurrencyCreationResponse'
+      summary: Tạo Tiền Tệ
+      tags:
+      - Tiền Tệ
   /v1/products:
     post:
       consumes:

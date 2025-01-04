@@ -69,6 +69,7 @@ type Product struct {
 	ProductCode     string           `gorm:"type:varchar;not null;unique"`
 	Dph             int32            `gorm:"type:integer"`
 	Description     string           `gorm:"type:varchar"`
+	ImageURL        string           `gorm:"type:varchar"`
 	Status          string           `gorm:"type:status_product_enum;default:'available'"`
 	Suppliers       []Supplier       `gorm:"many2many:supplier_products;"`
 	CategoryID      string           `gorm:"type:uuid;not null"`
@@ -85,6 +86,7 @@ type Supplier struct {
 	SupplierName       string    `gorm:"type:varchar;not null"`
 	TaxID              string    `gorm:"type:varchar;unique;not null"`
 	CurrencyID         string    `gorm:"type:uuid;not null"`
+	Description        string    `gorm:"type:varchar"`
 	OutstandingBalance float64   `gorm:"type:decimal(10,2);default:0.0"`
 	Status             string    `gorm:"type:varchar;default:'active'"`
 	Products           []Product `gorm:"many2many:supplier_products;"`
@@ -100,8 +102,9 @@ type SupplierProduct struct {
 
 type Currency struct {
 	CurrencyID           string                `gorm:"type:uuid;primaryKey"`
-	CurrencyName         string                `gorm:"type:varchar"`
-	ExchangeRate         float64               `gorm:"type:decimal(10,2);not null"`
+	CurrencyName         string                `gorm:"type:varchar;not null"`
+	CurrencyCode         string                `gorm:"type:varchar;not null"`
+	ExchangeRate         float64               `gorm:"type:decimal(10,2)"`
 	Suppliers            []Supplier            `gorm:"foreignKey:CurrencyID"`
 	PurchasePrices       []PurchasePrice       `gorm:"foreignKey:CurrencyID"`
 	SalesPrices          []SalesPrice          `gorm:"foreignKey:CurrencyID"`

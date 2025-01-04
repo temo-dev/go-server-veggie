@@ -53,8 +53,6 @@ func CreateUser(db *gorm.DB) gin.HandlerFunc {
 			Message: "Created Successfully",
 		}
 
-		content.JSON(http.StatusOK, gin.H{
-			response.Message: response,
-		})
+		content.JSON(http.StatusOK, response)
 	}
 }
