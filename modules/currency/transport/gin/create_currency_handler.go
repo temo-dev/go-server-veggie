@@ -29,13 +29,15 @@ type CurrencyCreationResponse struct {
 func CreateNewCurrency(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		var data *model.CurrencyCreationType
-		// check data input
-		if err := context.ShouldBindJSON(&data); err == nil {
-			validate := validator.New()
-			if err := validate.Struct(data); err != nil {
-				context.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
-				return
-			}
+		//validate
+		if err := context.ShouldBindJSON(&data); err != nil {
+			context.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
+			return
+		}
+		validate := validator.New()
+		if err := validate.Struct(data); err != nil {
+			context.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
+			return
 		}
 		//create Storage
 		store := storage.NewSQLStore(db)

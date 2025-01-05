@@ -18,4 +18,5 @@ type ProductCreationType struct {
 	ProductCode    string `json:"product_code" validate:"required"`
 	Dph            int32  `json:"dph"`
 	ImageURL       string `json:"image_url"`
+	CategoryID     string `json:"category_id" validate:"required"`
 }

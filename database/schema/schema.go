@@ -83,17 +83,18 @@ type Product struct {
 
 // ================= supplier ================
 type Supplier struct {
-	SupplierID         string    `gorm:"type:uuid;primaryKey"`
-	SupplierName       string    `gorm:"type:varchar;not null"`
-	TaxID              string    `gorm:"type:varchar;unique;not null"`
-	CurrencyID         string    `gorm:"type:uuid;not null"`
-	Description        string    `gorm:"type:varchar"`
-	OutstandingBalance float64   `gorm:"type:decimal(10,2);default:0.0"`
-	Status             string    `gorm:"type:varchar;default:'active'"`
-	Products           []Product `gorm:"many2many:supplier_products;"`
-	Invoices           []Invoice `gorm:"foreignKey:SupplierID"`
-	CreatedAt          time.Time `gorm:"autoCreateTime"`
-	UpdatedAt          time.Time `gorm:"autoUpdateTime"`
+	SupplierID         string          `gorm:"type:uuid;primaryKey"`
+	SupplierName       string          `gorm:"type:varchar;not null"`
+	TaxID              string          `gorm:"type:varchar;unique;not null"`
+	CurrencyID         string          `gorm:"type:uuid;not null"`
+	Description        string          `gorm:"type:varchar"`
+	OutstandingBalance float64         `gorm:"type:decimal(10,2);default:0.0"`
+	Status             string          `gorm:"type:varchar;default:'active'"`
+	PurchasePrices     []PurchasePrice `gorm:"foreignKey:SupplierID"`
+	Invoices           []Invoice       `gorm:"foreignKey:SupplierID"`
+	Products           []Product       `gorm:"many2many:supplier_products;"`
+	CreatedAt          time.Time       `gorm:"autoCreateTime"`
+	UpdatedAt          time.Time       `gorm:"autoUpdateTime"`
 }
 
 type SupplierProduct struct {
@@ -140,6 +141,7 @@ type PurchasePrice struct {
 	PurchasePriceID string    `gorm:"type:uuid;primaryKey"`
 	ProductID       string    `gorm:"type:uuid;not null"`
 	CurrencyID      string    `gorm:"type:uuid;not null"`
+	SupplierID      string    `gorm:"type:uuid;not null"`
 	Season          string    `gorm:"type:season_enum;not null"`
 	RetailPrice     float64   `gorm:"type:decimal(10,2); not null"`
 	BoxPrice        float64   `gorm:"type:decimal(10,2); not null"`

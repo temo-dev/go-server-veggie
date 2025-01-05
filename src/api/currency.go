@@ -15,6 +15,8 @@ func CurrencyRoutes(router *gin.Engine, db *gorm.DB) {
 		{
 			//create currency
 			currencies.POST("/", middlewareToken.TokenMiddleware(db), ginCurrency.CreateNewCurrency(db))
+			//find currencies
+			currencies.GET("/", middlewareToken.TokenMiddleware(db), ginCurrency.FindAllCurrencies(db))
 		}
 	}
 }

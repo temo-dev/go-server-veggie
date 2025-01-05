@@ -224,6 +224,32 @@ const docTemplate = `{
             }
         },
         "/v1/currencies": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Loại Tiền Tệ",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tiền Tệ"
+                ],
+                "summary": "Tìm Loại Tiền Tệ",
+                "responses": {
+                    "200": {
+                        "description": "Tìm Loại Tiền Tệ Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.FindAllCurrenciesResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -498,6 +524,20 @@ const docTemplate = `{
                 }
             }
         },
+        "gin.FindAllCurrenciesResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.CurencyType"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "gin.FindCategoriesResponse": {
             "type": "object",
             "properties": {
@@ -600,8 +640,7 @@ const docTemplate = `{
                 "category_id",
                 "category_name_eng",
                 "category_name_vn",
-                "dph",
-                "image_url"
+                "dph"
             ],
             "properties": {
                 "category_id": {
@@ -618,6 +657,23 @@ const docTemplate = `{
                 },
                 "image_url": {
                     "type": "string"
+                }
+            }
+        },
+        "model.CurencyType": {
+            "type": "object",
+            "properties": {
+                "currency_code": {
+                    "type": "string"
+                },
+                "currency_id": {
+                    "type": "string"
+                },
+                "currency_name": {
+                    "type": "string"
+                },
+                "exchange_rate": {
+                    "type": "number"
                 }
             }
         },
@@ -657,11 +713,15 @@ const docTemplate = `{
         "model.ProductCreationType": {
             "type": "object",
             "required": [
+                "category_id",
                 "product_code",
                 "product_name_eng",
                 "product_name_vn"
             ],
             "properties": {
+                "category_id": {
+                    "type": "string"
+                },
                 "description": {
                     "type": "string"
                 },
