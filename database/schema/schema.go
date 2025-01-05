@@ -111,6 +111,7 @@ type Currency struct {
 	SalesPrices          []SalesPrice          `gorm:"foreignKey:CurrencyID"`
 	Invoices             []Invoice             `gorm:"foreignKey:CurrencyID"`
 	PurchaseTransactions []PurchaseTransaction `gorm:"foreignKey:CurrencyID"`
+	Customers            []Customer            `gorm:"foreignKey:CurrencyID"`
 }
 
 // ============= customer =============

@@ -15,6 +15,8 @@ func CategoryRoutes(router *gin.Engine, db *gorm.DB) {
 		{
 			//create category
 			categories.POST("/", middlewareToken.TokenMiddleware(db), ginCategory.CreateNewCategory(db))
+			//update category
+			categories.PUT("/", middlewareToken.TokenMiddleware(db), ginCategory.UpdateCategory(db))
 			// get categories
 			categories.GET("/", middlewareToken.TokenMiddleware(db), ginCategory.FindCategories(db))
 			// get category

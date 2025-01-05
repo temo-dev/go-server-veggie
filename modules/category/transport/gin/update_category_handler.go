@@ -12,23 +12,24 @@ import (
 	"gorm.io/gorm"
 )
 
-type CreateNewCategoryResponse struct {
+type UpdateCategoryResponse struct {
 	Message string
+	Data    *model.CategoryType
 }
 
-// CreateCategory godoc
-// @Summary Tạo Nhóm Sản Phẩm
-// @Description Tạo Nhóm Sản Phẩm
+// UpdateCategory godoc
+// @Summary Cập Nhật Nhóm Sản Phẩm
+// @Description Cập Nhật Nhóm Sản Phẩm
 // @Security BearerAuth
 // @Tags Nhóm Sản Phẩm
 // @Accept json
 // @Produce json
-// @Param category body model.CategoryCreationType true "category data"
-// @Success 200 {object} UserCreationResponse "Tạo Nhóm Sản Phẩm Thành Công"
-// @Router /v1/categories [post]“
-func CreateNewCategory(db *gorm.DB) gin.HandlerFunc {
+// @Param category body model.CategoryType true "category data"
+// @Success 200 {object} UpdateCategoryResponse "Cập Nhật Nhóm Sản Phẩm Thành Công"
+// @Router /v1/categories [put]“
+func UpdateCategory(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
-		var data *model.CategoryCreationType
+		var data *model.CategoryType
 		//validate
 		if err := context.ShouldBindJSON(&data); err != nil {
 			context.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
@@ -39,17 +40,19 @@ func CreateNewCategory(db *gorm.DB) gin.HandlerFunc {
 			context.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
 			return
 		}
-		//create Storage
+		//storage
 		store := storage.NewSQLStore(db)
 		//calculate business
-		business := business.NewCreateCategoryBiz(store)
-		if err := business.CreateNewCategory(data); err != nil {
+		business := business.NewUpdateCategoryBiz(store)
+		newCategory, err := business.UpdateCategory(data)
+		if err != nil {
 			context.JSON(http.StatusBadRequest, err)
 			return
 		}
-		result := CreateNewCategoryResponse{
-			Message: "create category successfully",
+		response := UpdateCategoryResponse{
+			Message: "Successfully",
+			Data:    newCategory,
 		}
-		context.JSON(http.StatusOK, result)
+		context.JSON(http.StatusOK, response)
 	}
 }

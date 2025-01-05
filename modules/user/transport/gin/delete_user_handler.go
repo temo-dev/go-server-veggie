@@ -22,7 +22,7 @@ type DeleteUserByIdResponse struct {
 // @Produce json
 // @Param id path string true "id"
 // @Success 200 {object} DeleteUserByIdResponse "Xóa tài khoản theo id Thành Công"
-// @Router /v1/users/:{id}	[delete]
+// @Router /v1/users/{id}	[delete]
 func DeleteUserById(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {
 		userId := content.Param("id")

@@ -20,3 +20,11 @@ func ErrCannotFindCategoryById(entity string, err error) *AppError {
 func ErrCannotDeleteCategoryById(entity string, err error) *AppError {
 	return NewCustomError(err, fmt.Sprintf("cannot delete category by id %s", strings.ToLower(entity)), fmt.Sprintf("ErrCannotDeleteCategoryById %s", entity))
 }
+
+func ErrUpdateCategory(entity string, err error) *AppError {
+	return NewCustomError(err, fmt.Sprintf("cannot update category %s", strings.ToLower(entity)), fmt.Sprintf("ErrUpdateCategory %s", entity))
+}
+
+func ErrUpdateCategoryIsNotChanged(entity string, err error) *AppError {
+	return NewCustomError(err, fmt.Sprintf("cannot update category which is not changed %s", strings.ToLower(entity)), fmt.Sprintf("ErrUpdateCategoryIsNotChanged %s", entity))
+}

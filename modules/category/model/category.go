@@ -7,7 +7,8 @@ const (
 )
 
 var (
-	ErrorCreateCategory = errors.New("create category failed")
+	ErrorCreateCategory             = errors.New("create category failed")
+	ErrorUpdateCategoryIsNotChanged = errors.New("update category is not changed")
 )
 
 // Create Category
@@ -20,9 +21,9 @@ type CategoryCreationType struct {
 
 // Get Categorie
 type CategoryType struct {
-	CategoryID      string `json:"category_id"`
-	CategoryNameVN  string `json:"category_name_vn"`
-	CategoryNameENG string `json:"category_name_eng"`
+	CategoryID      string `json:"category_id" validate:"required"`
+	CategoryNameVN  string `json:"category_name_vn" validate:"required"`
+	CategoryNameENG string `json:"category_name_eng" validate:"required"`
 	ImageURL        string `json:"image_url"`
-	Dph             int32  `json:"dph"`
+	Dph             int32  `json:"dph" validate:"required"`
 }

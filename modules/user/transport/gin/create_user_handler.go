@@ -26,33 +26,34 @@ type UserCreationResponse struct {
 // @Success 200 {object} UserCreationResponse "Tạo Tài Khoản Thành Công"
 // @Router /v1/users [post]
 func CreateUser(db *gorm.DB) gin.HandlerFunc {
-	return func(content *gin.Context) {
+	return func(context *gin.Context) {
 		var data *model.UserCreationType
-		//check data input
-		if err := content.ShouldBindJSON(&data); err == nil {
-			validate := validator.New()
-			if err := validate.Struct(data); err != nil {
-				content.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
-				return
-			}
+		//validate
+		if err := context.ShouldBindJSON(&data); err != nil {
+			context.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
+			return
+		}
+		validate := validator.New()
+		if err := validate.Struct(data); err != nil {
+			context.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
+			return
 		}
 		//create Storage
 		store := storage.NewSQLStore(db)
 		//calculate business
 		business := business.NewCreateUserBiz(store)
 		if data == nil {
-			content.JSON(http.StatusBadRequest, commonError.ErrCannotCreateUser(model.EntityName, model.ErrorCreateUser))
+			context.JSON(http.StatusBadRequest, commonError.ErrCannotCreateUser(model.EntityName, model.ErrorCreateUser))
 			return
 		}
 		if err := business.CreateNewUser(data); err != nil {
-			content.JSON(http.StatusExpectationFailed, err)
+			context.JSON(http.StatusExpectationFailed, err)
 			return
 		}
 
 		response := UserCreationResponse{
 			Message: "Created Successfully",
 		}
-
-		content.JSON(http.StatusOK, response)
+		context.JSON(http.StatusOK, response)
 	}
 }

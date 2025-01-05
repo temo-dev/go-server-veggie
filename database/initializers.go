@@ -44,6 +44,7 @@ func Initializers() *gorm.DB {
 	if err := db.AutoMigrate(
 		&schema.User{},
 		&schema.Role{},
+		&schema.Currency{},
 		&schema.UserRole{},
 		&schema.Permission{},
 		&schema.RolePermission{},
@@ -52,7 +53,6 @@ func Initializers() *gorm.DB {
 		&schema.Product{},
 		&schema.Supplier{},
 		&schema.SupplierProduct{},
-		&schema.Currency{},
 		&schema.Customer{},
 		&schema.ZonePrice{},
 		&schema.PurchasePrice{},

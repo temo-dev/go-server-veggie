@@ -49,6 +49,13 @@ definitions:
       token:
         type: string
     type: object
+  gin.UpdateCategoryResponse:
+    properties:
+      data:
+        $ref: '#/definitions/model.CategoryType'
+      message:
+        type: string
+    type: object
   gin.UserCreationResponse:
     properties:
       message:
@@ -81,6 +88,12 @@ definitions:
         type: integer
       image_url:
         type: string
+    required:
+    - category_id
+    - category_name_eng
+    - category_name_vn
+    - dph
+    - image_url
     type: object
   model.CurrencyCreationType:
     properties:
@@ -242,6 +255,29 @@ paths:
       summary: Tạo Nhóm Sản Phẩm
       tags:
       - Nhóm Sản Phẩm
+    put:
+      consumes:
+      - application/json
+      description: Cập Nhật Nhóm Sản Phẩm
+      parameters:
+      - description: category data
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/model.CategoryType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cập Nhật Nhóm Sản Phẩm Thành Công
+          schema:
+            $ref: '#/definitions/gin.UpdateCategoryResponse'
+      security:
+      - BearerAuth: []
+      summary: Cập Nhật Nhóm Sản Phẩm
+      tags:
+      - Nhóm Sản Phẩm
   /v1/categories/{id}:
     delete:
       consumes:
@@ -397,7 +433,7 @@ paths:
       summary: Tạo Tài Khoản
       tags:
       - Authorization
-  /v1/users/:{id}:
+  /v1/users/{id}:
     delete:
       consumes:
       - application/json
@@ -420,7 +456,6 @@ paths:
       summary: Xóa tài khoản theo id
       tags:
       - Tài Khoản
-  /v1/users/{id}:
     put:
       consumes:
       - application/json

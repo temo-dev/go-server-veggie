@@ -76,6 +76,43 @@ const docTemplate = `{
                     }
                 }
             },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập Nhật Nhóm Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nhóm Sản Phẩm"
+                ],
+                "summary": "Cập Nhật Nhóm Sản Phẩm",
+                "parameters": [
+                    {
+                        "description": "category data",
+                        "name": "category",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CategoryType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập Nhật Nhóm Sản Phẩm Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.UpdateCategoryResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -363,43 +400,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/users/:{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Xóa tài khoản theo id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Tài Khoản"
-                ],
-                "summary": "Xóa tài khoản theo id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Xóa tài khoản theo id Thành Công",
-                        "schema": {
-                            "$ref": "#/definitions/gin.DeleteUserByIdResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/v1/users/{id}": {
             "put": {
                 "security": [
@@ -432,6 +432,41 @@ const docTemplate = `{
                         "description": "Lấy tài khoản theo id Thành Công",
                         "schema": {
                             "$ref": "#/definitions/gin.FindUserByIdResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa tài khoản theo id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tài Khoản"
+                ],
+                "summary": "Xóa tài khoản theo id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa tài khoản theo id Thành Công",
+                        "schema": {
+                            "$ref": "#/definitions/gin.DeleteUserByIdResponse"
                         }
                     }
                 }
@@ -518,6 +553,17 @@ const docTemplate = `{
                 }
             }
         },
+        "gin.UpdateCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/model.CategoryType"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "gin.UserCreationResponse": {
             "type": "object",
             "properties": {
@@ -550,6 +596,13 @@ const docTemplate = `{
         },
         "model.CategoryType": {
             "type": "object",
+            "required": [
+                "category_id",
+                "category_name_eng",
+                "category_name_vn",
+                "dph",
+                "image_url"
+            ],
             "properties": {
                 "category_id": {
                     "type": "string"
