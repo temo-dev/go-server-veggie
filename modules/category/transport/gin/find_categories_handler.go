@@ -22,7 +22,7 @@ type FindCategoriesResponse struct {
 // @Tags Nhóm Sản Phẩm
 // @Accept json
 // @Produce json
-// @Success 200 {object} FindCategoriesResponse "Tìm Nhóm Sản Phẩm Thành Công"
+// @Success 200 {object} object "Tìm Nhóm Sản Phẩm Thành Công"
 // @Router /v1/categories [get]
 func FindCategories(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
@@ -35,10 +35,9 @@ func FindCategories(db *gorm.DB) gin.HandlerFunc {
 			context.JSON(http.StatusOK, err)
 			return
 		}
-		response := FindCategoriesResponse{
-			Message: "Successfully",
-			Data:    result,
-		}
-		context.JSON(http.StatusOK, response)
+		context.JSON(http.StatusOK, gin.H{
+			"message": "Successfully",
+			"data":    result,
+		})
 	}
 }

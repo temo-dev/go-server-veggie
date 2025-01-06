@@ -2,6 +2,7 @@ package gin
 
 import (
 	"net/http"
+	commonError "server-veggie/common/error"
 	"server-veggie/modules/user/business"
 	"server-veggie/modules/user/model"
 	"server-veggie/modules/user/storage"
@@ -11,30 +12,42 @@ import (
 	"gorm.io/gorm"
 )
 
+// UpdateUserById godoc
+// @Summary Cập nhật tài khoản
+// @Description  Cập nhật tài khoản
+// @Security BearerAuth
+// @Tags Tài Khoản
+// @Accept json
+// @Produce json
+// @Param user body model.UserType true "User update"
+// @Success 200 {object} object "Cập nhật tài khoản Thành Công"
+// @Router /v1/users [put]
 func UpdateUser(db *gorm.DB) gin.HandlerFunc {
-	return func(content *gin.Context) {
-		var input model.UpdateUserType
-		//check data input
-		if err := content.ShouldBindJSON(&input); err == nil {
-			validate := validator.New()
-			if err := validate.Struct(&input); err != nil {
-				content.JSON(http.StatusBadRequest, gin.H{
-					"error": err.Error(),
-				})
-				return
-			}
+	return func(context *gin.Context) {
+		var data *model.UserType
+		//validate
+		if err := context.ShouldBindJSON(&data); err != nil {
+			context.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
+			return
+		}
+		validate := validator.New()
+		if err := validate.Struct(data); err != nil {
+			context.JSON(http.StatusBadRequest, commonError.ErrValidateInput(model.EntityName, err))
+			return
 		}
 		//storage
 		store := storage.NewSQLStore(db)
 		//connect business
 		business := business.NewUpdateUserBiz(store)
-		if err := business.UpdateUser(&input); err != nil {
-			content.JSON(http.StatusExpectationFailed, err)
+		//call business
+		newUser, err := business.UpdateUserById(data)
+		if err != nil {
+			context.JSON(http.StatusInternalServerError, err)
 			return
 		}
-
-		content.JSON(http.StatusOK, gin.H{
-			"data": "Updated Successfully",
+		context.JSON(http.StatusOK, gin.H{
+			"message": "Successfully",
+			"data":    newUser,
 		})
 	}
 }

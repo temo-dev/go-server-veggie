@@ -93,6 +93,8 @@ type Supplier struct {
 	PurchasePrices     []PurchasePrice `gorm:"foreignKey:SupplierID"`
 	Invoices           []Invoice       `gorm:"foreignKey:SupplierID"`
 	Products           []Product       `gorm:"many2many:supplier_products;"`
+	CustomerRefer      string          `gorm:"type:uuid"`
+	Customer           Customer        `gorm:"foreignKey:CustomerRefer"`
 	CreatedAt          time.Time       `gorm:"autoCreateTime"`
 	UpdatedAt          time.Time       `gorm:"autoUpdateTime"`
 }
@@ -119,6 +121,7 @@ type Currency struct {
 type Customer struct {
 	CustomerID          string    `gorm:"type:uuid;primaryKey"`
 	CustomerName        string    `gorm:"type:varchar;not null"`
+	TaxID               string    `gorm:"type:varchar;unique"`
 	ContactInfo         string    `gorm:"type:varchar"`
 	TotalPurchaseAmount float64   `gorm:"type:decimal(10,2);default:0.0"`
 	ZoneID              string    `gorm:"type:uuid;not null"`

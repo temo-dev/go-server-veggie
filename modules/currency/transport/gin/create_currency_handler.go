@@ -12,10 +12,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type CurrencyCreationResponse struct {
-	Message string `json:"message"`
-}
-
 // CreateCurrency godoc
 // @Summary Tạo Tiền Tệ
 // @Description Tạo Tiền Tệ mới
@@ -24,7 +20,7 @@ type CurrencyCreationResponse struct {
 // @Accept json
 // @Produce json
 // @Param currency body model.CurrencyCreationType true "Curency data"
-// @Success 200 {object} CurrencyCreationResponse "Tạo Tiền Tệ Thành Công"
+// @Success 200 {object} object "Tạo Tiền Tệ Thành Công"
 // @Router /v1/currencies [post]
 func CreateNewCurrency(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
@@ -47,10 +43,8 @@ func CreateNewCurrency(db *gorm.DB) gin.HandlerFunc {
 			context.JSON(http.StatusOK, err)
 			return
 		}
-
-		response := CurrencyCreationResponse{
-			Message: "Created Successfully",
-		}
-		context.JSON(http.StatusOK, response)
+		context.JSON(http.StatusOK, gin.H{
+			"message": "Successfully",
+		})
 	}
 }

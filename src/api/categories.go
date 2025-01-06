@@ -20,7 +20,7 @@ func CategoryRoutes(router *gin.Engine, db *gorm.DB) {
 			// get categories
 			categories.GET("/", middlewareToken.TokenMiddleware(db), ginCategory.FindCategories(db))
 			// get category
-			categories.PUT("/:id", middlewareToken.TokenMiddleware(db), ginCategory.FindCategoryById(db))
+			categories.PUT("/:id", middlewareToken.TokenMiddleware(db), ginCategory.FindCategoryByIdHandler(db))
 			// delete category
 			categories.DELETE("/:id", middlewareToken.TokenMiddleware(db), ginCategory.DeleteCategoryById(db))
 		}

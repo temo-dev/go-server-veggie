@@ -2,7 +2,6 @@ package model
 
 import (
 	"errors"
-	"time"
 )
 
 //error
@@ -12,9 +11,10 @@ const (
 )
 
 var (
-	ErrorUserNotFound = errors.New("user not found")
-	ErrorUpdateUser   = errors.New("update user failed")
-	ErrorCreateUser   = errors.New("create user failed")
+	ErrorUserNotFound           = errors.New("user not found")
+	ErrorUpdateUser             = errors.New("update user failed")
+	ErrorCreateUser             = errors.New("create user failed")
+	ErrorUpdateUserIsNotChanged = errors.New("update user is not changed")
 )
 
 // Create User
@@ -26,16 +26,8 @@ type UserCreationType struct {
 
 // Get Users
 type UserType struct {
-	UserID    string    `json:"user_id"`
-	UserName  string    `json:"user_name"`
-	Status    string    `json:"status"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-}
-
-// Update User
-type UpdateUserType struct {
-	UserId   string `json:"user_id" validate:"required"`
-	UserName string `json:"user_name" validate:"required"`
-	Status   string `json:"status" validate:"required"`
+	UserID   string `json:"user_id"`
+	UserName string `json:"user_name"`
+	Email    string `json:"email"`
+	Status   string `json:"status"`
 }

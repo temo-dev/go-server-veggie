@@ -9,6 +9,7 @@ const (
 var (
 	ErrorCreateCategory             = errors.New("create category failed")
 	ErrorUpdateCategoryIsNotChanged = errors.New("update category is not changed")
+	ErrorFindCategoryById           = errors.New("find category is not exist")
 )
 
 // Create Category

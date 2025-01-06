@@ -9,10 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type DeleteCategoryByIdResponse struct {
-	Message string
-}
-
 // FindCategories godoc
 // @Summary Xóa Nhóm Sản Phẩm Theo Id
 // @Description Xóa Nhóm Sản Phẩm Theo Id
@@ -21,7 +17,7 @@ type DeleteCategoryByIdResponse struct {
 // @Accept json
 // @Produce json
 // @Param id path string true "Category ID"
-// @Success 200 {object} DeleteCategoryByIdResponse "Xóa Nhóm Sản Phẩm Thành Công"
+// @Success 200 {object} object "Xóa Nhóm Sản Phẩm Thành Công"
 // @Router /v1/categories/{id} [delete]
 func DeleteCategoryById(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
@@ -34,9 +30,8 @@ func DeleteCategoryById(db *gorm.DB) gin.HandlerFunc {
 			context.JSON(http.StatusExpectationFailed, err)
 			return
 		}
-		response := DeleteCategoryByIdResponse{
-			Message: "Successfully",
-		}
-		context.JSON(http.StatusOK, response)
+		context.JSON(http.StatusOK, gin.H{
+			"message": "Successfully",
+		})
 	}
 }

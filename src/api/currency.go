@@ -17,6 +17,10 @@ func CurrencyRoutes(router *gin.Engine, db *gorm.DB) {
 			currencies.POST("/", middlewareToken.TokenMiddleware(db), ginCurrency.CreateNewCurrency(db))
 			//find currencies
 			currencies.GET("/", middlewareToken.TokenMiddleware(db), ginCurrency.FindAllCurrencies(db))
+			//find currency by id
+			currencies.PUT("/:id", middlewareToken.TokenMiddleware(db), ginCurrency.FindCurrencyByIdHandler(db))
+			//Delete currency by id
+			currencies.DELETE("/:id", middlewareToken.TokenMiddleware(db), ginCurrency.DeleteCurrencyByIdHandler(db))
 		}
 	}
 }

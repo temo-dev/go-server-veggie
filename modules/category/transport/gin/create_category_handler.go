@@ -12,10 +12,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type CreateNewCategoryResponse struct {
-	Message string
-}
-
 // CreateCategory godoc
 // @Summary Tạo Nhóm Sản Phẩm
 // @Description Tạo Nhóm Sản Phẩm
@@ -24,7 +20,7 @@ type CreateNewCategoryResponse struct {
 // @Accept json
 // @Produce json
 // @Param category body model.CategoryCreationType true "category data"
-// @Success 200 {object} UserCreationResponse "Tạo Nhóm Sản Phẩm Thành Công"
+// @Success 200 {object} object "Tạo Nhóm Sản Phẩm Thành Công"
 // @Router /v1/categories [post]“
 func CreateNewCategory(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
@@ -47,9 +43,8 @@ func CreateNewCategory(db *gorm.DB) gin.HandlerFunc {
 			context.JSON(http.StatusBadRequest, err)
 			return
 		}
-		result := CreateNewCategoryResponse{
-			Message: "create category successfully",
-		}
-		context.JSON(http.StatusOK, result)
+		context.JSON(http.StatusOK, gin.H{
+			"message": "Successfully",
+		})
 	}
 }

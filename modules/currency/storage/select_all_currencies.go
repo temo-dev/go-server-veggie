@@ -5,8 +5,8 @@ import (
 	"server-veggie/modules/currency/model"
 )
 
-func (s *sqlStore) SelectAllCurrencies() (*[]model.CurencyType, error) {
-	var listCurrencies *[]model.CurencyType
+func (s *sqlStore) SelectAllCurrencies() ([]*model.CurencyType, error) {
+	var listCurrencies []*model.CurencyType
 	tx := s.db.Begin()
 	result := tx.Table("currencies").Scan(&listCurrencies)
 	if result.Error != nil {

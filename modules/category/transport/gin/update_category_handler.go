@@ -12,11 +12,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type UpdateCategoryResponse struct {
-	Message string
-	Data    *model.CategoryType
-}
-
 // UpdateCategory godoc
 // @Summary Cập Nhật Nhóm Sản Phẩm
 // @Description Cập Nhật Nhóm Sản Phẩm
@@ -25,7 +20,7 @@ type UpdateCategoryResponse struct {
 // @Accept json
 // @Produce json
 // @Param category body model.CategoryType true "category data"
-// @Success 200 {object} UpdateCategoryResponse "Cập Nhật Nhóm Sản Phẩm Thành Công"
+// @Success 200 {object} object "Cập Nhật Nhóm Sản Phẩm Thành Công"
 // @Router /v1/categories [put]“
 func UpdateCategory(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
@@ -49,10 +44,9 @@ func UpdateCategory(db *gorm.DB) gin.HandlerFunc {
 			context.JSON(http.StatusBadRequest, err)
 			return
 		}
-		response := UpdateCategoryResponse{
-			Message: "Successfully",
-			Data:    newCategory,
-		}
-		context.JSON(http.StatusOK, response)
+		context.JSON(http.StatusOK, gin.H{
+			"message": "Successfully",
+			"data":    newCategory,
+		})
 	}
 }

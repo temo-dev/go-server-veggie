@@ -7,7 +7,9 @@ const (
 )
 
 var (
-	ErrorCreateCurrency = errors.New("create currency failed")
+	ErrorCreateCurrency   = errors.New("create currency failed")
+	ErrorFindCurrencyById = errors.New("find currency failed by id")
+	ErrorDeleteCurrency   = errors.New("delete currency failed")
 )
 
 // Create Currency

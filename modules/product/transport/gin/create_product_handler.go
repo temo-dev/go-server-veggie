@@ -20,7 +20,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param product body model.ProductCreationType true "product"
-// @Success 200 {object} UserCreationResponse "Tạo Tài Khoản Thành Công"
+// @Success 200 {object} object "Tạo Tài Khoản Thành Công"
 // @Router /v1/products [post]
 func CreateNewProduct(db *gorm.DB) gin.HandlerFunc {
 	return func(content *gin.Context) {

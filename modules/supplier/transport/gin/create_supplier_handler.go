@@ -20,7 +20,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param supplier body model.SupplierCreationType true "supplier"
-// @Success 200 {object} UserCreationResponse "Tạo Nhà Cung Cấp Thành Công"
+// @Success 200 {object} object "Tạo Nhà Cung Cấp Thành Công"
 // @Router /v1/supplier [post]“
 func CreateNewSupllier(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {

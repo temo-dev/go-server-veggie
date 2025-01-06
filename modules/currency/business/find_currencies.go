@@ -3,7 +3,7 @@ package business
 import "server-veggie/modules/currency/model"
 
 type FindCurrenciesStorage interface {
-	SelectAllCurrencies() (*[]model.CurencyType, error)
+	SelectAllCurrencies() ([]*model.CurencyType, error)
 }
 
 type findCurrenciesBiz struct {
@@ -14,7 +14,7 @@ func NewFindCurrenciesBiz(store FindCurrenciesStorage) *findCurrenciesBiz {
 	return &findCurrenciesBiz{store: store}
 }
 
-func (biz *findCurrenciesBiz) FindCurrencies() (*[]model.CurencyType, error) {
+func (biz *findCurrenciesBiz) FindCurrencies() ([]*model.CurencyType, error) {
 	result, err := biz.store.SelectAllCurrencies()
 	if err != nil {
 		return nil, err

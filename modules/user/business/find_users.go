@@ -6,7 +6,7 @@ import (
 )
 
 type FindUsersStorange interface {
-	SelectUsers() ([]model.UserType, error)
+	SelectUsers() ([]*model.UserType, error)
 }
 
 type findUsersBiz struct {
@@ -17,7 +17,7 @@ func NewFindUsersBiz(store FindUsersStorange) *findUsersBiz {
 	return &findUsersBiz{store: store}
 }
 
-func (biz *findUsersBiz) FindUsers() ([]model.UserType, error) {
+func (biz *findUsersBiz) FindUsers() ([]*model.UserType, error) {
 	//hanlde business
 	users, err := biz.store.SelectUsers()
 	if err != nil {

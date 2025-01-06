@@ -1,7 +1,6 @@
 package business
 
 import (
-	commonError "server-veggie/common/error"
 	"server-veggie/modules/category/model"
 )
 
@@ -20,7 +19,7 @@ func NewFindCategoryByIdBiz(store FindCategoryByIdStorage) *findCategoryByIdBiz 
 func (biz *findCategoryByIdBiz) FindCategoryById(id string) (*model.CategoryType, error) {
 	category, err := biz.store.SelectCategoryById(map[string]interface{}{"category_id": id})
 	if err != nil {
-		return nil, commonError.ErrCannotFindCategoryById(model.EntityName, err)
+		return nil, err
 	}
 	return category, nil
 }

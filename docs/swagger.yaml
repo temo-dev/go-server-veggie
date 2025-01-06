@@ -1,73 +1,9 @@
 definitions:
-  gin.CurrencyCreationResponse:
-    properties:
-      message:
-        type: string
-    type: object
-  gin.DeleteCategoryByIdResponse:
-    properties:
-      message:
-        type: string
-    type: object
-  gin.DeleteUserByIdResponse:
-    properties:
-      message:
-        type: string
-    type: object
-  gin.FindAllCurrenciesResponse:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/model.CurencyType'
-        type: array
-      message:
-        type: string
-    type: object
-  gin.FindCategoriesResponse:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/model.CategoryType'
-        type: array
-      message:
-        type: string
-    type: object
-  gin.FindCategoryByIdResponse:
-    properties:
-      data:
-        $ref: '#/definitions/model.CategoryType'
-      message:
-        type: string
-    type: object
-  gin.FindListUsersResponse:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/model.UserType'
-        type: array
-    type: object
-  gin.FindUserByIdResponse:
-    properties:
-      data:
-        $ref: '#/definitions/model.UserType'
-    type: object
   gin.LoginResponse:
     properties:
       data:
         $ref: '#/definitions/model.UserResponse'
       token:
-        type: string
-    type: object
-  gin.UpdateCategoryResponse:
-    properties:
-      data:
-        $ref: '#/definitions/model.CategoryType'
-      message:
-        type: string
-    type: object
-  gin.UserCreationResponse:
-    properties:
-      message:
         type: string
     type: object
   model.CategoryCreationType:
@@ -102,17 +38,6 @@ definitions:
     - category_name_eng
     - category_name_vn
     - dph
-    type: object
-  model.CurencyType:
-    properties:
-      currency_code:
-        type: string
-      currency_id:
-        type: string
-      currency_name:
-        type: string
-      exchange_rate:
-        type: number
     type: object
   model.CurrencyCreationType:
     properties:
@@ -198,11 +123,9 @@ definitions:
     type: object
   model.UserType:
     properties:
-      created_at:
+      email:
         type: string
       status:
-        type: string
-      updated_at:
         type: string
       user_id:
         type: string
@@ -248,7 +171,7 @@ paths:
         "200":
           description: Tìm Nhóm Sản Phẩm Thành Công
           schema:
-            $ref: '#/definitions/gin.FindCategoriesResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Tìm Nhóm Sản Phẩm
@@ -271,7 +194,7 @@ paths:
         "200":
           description: Tạo Nhóm Sản Phẩm Thành Công
           schema:
-            $ref: '#/definitions/gin.UserCreationResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Tạo Nhóm Sản Phẩm
@@ -294,7 +217,7 @@ paths:
         "200":
           description: Cập Nhật Nhóm Sản Phẩm Thành Công
           schema:
-            $ref: '#/definitions/gin.UpdateCategoryResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Cập Nhật Nhóm Sản Phẩm
@@ -317,7 +240,7 @@ paths:
         "200":
           description: Xóa Nhóm Sản Phẩm Thành Công
           schema:
-            $ref: '#/definitions/gin.DeleteCategoryByIdResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Xóa Nhóm Sản Phẩm Theo Id
@@ -339,7 +262,7 @@ paths:
         "200":
           description: Tìm Nhóm Sản Phẩm Thành Công
           schema:
-            $ref: '#/definitions/gin.FindCategoryByIdResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Tìm Nhóm Sản Phẩm Theo Id
@@ -356,7 +279,7 @@ paths:
         "200":
           description: Tìm Loại Tiền Tệ Thành Công
           schema:
-            $ref: '#/definitions/gin.FindAllCurrenciesResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Tìm Loại Tiền Tệ
@@ -379,10 +302,55 @@ paths:
         "200":
           description: Tạo Tiền Tệ Thành Công
           schema:
-            $ref: '#/definitions/gin.CurrencyCreationResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Tạo Tiền Tệ
+      tags:
+      - Tiền Tệ
+  /v1/currencies/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Xóa Tiền Tệ Theo ID
+      parameters:
+      - description: Curency id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Xóa Tiền Tệ Theo ID Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Xóa Tiền Tệ Theo ID
+      tags:
+      - Tiền Tệ
+    put:
+      consumes:
+      - application/json
+      description: Tìm Tiền Tệ Theo ID
+      parameters:
+      - description: Curency id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tìm Tiền Tệ Theo ID Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Tìm Tiền Tệ Theo ID
       tags:
       - Tiền Tệ
   /v1/products:
@@ -403,7 +371,7 @@ paths:
         "200":
           description: Tạo Tài Khoản Thành Công
           schema:
-            $ref: '#/definitions/gin.UserCreationResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Tạo Sản Phẩm
@@ -427,7 +395,7 @@ paths:
         "200":
           description: Tạo Nhà Cung Cấp Thành Công
           schema:
-            $ref: '#/definitions/gin.UserCreationResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Tạo Nhà Cung Cấp
@@ -444,7 +412,7 @@ paths:
         "200":
           description: Lấy danh sách tài khoản Thành Công
           schema:
-            $ref: '#/definitions/gin.FindListUsersResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Lấy danh sách tài khoản
@@ -467,10 +435,33 @@ paths:
         "200":
           description: Tạo Tài Khoản Thành Công
           schema:
-            $ref: '#/definitions/gin.UserCreationResponse'
+            type: object
       summary: Tạo Tài Khoản
       tags:
       - Authorization
+    put:
+      consumes:
+      - application/json
+      description: Cập nhật tài khoản
+      parameters:
+      - description: User update
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cập nhật tài khoản Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cập nhật tài khoản
+      tags:
+      - Tài Khoản
   /v1/users/{id}:
     delete:
       consumes:
@@ -488,7 +479,7 @@ paths:
         "200":
           description: Xóa tài khoản theo id Thành Công
           schema:
-            $ref: '#/definitions/gin.DeleteUserByIdResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Xóa tài khoản theo id
@@ -510,7 +501,7 @@ paths:
         "200":
           description: Lấy tài khoản theo id Thành Công
           schema:
-            $ref: '#/definitions/gin.FindUserByIdResponse'
+            type: object
       security:
       - BearerAuth: []
       summary: Lấy tài khoản theo id

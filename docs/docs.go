@@ -71,7 +71,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Tìm Nhóm Sản Phẩm Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.FindCategoriesResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -108,7 +108,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Cập Nhật Nhóm Sản Phẩm Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.UpdateCategoryResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -145,7 +145,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Tạo Nhóm Sản Phẩm Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.UserCreationResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -182,7 +182,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Tìm Nhóm Sản Phẩm Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.FindCategoryByIdResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -217,7 +217,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Xóa Nhóm Sản Phẩm Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.DeleteCategoryByIdResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -245,7 +245,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Tìm Loại Tiền Tệ Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.FindAllCurrenciesResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -282,7 +282,79 @@ const docTemplate = `{
                     "200": {
                         "description": "Tạo Tiền Tệ Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.CurrencyCreationResponse"
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/currencies/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Tiền Tệ Theo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tiền Tệ"
+                ],
+                "summary": "Tìm Tiền Tệ Theo ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Curency id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tìm Tiền Tệ Theo ID Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa Tiền Tệ Theo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tiền Tệ"
+                ],
+                "summary": "Xóa Tiền Tệ Theo ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Curency id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa Tiền Tệ Theo ID Thành Công",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -321,7 +393,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Tạo Tài Khoản Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.UserCreationResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -360,7 +432,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Tạo Nhà Cung Cấp Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.UserCreationResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -388,7 +460,44 @@ const docTemplate = `{
                     "200": {
                         "description": "Lấy danh sách tài khoản Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.FindListUsersResponse"
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập nhật tài khoản",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tài Khoản"
+                ],
+                "summary": "Cập nhật tài khoản",
+                "parameters": [
+                    {
+                        "description": "User update",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật tài khoản Thành Công",
+                        "schema": {
+                            "type": "object"
                         }
                     }
                 }
@@ -420,7 +529,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Tạo Tài Khoản Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.UserCreationResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -457,7 +566,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Lấy tài khoản theo id Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.FindUserByIdResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -492,7 +601,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Xóa tài khoản theo id Thành Công",
                         "schema": {
-                            "$ref": "#/definitions/gin.DeleteUserByIdResponse"
+                            "type": "object"
                         }
                     }
                 }
@@ -500,88 +609,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "gin.CurrencyCreationResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "gin.DeleteCategoryByIdResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "gin.DeleteUserByIdResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "gin.FindAllCurrenciesResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.CurencyType"
-                    }
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "gin.FindCategoriesResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.CategoryType"
-                    }
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "gin.FindCategoryByIdResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/model.CategoryType"
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "gin.FindListUsersResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.UserType"
-                    }
-                }
-            }
-        },
-        "gin.FindUserByIdResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/model.UserType"
-                }
-            }
-        },
         "gin.LoginResponse": {
             "type": "object",
             "properties": {
@@ -589,25 +616,6 @@ const docTemplate = `{
                     "$ref": "#/definitions/model.UserResponse"
                 },
                 "token": {
-                    "type": "string"
-                }
-            }
-        },
-        "gin.UpdateCategoryResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/model.CategoryType"
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "gin.UserCreationResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
                     "type": "string"
                 }
             }
@@ -657,23 +665,6 @@ const docTemplate = `{
                 },
                 "image_url": {
                     "type": "string"
-                }
-            }
-        },
-        "model.CurencyType": {
-            "type": "object",
-            "properties": {
-                "currency_code": {
-                    "type": "string"
-                },
-                "currency_id": {
-                    "type": "string"
-                },
-                "currency_name": {
-                    "type": "string"
-                },
-                "exchange_rate": {
-                    "type": "number"
                 }
             }
         },
@@ -802,13 +793,10 @@ const docTemplate = `{
         "model.UserType": {
             "type": "object",
             "properties": {
-                "created_at": {
+                "email": {
                     "type": "string"
                 },
                 "status": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 },
                 "user_id": {

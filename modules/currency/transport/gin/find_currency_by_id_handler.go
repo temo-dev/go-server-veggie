@@ -9,29 +9,31 @@ import (
 	"gorm.io/gorm"
 )
 
-// FindCurrencies godoc
-// @Summary Tìm Loại Tiền Tệ
-// @Description Tìm Loại Tiền Tệ
+// FindCurrencyById godoc
+// @Summary Tìm Tiền Tệ Theo ID
+// @Description Tìm Tiền Tệ Theo ID
 // @Security BearerAuth
 // @Tags Tiền Tệ
 // @Accept json
 // @Produce json
-// @Success 200 {object} object "Tìm Loại Tiền Tệ Thành Công"
-// @Router /v1/currencies [get]
-func FindAllCurrencies(db *gorm.DB) gin.HandlerFunc {
+// @Param id path string true "Curency id"
+// @Success 200 {object} object "Tìm Tiền Tệ Theo ID Thành Công"
+// @Router /v1/currencies/{id} [put]
+func FindCurrencyByIdHandler(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
+		id := context.Param("id")
 		//storage
 		store := storage.NewSQLStore(db)
 		//calculate business
-		business := business.NewFindCurrenciesBiz(store)
-		listCurrencies, err := business.FindCurrencies()
+		business := business.NewFindCurrencyByIdBiz(store)
+		currency, err := business.FindCurrencyById(id)
 		if err != nil {
 			context.JSON(http.StatusBadRequest, err)
 			return
 		}
 		context.JSON(http.StatusOK, gin.H{
 			"message": "Successfully",
-			"data":    listCurrencies,
+			"data":    currency,
 		})
 	}
 }
