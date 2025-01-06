@@ -250,6 +250,43 @@ const docTemplate = `{
                     }
                 }
             },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập nhật Tiền Tệ",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tiền Tệ"
+                ],
+                "summary": "Cập nhật Tiền Tệ",
+                "parameters": [
+                    {
+                        "description": "Curency data",
+                        "name": "currency",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CurencyType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật Tiền Tệ Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -665,6 +702,23 @@ const docTemplate = `{
                 },
                 "image_url": {
                     "type": "string"
+                }
+            }
+        },
+        "model.CurencyType": {
+            "type": "object",
+            "properties": {
+                "currency_code": {
+                    "type": "string"
+                },
+                "currency_id": {
+                    "type": "string"
+                },
+                "currency_name": {
+                    "type": "string"
+                },
+                "exchange_rate": {
+                    "type": "number"
                 }
             }
         },

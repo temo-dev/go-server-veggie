@@ -44,7 +44,7 @@ func CreateNewSupllier(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 		context.JSON(http.StatusOK, gin.H{
-			"message": "create supplier successfully",
+			"message": "Successfully",
 		})
 	}
 }

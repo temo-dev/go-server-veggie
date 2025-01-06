@@ -39,6 +39,17 @@ definitions:
     - category_name_vn
     - dph
     type: object
+  model.CurencyType:
+    properties:
+      currency_code:
+        type: string
+      currency_id:
+        type: string
+      currency_name:
+        type: string
+      exchange_rate:
+        type: number
+    type: object
   model.CurrencyCreationType:
     properties:
       currency_code:
@@ -306,6 +317,29 @@ paths:
       security:
       - BearerAuth: []
       summary: Tạo Tiền Tệ
+      tags:
+      - Tiền Tệ
+    put:
+      consumes:
+      - application/json
+      description: Cập nhật Tiền Tệ
+      parameters:
+      - description: Curency data
+        in: body
+        name: currency
+        required: true
+        schema:
+          $ref: '#/definitions/model.CurencyType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cập nhật Tiền Tệ Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cập nhật Tiền Tệ
       tags:
       - Tiền Tệ
   /v1/currencies/{id}:

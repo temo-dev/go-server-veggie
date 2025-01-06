@@ -21,6 +21,8 @@ func CurrencyRoutes(router *gin.Engine, db *gorm.DB) {
 			currencies.PUT("/:id", middlewareToken.TokenMiddleware(db), ginCurrency.FindCurrencyByIdHandler(db))
 			//Delete currency by id
 			currencies.DELETE("/:id", middlewareToken.TokenMiddleware(db), ginCurrency.DeleteCurrencyByIdHandler(db))
+			//Update old currency
+			currencies.PUT("/", middlewareToken.TokenMiddleware(db), ginCurrency.UpdateCurrencyHandler(db))
 		}
 	}
 }
