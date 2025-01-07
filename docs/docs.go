@@ -796,8 +796,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "category_name_eng",
-                "category_name_vn",
-                "dph"
+                "category_name_vn"
             ],
             "properties": {
                 "category_name_eng": {
@@ -805,9 +804,6 @@ const docTemplate = `{
                 },
                 "category_name_vn": {
                     "type": "string"
-                },
-                "dph": {
-                    "type": "integer"
                 },
                 "image_url": {
                     "type": "string"
@@ -819,8 +815,7 @@ const docTemplate = `{
             "required": [
                 "category_id",
                 "category_name_eng",
-                "category_name_vn",
-                "dph"
+                "category_name_vn"
             ],
             "properties": {
                 "category_id": {
@@ -831,9 +826,6 @@ const docTemplate = `{
                 },
                 "category_name_vn": {
                     "type": "string"
-                },
-                "dph": {
-                    "type": "integer"
                 },
                 "image_url": {
                     "type": "string"

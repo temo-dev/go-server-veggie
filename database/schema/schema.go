@@ -41,17 +41,27 @@ type RolePermission struct {
 	PermissionID     string `gorm:"type:uuid;not null"`
 }
 
-//========== product ===============
-
+// ========== product ===============
 type Category struct {
-	CategoryID      string    `gorm:"type:uuid;primaryKey"`
-	CategoryNameVN  string    `gorm:"type:varchar;unique;not null"`
-	CategoryNameENG string    `gorm:"type:varchar;unique;not null"`
-	CategoryNameDE  string    `gorm:"type:varchar;unique;not null"`
-	CategoryNameTH  string    `gorm:"type:varchar;unique;not null"`
-	ImageURL        string    `gorm:"type:varchar"`
-	Dph             int32     `gorm:"type:integer;not null"`
-	Products        []Product `gorm:"foreignKey:CategoryID"`
+	CategoryID      string        `gorm:"type:uuid;primaryKey"`
+	CategoryNameVN  string        `gorm:"type:varchar;unique;not null"`
+	CategoryNameENG string        `gorm:"type:varchar;unique;not null"`
+	CategoryNameDE  string        `gorm:"type:varchar;unique;not null"`
+	CategoryNameTH  string        `gorm:"type:varchar;unique;not null"`
+	ImageURL        string        `gorm:"type:varchar"`
+	SubCategories   []SubCategory `gorm:"foreignKey:CategoryID"`
+}
+
+type SubCategory struct {
+	SubCategoryID      string    `gorm:"type:uuid;primaryKey"`
+	SubCategoryNameVN  string    `gorm:"type:varchar;unique;not null"`
+	SubCategoryNameENG string    `gorm:"type:varchar;unique;not null"`
+	SubCategoryNameDE  string    `gorm:"type:varchar;unique;not null"`
+	SubCategoryNameTH  string    `gorm:"type:varchar;unique;not null"`
+	ImageURL           string    `gorm:"type:varchar"`
+	Dph                int32     `gorm:"type:integer;not null"`
+	CategoryID         string    `gorm:"type:uuid;not null"`
+	Products           []Product `gorm:"foreignKey:CategoryID"`
 }
 
 type InStockProduct struct {

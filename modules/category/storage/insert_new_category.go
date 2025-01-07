@@ -14,7 +14,6 @@ func (s *sqlStore) InsertNewCategory(data *model.CategoryCreationType) error {
 		CategoryID:      id,
 		CategoryNameVN:  data.CategoryNameVN,
 		CategoryNameENG: data.CategoryNameENG,
-		Dph:             data.Dph,
 		ImageURL:        data.ImageURL,
 	}
 	tx := s.db.Begin()

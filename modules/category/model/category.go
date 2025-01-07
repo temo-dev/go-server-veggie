@@ -16,7 +16,6 @@ var (
 type CategoryCreationType struct {
 	CategoryNameVN  string `json:"category_name_vn" validate:"required"`
 	CategoryNameENG string `json:"category_name_eng" validate:"required"`
-	Dph             int32  `json:"dph" validate:"required"`
 	ImageURL        string `json:"image_url"`
 }
 
@@ -26,5 +25,4 @@ type CategoryType struct {
 	CategoryNameVN  string `json:"category_name_vn" validate:"required"`
 	CategoryNameENG string `json:"category_name_eng" validate:"required"`
 	ImageURL        string `json:"image_url"`
-	Dph             int32  `json:"dph" validate:"required"`
 }

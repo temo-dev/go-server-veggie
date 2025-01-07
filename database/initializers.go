@@ -25,27 +25,27 @@ func Initializers() *gorm.DB {
 
 	// Tạo kiểu ENUM nếu chưa tồn tại
 	err = db.Exec(`
-        DO $$ BEGIN
-            IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'season_enum') THEN
-                CREATE TYPE season_enum AS ENUM ('spring', 'summer', 'autumn','winter','all');
-            END IF;
+	    DO $$ BEGIN
+	        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'season_enum') THEN
+	            CREATE TYPE season_enum AS ENUM ('spring', 'summer', 'autumn','winter','all');
+	        END IF;
 			IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'status_enum') THEN
-                CREATE TYPE status_enum AS ENUM ('active','inactive');
-            END IF;
+	            CREATE TYPE status_enum AS ENUM ('active','inactive');
+	        END IF;
 			IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'status_product_enum') THEN
-                CREATE TYPE status_product_enum AS ENUM ('available','unavailable','expired','promotion','pending');
-            END IF;
+	            CREATE TYPE status_product_enum AS ENUM ('available','unavailable','expired','promotion','pending');
+	        END IF;
 			IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'container_type_enum') THEN
-                CREATE TYPE container_type_enum AS ENUM ('dry container','reefer container','special container');
-            END IF;
+	            CREATE TYPE container_type_enum AS ENUM ('dry container','reefer container','special container');
+	        END IF;
 			IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'length_enum') THEN
-                CREATE TYPE length_enum AS ENUM ('cm','inch');
-            END IF;
+	            CREATE TYPE length_enum AS ENUM ('cm','inch');
+	        END IF;
 			IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'container_size_enum') THEN
-                CREATE TYPE container_size_enum AS ENUM ('20ft','40ft','40ft hc','20ft hc');
-            END IF;
-        END $$;
-    `).Error
+	            CREATE TYPE container_size_enum AS ENUM ('20ft','40ft','40ft hc','20ft hc');
+	        END IF;
+	    END $$;
+	`).Error
 	if err != nil {
 		log.Fatal("Failed to create ENUM type:", err)
 	}
@@ -58,6 +58,7 @@ func Initializers() *gorm.DB {
 		&schema.Permission{},
 		&schema.RolePermission{},
 		&schema.Category{},
+		&schema.SubCategory{},
 		&schema.AttitudeProductSize{},
 		&schema.AttitudeProductPackage{},
 		&schema.AttitudeContainer{},

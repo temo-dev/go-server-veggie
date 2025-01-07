@@ -12,14 +12,11 @@ definitions:
         type: string
       category_name_vn:
         type: string
-      dph:
-        type: integer
       image_url:
         type: string
     required:
     - category_name_eng
     - category_name_vn
-    - dph
     type: object
   model.CategoryType:
     properties:
@@ -29,15 +26,12 @@ definitions:
         type: string
       category_name_vn:
         type: string
-      dph:
-        type: integer
       image_url:
         type: string
     required:
     - category_id
     - category_name_eng
     - category_name_vn
-    - dph
     type: object
   model.CurencyType:
     properties:

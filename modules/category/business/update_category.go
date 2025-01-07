@@ -55,8 +55,5 @@ func getUpdatedFields(oldCategory *model.CategoryType, newCategory *model.Catego
 	if oldCategory.ImageURL != newCategory.ImageURL {
 		updates["ImageURL"] = newCategory.ImageURL
 	}
-	if oldCategory.Dph != newCategory.Dph {
-		updates["Dph"] = newCategory.Dph
-	}
 	return updates
 }
