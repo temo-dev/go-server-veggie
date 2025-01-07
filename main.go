@@ -46,6 +46,7 @@ func main() {
 	api.ProductRoutes(router, db)
 	api.CategoryRoutes(router, db)
 	api.CurrencyRoutes(router, db)
+	api.SupplierRoutes(router, db)
 	// server run
 	router.Run(":8080")
 }

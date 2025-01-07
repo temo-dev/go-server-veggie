@@ -96,17 +96,40 @@ definitions:
     type: object
   model.SupplierCreationType:
     properties:
-      currencyID:
+      currency_id:
         type: string
       description:
+        type: string
+      supplier_code:
         type: string
       supplier_name:
         type: string
       tax_id:
         type: string
     required:
+    - currency_id
+    - supplier_code
     - supplier_name
     - tax_id
+    type: object
+  model.SupplierType:
+    properties:
+      currency_id:
+        type: string
+      description:
+        type: string
+      outstanding_balance:
+        type: number
+      status:
+        type: string
+      supplier_code:
+        type: string
+      supplier_id:
+        type: string
+      supplier_name:
+        type: string
+      tax_id:
+        type: string
     type: object
   model.UserCreationType:
     properties:
@@ -412,6 +435,22 @@ paths:
       tags:
       - Sản Phẩm
   /v1/supplier:
+    get:
+      consumes:
+      - application/json
+      description: Tìm tất cả Nhà Cung Cấp
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tìm tất cả Nhà Cung Cấp Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Tìm tất cả Nhà Cung Cấp
+      tags:
+      - Nhà Cung Cấp
     post:
       consumes:
       - application/json
@@ -433,6 +472,74 @@ paths:
       security:
       - BearerAuth: []
       summary: Tạo Nhà Cung Cấp
+      tags:
+      - Nhà Cung Cấp
+    put:
+      consumes:
+      - application/json
+      description: Cập Nhật Nhà Cung Cấp
+      parameters:
+      - description: supplier data
+        in: body
+        name: supplier
+        required: true
+        schema:
+          $ref: '#/definitions/model.SupplierType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cập Nhật Nhà Cung Cấp Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cập Nhật Nhà Cung Cấp
+      tags:
+      - Nhà Cung Cấp
+  /v1/supplier/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Xóa Nhà Cung Cấp Theo ID
+      parameters:
+      - description: supplier data
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Xóa Nhà Cung Cấp Theo ID Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Xóa Nhà Cung Cấp Theo ID
+      tags:
+      - Nhà Cung Cấp
+    put:
+      consumes:
+      - application/json
+      description: Cập Nhật Nhà Cung Cấp Theo ID
+      parameters:
+      - description: supplier data
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cập Nhật Nhà Cung Cấp Theo ID Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cập Nhật Nhà Cung Cấp Theo ID
       tags:
       - Nhà Cung Cấp
   /v1/users:

@@ -429,6 +429,69 @@
             }
         },
         "/v1/supplier": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm tất cả Nhà Cung Cấp",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nhà Cung Cấp"
+                ],
+                "summary": "Tìm tất cả Nhà Cung Cấp",
+                "responses": {
+                    "200": {
+                        "description": "Tìm tất cả Nhà Cung Cấp Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập Nhật Nhà Cung Cấp",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nhà Cung Cấp"
+                ],
+                "summary": "Cập Nhật Nhà Cung Cấp",
+                "parameters": [
+                    {
+                        "description": "supplier data",
+                        "name": "supplier",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SupplierType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập Nhật Nhà Cung Cấp Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -460,6 +523,78 @@
                 "responses": {
                     "200": {
                         "description": "Tạo Nhà Cung Cấp Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/supplier/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập Nhật Nhà Cung Cấp Theo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nhà Cung Cấp"
+                ],
+                "summary": "Cập Nhật Nhà Cung Cấp Theo ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "supplier data",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập Nhật Nhà Cung Cấp Theo ID Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa Nhà Cung Cấp Theo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nhà Cung Cấp"
+                ],
+                "summary": "Xóa Nhà Cung Cấp Theo ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "supplier data",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa Nhà Cung Cấp Theo ID Thành Công",
                         "schema": {
                             "type": "object"
                         }
@@ -782,14 +917,48 @@
         "model.SupplierCreationType": {
             "type": "object",
             "required": [
+                "currency_id",
+                "supplier_code",
                 "supplier_name",
                 "tax_id"
             ],
             "properties": {
-                "currencyID": {
+                "currency_id": {
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "supplier_code": {
+                    "type": "string"
+                },
+                "supplier_name": {
+                    "type": "string"
+                },
+                "tax_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SupplierType": {
+            "type": "object",
+            "properties": {
+                "currency_id": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "outstanding_balance": {
+                    "type": "number"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "supplier_code": {
+                    "type": "string"
+                },
+                "supplier_id": {
                     "type": "string"
                 },
                 "supplier_name": {

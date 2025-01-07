@@ -47,54 +47,115 @@ type Category struct {
 	CategoryID      string    `gorm:"type:uuid;primaryKey"`
 	CategoryNameVN  string    `gorm:"type:varchar;unique;not null"`
 	CategoryNameENG string    `gorm:"type:varchar;unique;not null"`
+	CategoryNameDE  string    `gorm:"type:varchar;unique;not null"`
+	CategoryNameTH  string    `gorm:"type:varchar;unique;not null"`
 	ImageURL        string    `gorm:"type:varchar"`
 	Dph             int32     `gorm:"type:integer;not null"`
 	Products        []Product `gorm:"foreignKey:CategoryID"`
 }
 
 type InStockProduct struct {
-	InStockProductID string    `gorm:"type:uuid;primaryKey"`
-	Quantity         int       `gorm:"type:int;not null"`
-	ProductID        string    `gorm:"type:uuid;not null"`
-	SupplierID       string    `gorm:"type:uuid;not null"`
-	EanCode          string    `gorm:"type:varchar;unique;not null"`
-	EanCodeBox       string    `gorm:"type:varchar;unique;not null"`
-	CreatedAt        time.Time `gorm:"autoCreateTime"`
-	UpdatedAt        time.Time `gorm:"autoUpdateTime"`
+	InStockProductID   string    `gorm:"type:uuid;primaryKey"`
+	Quantity           int       `gorm:"type:int;not null"`
+	ProductID          string    `gorm:"type:uuid;not null"`
+	SupplierID         string    `gorm:"type:uuid;not null"`
+	EanCode            string    `gorm:"type:varchar;unique;not null"`
+	EanCodeBox         string    `gorm:"type:varchar;unique;not null"`
+	LeadTime           int       `gorm:"type:int;not null"`
+	CountryOfOrigin    string    `gorm:"type:varchar"`
+	CountrySubOfOrigin string    `gorm:"type:varchar"`
+	ExpiryDate         time.Time `gorm:"type:date;not null"`
+	CreatedAt          time.Time `gorm:"autoCreateTime"`
+	UpdatedAt          time.Time `gorm:"autoUpdateTime"`
 }
 
 type Product struct {
-	ProductID       string           `gorm:"type:uuid;primaryKey"`
-	ProductNameVN   string           `gorm:"type:varchar;not null"`
-	ProductNameENG  string           `gorm:"type:varchar;not null"`
-	ProductCode     string           `gorm:"type:varchar;not null;unique"`
-	Dph             int32            `gorm:"type:integer"`
-	Description     string           `gorm:"type:varchar"`
-	ImageURL        string           `gorm:"type:varchar"`
-	Status          string           `gorm:"type:status_product_enum;default:'available'"`
-	Suppliers       []Supplier       `gorm:"many2many:supplier_products;"`
-	CategoryID      string           `gorm:"type:uuid;not null"`
-	PurchasePrices  []PurchasePrice  `gorm:"foreignKey:ProductID"`
-	SalesPrices     []SalesPrice     `gorm:"foreignKey:ProductID"`
-	InStockProducts []InStockProduct `gorm:"foreignKey:ProductID"`
-	CreatedAt       time.Time        `gorm:"autoCreateTime"`
-	UpdatedAt       time.Time        `gorm:"autoUpdateTime"`
+	ProductID                string           `gorm:"type:uuid;primaryKey"`
+	ProductNameVN            string           `gorm:"type:varchar;not null"`
+	ProductNameENG           string           `gorm:"type:varchar;not null"`
+	ProductNameDE            string           `gorm:"type:varchar;not null"`
+	ProductNameTH            string           `gorm:"type:varchar;not null"`
+	ProductCode              string           `gorm:"type:varchar;not null;unique"`
+	Dph                      int32            `gorm:"type:integer"`
+	Description              string           `gorm:"type:varchar"`
+	ImageURL                 string           `gorm:"type:varchar"`
+	Status                   string           `gorm:"type:status_product_enum;default:'available'"`
+	CategoryID               string           `gorm:"type:uuid;not null"`
+	MinimumOrderQuantity     int              `gorm:"type:int;default:100"`
+	MaximumOrderQuantity     int              `gorm:"type:int;default:1000"`
+	ReorderLevel             int              `gorm:"type:int;default:100"`
+	IsStackability           bool             `gorm:"type:boolean;default:true"`
+	TemperatureRequirement   float64          `gorm:"type:decimal(10,2);default:0.0"`
+	IsFragility              bool             `gorm:"type:boolean;default:false"`
+	ShelfLife                int              `gorm:"type:int;not null"`
+	Note                     string           `gorm:"type:varchar"`
+	Season                   string           `gorm:"type:season_enum"`
+	IsPublished              bool             `gorm:"type:boolean;default:false"`
+	PublishedAt              time.Time        `gorm:"type:date"`
+	PreOrder                 time.Time        `gorm:"type:date;not null"`
+	AttitudeProductSizeID    string           `gorm:"type:uuid"`
+	AttitudeProductPackageID string           `gorm:"type:uuid"`
+	PurchasePrices           []PurchasePrice  `gorm:"foreignKey:ProductID"`
+	SalesPrices              []SalesPrice     `gorm:"foreignKey:ProductID"`
+	InStockProducts          []InStockProduct `gorm:"foreignKey:ProductID"`
+	Suppliers                []Supplier       `gorm:"many2many:supplier_products;"`
+	CreatedAt                time.Time        `gorm:"autoCreateTime"`
+	UpdatedAt                time.Time        `gorm:"autoUpdateTime"`
+}
+
+type AttitudeProductSize struct {
+	AttitudeProductSizeID   string    `gorm:"type:uuid;primaryKey"`
+	AttitudeProductSizeCode string    `gorm:"type:varchar;unique;not null"`
+	Length                  string    `gorm:"type:length_enum;default:'cm'"`
+	Width                   float64   `gorm:"type:decimal(10,2)"`
+	Height                  float64   `gorm:"type:decimal(10,2)"`
+	NetWeight               float64   `gorm:"type:decimal(10,2);not null"`
+	GrossWeight             float64   `gorm:"type:decimal(10,2);not null"`
+	Cubic                   float64   `gorm:"type:decimal(10,2);not null"`
+	Products                []Product `gorm:"foreignKey:AttitudeProductSizeID"`
+}
+
+type AttitudeProductPackage struct {
+	AttitudeProductPackageID   string    `gorm:"type:uuid;primaryKey"`
+	AttitudeProductPackageCode string    `gorm:"type:varchar;unique;not null"`
+	PackageLength              string    `gorm:"type:length_enum;default:'cm'"`
+	PackageWidth               float64   `gorm:"type:decimal(10,2);not null"`
+	PackageHeight              float64   `gorm:"type:decimal(10,2);not null"`
+	PackageNetWeight           float64   `gorm:"type:decimal(10,2);not null"`
+	PackageGrossWeight         float64   `gorm:"type:decimal(10,2);not null"`
+	PackageCubic               float64   `gorm:"type:decimal(10,2);not null"`
+	UnitsPerBox                int       `gorm:"type:int;not null"`
+	Products                   []Product `gorm:"foreignKey:AttitudeProductPackageID"`
+}
+
+type AttitudeContainer struct {
+	AttitudeContainerID string  `gorm:"type:uuid;primaryKey"`
+	ContainerType       string  `gorm:"type:container_type_enum;default:'dry container'"`
+	ConatinerSize       string  `gorm:"type:container_size_enum;default:'20ft'"`
+	ConatinerWidth      float64 `gorm:"type:decimal(10,2);not null"`
+	ConatinerHeight     float64 `gorm:"type:decimal(10,2);not null"`
+	ConatinerLength     float64 `gorm:"type:decimal(10,2);not null"`
+	ConatinerCubic      float64 `gorm:"type:decimal(10,2);not null"`
 }
 
 // ================= supplier ================
 type Supplier struct {
 	SupplierID         string          `gorm:"type:uuid;primaryKey"`
 	SupplierName       string          `gorm:"type:varchar;not null"`
+	SupplierCode       string          `gorm:"type:varchar;unique;not null"`
 	TaxID              string          `gorm:"type:varchar;unique;not null"`
 	CurrencyID         string          `gorm:"type:uuid;not null"`
 	Description        string          `gorm:"type:varchar"`
+	ContactInfo        string          `gorm:"type:varchar"`
+	EmailPurchase      string          `gorm:"type:varchar;unique;not null"`
+	Note               string          `gorm:"type:varchar"`
+	Rate               float64         `gorm:"type:decimal(1,2);default:1.0"`
 	OutstandingBalance float64         `gorm:"type:decimal(10,2);default:0.0"`
 	Status             string          `gorm:"type:varchar;default:'active'"`
 	PurchasePrices     []PurchasePrice `gorm:"foreignKey:SupplierID"`
 	Invoices           []Invoice       `gorm:"foreignKey:SupplierID"`
 	Products           []Product       `gorm:"many2many:supplier_products;"`
-	CustomerRefer      string          `gorm:"type:uuid"`
-	Customer           Customer        `gorm:"foreignKey:CustomerRefer"`
+	DurationPakage     time.Time       `gorm:"type:date;default:0"`
 	CreatedAt          time.Time       `gorm:"autoCreateTime"`
 	UpdatedAt          time.Time       `gorm:"autoUpdateTime"`
 }
@@ -123,6 +184,9 @@ type Customer struct {
 	CustomerName        string    `gorm:"type:varchar;not null"`
 	TaxID               string    `gorm:"type:varchar;unique"`
 	ContactInfo         string    `gorm:"type:varchar"`
+	EmailSales          string    `gorm:"type:varchar;unique"`
+	Note                string    `gorm:"type:varchar"`
+	Rate                float64   `gorm:"type:decimal(1,2);default:1.0"`
 	TotalPurchaseAmount float64   `gorm:"type:decimal(10,2);default:0.0"`
 	ZoneID              string    `gorm:"type:uuid;not null"`
 	CurrencyID          string    `gorm:"type:uuid;not null"`

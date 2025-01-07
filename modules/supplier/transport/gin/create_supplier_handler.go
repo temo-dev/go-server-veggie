@@ -21,7 +21,7 @@ import (
 // @Produce json
 // @Param supplier body model.SupplierCreationType true "supplier"
 // @Success 200 {object} object "Tạo Nhà Cung Cấp Thành Công"
-// @Router /v1/supplier [post]“
+// @Router /v1/supplier [post]
 func CreateNewSupllier(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		var data *model.SupplierCreationType
@@ -38,9 +38,7 @@ func CreateNewSupllier(db *gorm.DB) gin.HandlerFunc {
 		//calculate business
 		business := business.NewCreateSupplierBiz(store)
 		if err := business.CreateNewSupplier(data); err != nil {
-			context.JSON(http.StatusBadRequest, gin.H{
-				"message": "create supplier failed",
-			})
+			context.JSON(http.StatusBadRequest, err)
 			return
 		}
 		context.JSON(http.StatusOK, gin.H{
