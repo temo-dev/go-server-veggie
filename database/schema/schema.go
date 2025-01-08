@@ -104,10 +104,10 @@ type Supplier struct {
 
 type Brand struct {
 	BrandID     string     `gorm:"type:uuid;primaryKey"`
-	BrandName   string     `gorm:"type:varchar;not null"`
+	BrandName   string     `gorm:"type:varchar;unique;not null"`
 	Description string     `gorm:"type:varchar"`
 	Products    []Product  `gorm:"foreignKey:BrandID"`
-	Suppliers   []Supplier `gorm:"many2many:supplier_brands;"`
+	Suppliers   []Supplier `gorm:"many2many:supplier_brands;"` // many to many
 }
 
 type SupplierBrand struct {
@@ -149,8 +149,8 @@ type Product struct {
 	PurchasePrices           []PurchasePrice  `gorm:"foreignKey:ProductID"`
 	SalesPrices              []SalesPrice     `gorm:"foreignKey:ProductID"`
 	InStockProducts          []InStockProduct `gorm:"foreignKey:ProductID"`
-	Suppliers                []Supplier       `gorm:"many2many:supplier_products;"`
-	Products                 []Product        `gorm:"many2many:promotion_products;"`
+	Suppliers                []Supplier       `gorm:"many2many:supplier_products;"`  // many to many
+	Products                 []Product        `gorm:"many2many:promotion_products;"` // many to many
 	BrandID                  string           `gorm:"type:uuid"`
 	CreatedAt                time.Time        `gorm:"autoCreateTime"`
 	UpdatedAt                time.Time        `gorm:"autoUpdateTime"`
@@ -271,7 +271,7 @@ type Invoice struct {
 	Amount               float64               `gorm:"type:decimal(10,2);not null"`
 	ImageURL             string                `gorm:"type:varchar;not null"`
 	SupplierID           string                `gorm:"type:uuid;not null"`
-	PurchaseTransactions []PurchaseTransaction `gorm:"many2many:purchase_transaction_invoices;"`
+	PurchaseTransactions []PurchaseTransaction `gorm:"many2many:purchase_transaction_invoices;"` // many to many
 	CreatedAt            time.Time             `gorm:"autoCreateTime"`
 	UpdatedAt            time.Time             `gorm:"autoUpdateTime"`
 }
@@ -282,7 +282,7 @@ type PurchaseTransaction struct {
 	TransferNumber        string    `gorm:"type:varchar;not null"`
 	Amount                float64   `gorm:"type:decimal(10,2); not null"`
 	Description           string    `gorm:"type:varchar"`
-	Invoices              []Invoice `gorm:"many2many:purchase_transaction_invoices;"`
+	Invoices              []Invoice `gorm:"many2many:purchase_transaction_invoices;"` // many to many
 	ImageURL              string    `gorm:"type:varchar;not null"`
 	CreatedAt             time.Time `gorm:"autoCreateTime"`
 	UpdatedAt             time.Time `gorm:"autoUpdateTime"`
@@ -300,7 +300,7 @@ type Promotion struct {
 	StartDate   time.Time `gorm:"type:date;not null"`
 	EndDate     time.Time `gorm:"type:date;not null"`
 	Discount    float64   `gorm:"type:decimal(10,2);not null"`
-	Products    []Product `gorm:"many2many:promotion_products;"`
+	Products    []Product `gorm:"many2many:promotion_products;"` // many to many
 }
 
 type PromotionProduct struct {

@@ -40,6 +40,7 @@ func (biz *updateCurrencyBiz) UpdateCurrency(newCurrency *model.CurencyType) (*m
 	}
 	return newCurrencyUpdated, nil
 }
+
 func getUpdatedFields(oldCurrency *model.CurencyType, newCurrency *model.CurencyType) map[string]interface{} {
 	updates := make(map[string]interface{})
 	if oldCurrency.CurrencyID == newCurrency.CurrencyID {

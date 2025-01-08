@@ -49,6 +49,180 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/brands": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm tất cả Thương Hiệu",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Thương Hiệu"
+                ],
+                "summary": "Tìm tất cả Thương Hiệu",
+                "responses": {
+                    "200": {
+                        "description": "Tìm tất cả Thương Hiệu Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập nhật Thương Hiệu",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Thương Hiệu"
+                ],
+                "summary": "Cập nhật Thương Hiệu",
+                "parameters": [
+                    {
+                        "description": "Brand data",
+                        "name": "currency",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.BrandType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật Thương Hiệu Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tạo Thương Hiệu",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Thương Hiệu"
+                ],
+                "summary": "Tạo Thương Hiệu",
+                "parameters": [
+                    {
+                        "description": "Brand data",
+                        "name": "brand",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.BrandCreationtype"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Thương Hiệu Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/brands/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Thương Hiệu theo id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Thương Hiệu"
+                ],
+                "summary": "Tìm Thương Hiệu theo id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Brand data",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tìm Thương Hiệu theo id Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa Thương Hiệu theo id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Thương Hiệu"
+                ],
+                "summary": "Xóa Thương Hiệu theo id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Brand data",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa Thương Hiệu theo id Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/categories": {
             "get": {
                 "security": [
@@ -545,7 +719,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Cập Nhật Nhà Cung Cấp Theo ID",
+                "description": "Tìm Nhà Cung Cấp Theo ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -555,7 +729,7 @@ const docTemplate = `{
                 "tags": [
                     "Nhà Cung Cấp"
                 ],
-                "summary": "Cập Nhật Nhà Cung Cấp Theo ID",
+                "summary": "Tìm Nhà Cung Cấp Theo ID",
                 "parameters": [
                     {
                         "type": "string",
@@ -567,7 +741,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Cập Nhật Nhà Cung Cấp Theo ID Thành Công",
+                        "description": "Tìm Nhà Cung Cấp Theo ID Thành Công",
                         "schema": {
                             "type": "object"
                         }
@@ -788,6 +962,34 @@ const docTemplate = `{
                     "$ref": "#/definitions/model.UserResponse"
                 },
                 "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.BrandCreationtype": {
+            "type": "object",
+            "required": [
+                "brand_name"
+            ],
+            "properties": {
+                "brand_name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.BrandType": {
+            "type": "object",
+            "properties": {
+                "brand_id": {
+                    "type": "string"
+                },
+                "brand_name": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 }
             }

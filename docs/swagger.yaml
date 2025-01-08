@@ -6,6 +6,24 @@ definitions:
       token:
         type: string
     type: object
+  model.BrandCreationtype:
+    properties:
+      brand_name:
+        type: string
+      description:
+        type: string
+    required:
+    - brand_name
+    type: object
+  model.BrandType:
+    properties:
+      brand_id:
+        type: string
+      brand_name:
+        type: string
+      description:
+        type: string
+    type: object
   model.CategoryCreationType:
     properties:
       category_name_eng:
@@ -188,6 +206,114 @@ paths:
       summary: Đăng Nhập Tài Khoản
       tags:
       - Authorization
+  /v1/brands:
+    get:
+      consumes:
+      - application/json
+      description: Tìm tất cả Thương Hiệu
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tìm tất cả Thương Hiệu Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Tìm tất cả Thương Hiệu
+      tags:
+      - Thương Hiệu
+    post:
+      consumes:
+      - application/json
+      description: Tạo Thương Hiệu
+      parameters:
+      - description: Brand data
+        in: body
+        name: brand
+        required: true
+        schema:
+          $ref: '#/definitions/model.BrandCreationtype'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tạo Thương Hiệu Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Tạo Thương Hiệu
+      tags:
+      - Thương Hiệu
+    put:
+      consumes:
+      - application/json
+      description: Cập nhật Thương Hiệu
+      parameters:
+      - description: Brand data
+        in: body
+        name: currency
+        required: true
+        schema:
+          $ref: '#/definitions/model.BrandType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cập nhật Thương Hiệu Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Cập nhật Thương Hiệu
+      tags:
+      - Thương Hiệu
+  /v1/brands/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Xóa Thương Hiệu theo id
+      parameters:
+      - description: Brand data
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Xóa Thương Hiệu theo id Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Xóa Thương Hiệu theo id
+      tags:
+      - Thương Hiệu
+    put:
+      consumes:
+      - application/json
+      description: Tìm Thương Hiệu theo id
+      parameters:
+      - description: Brand data
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tìm Thương Hiệu theo id Thành Công
+          schema:
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Tìm Thương Hiệu theo id
+      tags:
+      - Thương Hiệu
   /v1/categories:
     get:
       consumes:
@@ -517,7 +643,7 @@ paths:
     put:
       consumes:
       - application/json
-      description: Cập Nhật Nhà Cung Cấp Theo ID
+      description: Tìm Nhà Cung Cấp Theo ID
       parameters:
       - description: supplier data
         in: path
@@ -528,12 +654,12 @@ paths:
       - application/json
       responses:
         "200":
-          description: Cập Nhật Nhà Cung Cấp Theo ID Thành Công
+          description: Tìm Nhà Cung Cấp Theo ID Thành Công
           schema:
             type: object
       security:
       - BearerAuth: []
-      summary: Cập Nhật Nhà Cung Cấp Theo ID
+      summary: Tìm Nhà Cung Cấp Theo ID
       tags:
       - Nhà Cung Cấp
   /v1/users:

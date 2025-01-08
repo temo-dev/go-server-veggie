@@ -9,15 +9,15 @@ import (
 	"gorm.io/gorm"
 )
 
-// UpdateSupplier godoc
-// @Summary Cập Nhật Nhà Cung Cấp Theo ID
-// @Description Cập Nhật Nhà Cung Cấp Theo ID
+// FindSupplierById godoc
+// @Summary Tìm Nhà Cung Cấp Theo ID
+// @Description Tìm Nhà Cung Cấp Theo ID
 // @Security BearerAuth
 // @Tags Nhà Cung Cấp
 // @Accept json
 // @Produce json
 // @Param id path string true "supplier data"
-// @Success 200 {object} object "Cập Nhật Nhà Cung Cấp Theo ID Thành Công"
+// @Success 200 {object} object "Tìm Nhà Cung Cấp Theo ID Thành Công"
 // @Router /v1/supplier/{id} [put]
 func FindSupplierByIdHandler(db *gorm.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
