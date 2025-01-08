@@ -63,9 +63,11 @@ func Initializers() *gorm.DB {
 		&schema.AttitudeProductPackage{},
 		&schema.AttitudeContainer{},
 		&schema.InStockProduct{},
-		&schema.Product{},
 		&schema.Supplier{},
+		&schema.Brand{},
+		&schema.SupplierBrand{},
 		&schema.SupplierProduct{},
+		&schema.Product{},
 		&schema.Customer{},
 		&schema.ZonePrice{},
 		&schema.PurchasePrice{},
@@ -73,6 +75,8 @@ func Initializers() *gorm.DB {
 		&schema.Invoice{},
 		&schema.PurchaseTransaction{},
 		&schema.PurchaseTransactionInvoice{},
+		&schema.Promotion{},
+		&schema.PromotionProduct{},
 	); err != nil {
 		log.Fatalln(err)
 	}
