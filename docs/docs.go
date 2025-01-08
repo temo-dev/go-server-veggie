@@ -610,6 +610,180 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/sub-categories": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Danh Mục Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Danh Mục Sản Phẩm"
+                ],
+                "summary": "Tìm Danh Mục Sản Phẩm",
+                "responses": {
+                    "200": {
+                        "description": "Tìm Danh Mục Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập Nhật Danh Mục Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Danh Mục Sản Phẩm"
+                ],
+                "summary": "Cập Nhật Danh Mục Sản Phẩm",
+                "parameters": [
+                    {
+                        "description": "category data",
+                        "name": "category",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SubCategoryType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập Nhật Danh Mục Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tạo Danh Mục Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Danh Mục Sản Phẩm"
+                ],
+                "summary": "Tạo Danh Mục Sản Phẩm",
+                "parameters": [
+                    {
+                        "description": "sub category data",
+                        "name": "subcategory",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SubCategoryCreationType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Danh Mục Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/sub-categories/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Danh Mục Sản Phẩm Theo Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Danh Mục Sản Phẩm"
+                ],
+                "summary": "Tìm Danh Mục Sản Phẩm Theo Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SubCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tìm Danh Mục Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa Danh Mục Sản Phẩm Theo Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Danh Mục Sản Phẩm"
+                ],
+                "summary": "Xóa Danh Mục Sản Phẩm Theo Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SubCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa Danh Mục Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/supplier": {
             "get": {
                 "security": [
@@ -1128,6 +1302,76 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "product_name_vn": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SubCategoryCreationType": {
+            "type": "object",
+            "required": [
+                "category_id",
+                "sub_category_name_de",
+                "sub_category_name_eng",
+                "sub_category_name_th",
+                "sub_category_name_vn"
+            ],
+            "properties": {
+                "category_id": {
+                    "type": "string"
+                },
+                "dph": {
+                    "type": "integer"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "sub_category_name_de": {
+                    "type": "string"
+                },
+                "sub_category_name_eng": {
+                    "type": "string"
+                },
+                "sub_category_name_th": {
+                    "type": "string"
+                },
+                "sub_category_name_vn": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SubCategoryType": {
+            "type": "object",
+            "required": [
+                "category_id",
+                "sub_category_id",
+                "sub_category_name_de",
+                "sub_category_name_eng",
+                "sub_category_name_th",
+                "sub_category_name_vn"
+            ],
+            "properties": {
+                "category_id": {
+                    "type": "string"
+                },
+                "dph": {
+                    "type": "integer"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "sub_category_id": {
+                    "type": "string"
+                },
+                "sub_category_name_de": {
+                    "type": "string"
+                },
+                "sub_category_name_eng": {
+                    "type": "string"
+                },
+                "sub_category_name_th": {
+                    "type": "string"
+                },
+                "sub_category_name_vn": {
                     "type": "string"
                 }
             }
