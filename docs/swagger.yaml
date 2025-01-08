@@ -26,21 +26,31 @@ definitions:
     type: object
   model.CategoryCreationType:
     properties:
+      category_name_de:
+        type: string
       category_name_eng:
+        type: string
+      category_name_th:
         type: string
       category_name_vn:
         type: string
       image_url:
         type: string
     required:
+    - category_name_de
     - category_name_eng
+    - category_name_th
     - category_name_vn
     type: object
   model.CategoryType:
     properties:
       category_id:
         type: string
+      category_name_de:
+        type: string
       category_name_eng:
+        type: string
+      category_name_th:
         type: string
       category_name_vn:
         type: string
@@ -48,7 +58,9 @@ definitions:
         type: string
     required:
     - category_id
+    - category_name_de
     - category_name_eng
+    - category_name_th
     - category_name_vn
     type: object
   model.CurencyType:
@@ -108,9 +120,15 @@ definitions:
     type: object
   model.SupplierCreationType:
     properties:
+      contact_info:
+        type: string
       currency_id:
         type: string
       description:
+        type: string
+      email_purchase:
+        type: string
+      note:
         type: string
       supplier_code:
         type: string
@@ -120,17 +138,28 @@ definitions:
         type: string
     required:
     - currency_id
+    - email_purchase
     - supplier_code
     - supplier_name
     - tax_id
     type: object
   model.SupplierType:
     properties:
+      contact_info:
+        type: string
       currency_id:
         type: string
       description:
         type: string
+      duration_pakage:
+        type: integer
+      email_purchase:
+        type: string
+      note:
+        type: string
       outstanding_balance:
+        type: number
+      rate:
         type: number
       status:
         type: string
@@ -142,6 +171,8 @@ definitions:
         type: string
       tax_id:
         type: string
+    required:
+    - email_purchase
     type: object
   model.UserCreationType:
     properties:

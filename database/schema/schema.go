@@ -90,13 +90,13 @@ type Supplier struct {
 	ContactInfo        string          `gorm:"type:varchar"`
 	EmailPurchase      string          `gorm:"type:varchar;unique;not null"`
 	Note               string          `gorm:"type:varchar"`
-	Rate               float64         `gorm:"type:decimal(1,2);default:1.0"`
+	Rate               float64         `gorm:"type:decimal(10,2);default:1.0"`
 	OutstandingBalance float64         `gorm:"type:decimal(10,2);default:0.0"`
 	Status             string          `gorm:"type:varchar;default:'active'"`
 	PurchasePrices     []PurchasePrice `gorm:"foreignKey:SupplierID"`
 	Invoices           []Invoice       `gorm:"foreignKey:SupplierID"`
 	Products           []Product       `gorm:"many2many:supplier_products;"` // many to many
-	DurationPakage     time.Time       `gorm:"type:date;default:0"`
+	DurationPakage     int             `gorm:"type:int;default:30"`
 	Suppliers          []Supplier      `gorm:"many2many:supplier_brands;"` // many to many
 	CreatedAt          time.Time       `gorm:"autoCreateTime"`
 	UpdatedAt          time.Time       `gorm:"autoUpdateTime"`
@@ -213,7 +213,7 @@ type Customer struct {
 	ContactInfo         string    `gorm:"type:varchar"`
 	EmailSales          string    `gorm:"type:varchar;unique"`
 	Note                string    `gorm:"type:varchar"`
-	Rate                float64   `gorm:"type:decimal(1,2);default:1.0"`
+	Rate                float64   `gorm:"type:decimal(10,2);default:1.0"`
 	TotalPurchaseAmount float64   `gorm:"type:decimal(10,2);default:0.0"`
 	ZoneID              string    `gorm:"type:uuid;not null"`
 	CurrencyID          string    `gorm:"type:uuid;not null"`

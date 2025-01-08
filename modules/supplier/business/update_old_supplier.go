@@ -63,8 +63,23 @@ func getUpdatedFields(oldSupplier *model.SupplierType, newSupplier *model.Suppli
 	if oldSupplier.OutstandingBalance != newSupplier.OutstandingBalance {
 		updates["OutstandingBalance"] = newSupplier.OutstandingBalance
 	}
+	if oldSupplier.EmailPurchase != newSupplier.EmailPurchase {
+		updates["EmailPurchase"] = newSupplier.EmailPurchase
+	}
+	if oldSupplier.Note != newSupplier.Note {
+		updates["Note"] = newSupplier.Note
+	}
 	if oldSupplier.Status != newSupplier.Status {
 		updates["Status"] = newSupplier.Status
+	}
+	if oldSupplier.DurationPakage != newSupplier.DurationPakage {
+		updates["DurationPakage"] = newSupplier.DurationPakage
+	}
+	if oldSupplier.ContactInfo != newSupplier.ContactInfo {
+		updates["ContactInfo"] = newSupplier.ContactInfo
+	}
+	if oldSupplier.Rate != newSupplier.Rate {
+		updates["Rate"] = newSupplier.Rate
 	}
 	return updates
 }

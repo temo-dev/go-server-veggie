@@ -52,6 +52,12 @@ func getUpdatedFields(oldCategory *model.CategoryType, newCategory *model.Catego
 	if oldCategory.CategoryNameVN != newCategory.CategoryNameVN {
 		updates["CategoryNameVN"] = newCategory.CategoryNameVN
 	}
+	if oldCategory.CategoryNameDE != newCategory.CategoryNameDE {
+		updates["CategoryNameDE"] = newCategory.CategoryNameDE
+	}
+	if oldCategory.CategoryNameTH != newCategory.CategoryNameTH {
+		updates["CategoryNameTH"] = newCategory.CategoryNameTH
+	}
 	if oldCategory.ImageURL != newCategory.ImageURL {
 		updates["ImageURL"] = newCategory.ImageURL
 	}

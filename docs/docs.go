@@ -997,11 +997,19 @@ const docTemplate = `{
         "model.CategoryCreationType": {
             "type": "object",
             "required": [
+                "category_name_de",
                 "category_name_eng",
+                "category_name_th",
                 "category_name_vn"
             ],
             "properties": {
+                "category_name_de": {
+                    "type": "string"
+                },
                 "category_name_eng": {
+                    "type": "string"
+                },
+                "category_name_th": {
                     "type": "string"
                 },
                 "category_name_vn": {
@@ -1016,14 +1024,22 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "category_id",
+                "category_name_de",
                 "category_name_eng",
+                "category_name_th",
                 "category_name_vn"
             ],
             "properties": {
                 "category_id": {
                     "type": "string"
                 },
+                "category_name_de": {
+                    "type": "string"
+                },
                 "category_name_eng": {
+                    "type": "string"
+                },
+                "category_name_th": {
                     "type": "string"
                 },
                 "category_name_vn": {
@@ -1120,15 +1136,25 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "currency_id",
+                "email_purchase",
                 "supplier_code",
                 "supplier_name",
                 "tax_id"
             ],
             "properties": {
+                "contact_info": {
+                    "type": "string"
+                },
                 "currency_id": {
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "email_purchase": {
+                    "type": "string"
+                },
+                "note": {
                     "type": "string"
                 },
                 "supplier_code": {
@@ -1144,14 +1170,32 @@ const docTemplate = `{
         },
         "model.SupplierType": {
             "type": "object",
+            "required": [
+                "email_purchase"
+            ],
             "properties": {
+                "contact_info": {
+                    "type": "string"
+                },
                 "currency_id": {
                     "type": "string"
                 },
                 "description": {
                     "type": "string"
                 },
+                "duration_pakage": {
+                    "type": "integer"
+                },
+                "email_purchase": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
                 "outstanding_balance": {
+                    "type": "number"
+                },
+                "rate": {
                     "type": "number"
                 },
                 "status": {
