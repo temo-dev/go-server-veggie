@@ -16,10 +16,7 @@ func (s *sqlStore) InsertNewAPP(data *model.AttitudeProductPackageCreationType) 
 		PackageLength:              data.PackageLength,
 		PackageWidth:               data.PackageWidth,
 		PackageHeight:              data.PackageHeight,
-		PackageNetWeight:           data.PackageNetWeight,
-		PackageGrossWeight:         data.PackageGrossWeight,
 		PackageCubic:               data.PackageCubic,
-		UnitsPerBox:                data.UnitsPerBox,
 	}
 	tx := s.db.Begin()
 	if err := tx.Create(&att).Error; err != nil {

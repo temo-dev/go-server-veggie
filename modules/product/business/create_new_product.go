@@ -1,11 +1,11 @@
 package business
 
 import (
-	"fmt"
 	model "server-veggie/modules/product/model"
 )
 
 type CreateProductStorage interface {
+	InsertNewProduct(data *model.ProductCreationType) error
 }
 
 type createProductBiz struct {
@@ -16,6 +16,8 @@ func NewCreateProductBiz(store CreateProductStorage) *createProductBiz {
 	return &createProductBiz{store: store}
 }
 func (biz *createProductBiz) CreateNewProduct(data *model.ProductCreationType) error {
-	fmt.Println("data", data)
+	if err := biz.store.InsertNewProduct(data); err != nil {
+		return err
+	}
 	return nil
 }

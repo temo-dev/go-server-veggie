@@ -76,6 +76,8 @@ func Initializers() *gorm.DB {
 		&schema.PurchaseTransactionInvoice{},
 		&schema.Promotion{},
 		&schema.PromotionProduct{},
+		&schema.Tag{},
+		&schema.TagProduct{},
 	); err != nil {
 		log.Fatalln(err)
 	}

@@ -18,10 +18,7 @@ type AttitudeProductPackageCreationType struct {
 	PackageLength              string  `json:"package_length" validate:"required"`
 	PackageWidth               float64 `json:"package_width"`
 	PackageHeight              float64 `json:"package_height"`
-	PackageNetWeight           float64 `json:"package_net_weight" validate:"required"`
-	PackageGrossWeight         float64 `json:"package_gross_weight" validate:"required"`
 	PackageCubic               float64 `json:"package_cubic" validate:"required"`
-	UnitsPerBox                int     `json:"units_per_box" validate:"required"`
 }
 
 // Get Categorie
@@ -31,8 +28,5 @@ type AttitudeProductPackageType struct {
 	PackageLength              string  `json:"package_length" validate:"required"`
 	PackageWidth               float64 `json:"package_width"`
 	PackageHeight              float64 `json:"package_height"`
-	PackageNetWeight           float64 `json:"package_net_weight" validate:"required"`
-	PackageGrossWeight         float64 `json:"package_gross_weight" validate:"required"`
 	PackageCubic               float64 `json:"package_cubic" validate:"required"`
-	UnitsPerBox                int     `json:"units_per_box" validate:"required"`
 }

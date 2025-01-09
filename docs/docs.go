@@ -746,6 +746,69 @@ const docTemplate = `{
             }
         },
         "/v1/products": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Tất Cả Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sản Phẩm"
+                ],
+                "summary": "Tìm Tất Cả Sản Phẩm",
+                "responses": {
+                    "200": {
+                        "description": "Tìm Tất Cả Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập Nhật Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sản Phẩm"
+                ],
+                "summary": "Cập Nhật Sản Phẩm",
+                "parameters": [
+                    {
+                        "description": "product",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ProductType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập Nhật Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -776,7 +839,79 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Tạo Tài Khoản Thành Công",
+                        "description": "Tạo Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/products/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Sản Phẩm Theo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sản Phẩm"
+                ],
+                "summary": "Tìm Sản Phẩm Theo ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "product id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tìm Sản Phẩm Theo ID Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sản Phẩm"
+                ],
+                "summary": "Xóa Sản Phẩm",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "product id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa Sản Phẩm Thành Công",
                         "schema": {
                             "type": "object"
                         }
@@ -1318,10 +1453,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "package_cubic",
-                "package_gross_weight",
-                "package_length",
-                "package_net_weight",
-                "units_per_box"
+                "package_length"
             ],
             "properties": {
                 "attitude_product_package_code": {
@@ -1330,23 +1462,14 @@ const docTemplate = `{
                 "package_cubic": {
                     "type": "number"
                 },
-                "package_gross_weight": {
-                    "type": "number"
-                },
                 "package_height": {
                     "type": "number"
                 },
                 "package_length": {
                     "type": "string"
                 },
-                "package_net_weight": {
-                    "type": "number"
-                },
                 "package_width": {
                     "type": "number"
-                },
-                "units_per_box": {
-                    "type": "integer"
                 }
             }
         },
@@ -1355,10 +1478,7 @@ const docTemplate = `{
             "required": [
                 "attitude_product_package_id",
                 "package_cubic",
-                "package_gross_weight",
-                "package_length",
-                "package_net_weight",
-                "units_per_box"
+                "package_length"
             ],
             "properties": {
                 "attitude_product_package_code": {
@@ -1370,23 +1490,14 @@ const docTemplate = `{
                 "package_cubic": {
                     "type": "number"
                 },
-                "package_gross_weight": {
-                    "type": "number"
-                },
                 "package_height": {
                     "type": "number"
                 },
                 "package_length": {
                     "type": "string"
                 },
-                "package_net_weight": {
-                    "type": "number"
-                },
                 "package_width": {
                     "type": "number"
-                },
-                "units_per_box": {
-                    "type": "integer"
                 }
             }
         },
@@ -1527,14 +1638,28 @@ const docTemplate = `{
         "model.ProductCreationType": {
             "type": "object",
             "required": [
-                "category_id",
+                "cubic",
+                "gross_weight",
+                "net_weight",
+                "pre_order",
                 "product_code",
+                "product_name_de",
                 "product_name_eng",
-                "product_name_vn"
+                "product_name_th",
+                "product_name_vn",
+                "shelf_life",
+                "sub_category_id",
+                "total_quantity"
             ],
             "properties": {
-                "category_id": {
+                "attitude_product_package_id": {
                     "type": "string"
+                },
+                "brand_id": {
+                    "type": "string"
+                },
+                "cubic": {
+                    "type": "number"
                 },
                 "description": {
                     "type": "string"
@@ -1542,17 +1667,199 @@ const docTemplate = `{
                 "dph": {
                     "type": "integer"
                 },
+                "gross_weight": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "number"
+                },
                 "image_url": {
+                    "type": "string"
+                },
+                "is_fragility": {
+                    "type": "boolean"
+                },
+                "is_published": {
+                    "type": "boolean"
+                },
+                "is_stackability": {
+                    "type": "boolean"
+                },
+                "length": {
+                    "type": "string"
+                },
+                "maximum_order_quantity": {
+                    "type": "integer"
+                },
+                "minimum_order_quantity": {
+                    "type": "integer"
+                },
+                "net_weight": {
+                    "type": "number"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "pre_order": {
                     "type": "string"
                 },
                 "product_code": {
                     "type": "string"
                 },
+                "product_name_de": {
+                    "type": "string"
+                },
                 "product_name_eng": {
+                    "type": "string"
+                },
+                "product_name_th": {
                     "type": "string"
                 },
                 "product_name_vn": {
                     "type": "string"
+                },
+                "published_at": {
+                    "type": "string"
+                },
+                "reorder_level": {
+                    "type": "integer"
+                },
+                "season": {
+                    "type": "string"
+                },
+                "shelf_life": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "sub_category_id": {
+                    "type": "string"
+                },
+                "temperature_requirement": {
+                    "type": "number"
+                },
+                "total_quantity": {
+                    "type": "integer"
+                },
+                "width": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.ProductType": {
+            "type": "object",
+            "required": [
+                "cubic",
+                "gross_weight",
+                "net_weight",
+                "pre_order",
+                "product_code",
+                "product_id",
+                "product_name_de",
+                "product_name_eng",
+                "product_name_th",
+                "product_name_vn",
+                "shelf_life",
+                "sub_category_id",
+                "total_quantity"
+            ],
+            "properties": {
+                "attitude_product_package_id": {
+                    "type": "string"
+                },
+                "brand_id": {
+                    "type": "string"
+                },
+                "cubic": {
+                    "type": "number"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dph": {
+                    "type": "integer"
+                },
+                "gross_weight": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "number"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "is_fragility": {
+                    "type": "boolean"
+                },
+                "is_published": {
+                    "type": "boolean"
+                },
+                "is_stackability": {
+                    "type": "boolean"
+                },
+                "length": {
+                    "type": "string"
+                },
+                "maximum_order_quantity": {
+                    "type": "integer"
+                },
+                "minimum_order_quantity": {
+                    "type": "integer"
+                },
+                "net_weight": {
+                    "type": "number"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "pre_order": {
+                    "type": "string"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "product_name_de": {
+                    "type": "string"
+                },
+                "product_name_eng": {
+                    "type": "string"
+                },
+                "product_name_th": {
+                    "type": "string"
+                },
+                "product_name_vn": {
+                    "type": "string"
+                },
+                "published_at": {
+                    "type": "string"
+                },
+                "reorder_level": {
+                    "type": "integer"
+                },
+                "season": {
+                    "type": "string"
+                },
+                "shelf_life": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "sub_category_id": {
+                    "type": "string"
+                },
+                "temperature_requirement": {
+                    "type": "number"
+                },
+                "total_quantity": {
+                    "type": "integer"
+                },
+                "width": {
+                    "type": "number"
                 }
             }
         },

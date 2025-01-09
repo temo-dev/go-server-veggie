@@ -5,9 +5,9 @@ import (
 	"server-veggie/database/schema"
 )
 
-func (s *sqlStore) DeleteCategory(cond map[string]interface{}) error {
+func (s *sqlStore) DeleteProductById(cond map[string]interface{}) error {
 	tx := s.db.Begin()
-	if err := tx.Where("category_id", cond["category_id"]).Delete(&schema.Category{}).Error; err != nil {
+	if err := tx.Where("product_id", cond["product_id"]).Delete(&schema.Product{}).Error; err != nil {
 		tx.Rollback()
 		return commonError.ErrDB(err)
 	}

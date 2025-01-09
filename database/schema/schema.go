@@ -61,12 +61,12 @@ type SubCategory struct {
 	ImageURL           string    `gorm:"type:varchar"`
 	Dph                int32     `gorm:"type:integer;not null"`
 	CategoryID         string    `gorm:"type:uuid;not null"`
-	Products           []Product `gorm:"foreignKey:CategoryID"`
+	Products           []Product `gorm:"foreignKey:SubCategoryID"`
 }
 
 type InStockProduct struct {
 	InStockProductID   string    `gorm:"type:uuid;primaryKey"`
-	Quantity           int       `gorm:"type:int;not null"`
+	TotalQuantity      int       `gorm:"type:int"`
 	ProductID          string    `gorm:"type:uuid;not null"`
 	SupplierID         string    `gorm:"type:uuid;not null"`
 	EanCode            string    `gorm:"type:varchar;unique;not null"`
@@ -75,6 +75,8 @@ type InStockProduct struct {
 	CountryOfOrigin    string    `gorm:"type:varchar"`
 	CountrySubOfOrigin string    `gorm:"type:varchar"`
 	ExpiryDate         time.Time `gorm:"type:date;not null"`
+	UnitsPerBox        int       `gorm:"type:int;not null"`
+	TotalQuantityBox   int       `gorm:"type:int;not null"`
 	CreatedAt          time.Time `gorm:"autoCreateTime"`
 	UpdatedAt          time.Time `gorm:"autoUpdateTime"`
 }
@@ -120,6 +122,8 @@ type SupplierProduct struct {
 	ProductID  string `gorm:"type:uuid;primaryKey"`
 }
 
+// ============= product ===============
+
 type Product struct {
 	ProductID                string           `gorm:"type:uuid;primaryKey"`
 	ProductNameVN            string           `gorm:"type:varchar;not null"`
@@ -131,7 +135,7 @@ type Product struct {
 	Description              string           `gorm:"type:varchar"`
 	ImageURL                 string           `gorm:"type:varchar"`
 	Status                   string           `gorm:"type:status_product_enum;default:'available'"`
-	CategoryID               string           `gorm:"type:uuid;not null"`
+	SubCategoryID            string           `gorm:"type:uuid;not null"`
 	MinimumOrderQuantity     int              `gorm:"type:int;default:100"`
 	MaximumOrderQuantity     int              `gorm:"type:int;default:1000"`
 	ReorderLevel             int              `gorm:"type:int;default:100"`
@@ -156,7 +160,9 @@ type Product struct {
 	InStockProducts          []InStockProduct `gorm:"foreignKey:ProductID"`
 	Suppliers                []Supplier       `gorm:"many2many:supplier_products;"`  // many to many
 	Products                 []Product        `gorm:"many2many:promotion_products;"` // many to many
+	Tags                     []Tag            `gorm:"many2many:tag_products;"`       // many to many
 	BrandID                  string           `gorm:"type:uuid"`
+	TotalQuantity            int              `gorm:"type:int;default:0"`
 	CreatedAt                time.Time        `gorm:"autoCreateTime"`
 	UpdatedAt                time.Time        `gorm:"autoUpdateTime"`
 }
@@ -167,10 +173,7 @@ type AttitudeProductPackage struct {
 	PackageLength              string    `gorm:"type:length_enum;default:'cm'"`
 	PackageWidth               float64   `gorm:"type:decimal(10,2);not null"`
 	PackageHeight              float64   `gorm:"type:decimal(10,2);not null"`
-	PackageNetWeight           float64   `gorm:"type:decimal(10,2);not null"`
-	PackageGrossWeight         float64   `gorm:"type:decimal(10,2);not null"`
 	PackageCubic               float64   `gorm:"type:decimal(10,2);not null"`
-	UnitsPerBox                int       `gorm:"type:int;not null"`
 	Products                   []Product `gorm:"foreignKey:AttitudeProductPackageID"`
 }
 
@@ -299,4 +302,18 @@ type Promotion struct {
 type PromotionProduct struct {
 	PromotionID string `gorm:"type:uuid;not null"`
 	ProductID   string `gorm:"type:uuid;not null"`
+}
+
+// ============== Tag ===========
+type Tag struct {
+	TagID       string    `gorm:"type:uuid;primaryKey"`
+	TagName     string    `gorm:"type:varchar;not null"`
+	Description string    `gorm:"type:varchar"`
+	ImageURL    string    `gorm:"type:varchar"`
+	Products    []Product `gorm:"many2many:tag_products;"` // many to many
+}
+
+type TagProduct struct {
+	TagID     string `gorm:"type:uuid;not null"`
+	ProductID string `gorm:"type:uuid;not null"`
 }

@@ -52,23 +52,14 @@ func getUpdatedFields(oldAPP *model.AttitudeProductPackageType, newAPP *model.At
 	if oldAPP.PackageCubic != newAPP.PackageCubic {
 		updates["PackageCubic"] = newAPP.PackageCubic
 	}
-	if oldAPP.PackageGrossWeight != newAPP.PackageGrossWeight {
-		updates["PackageGrossWeight"] = newAPP.PackageGrossWeight
-	}
 	if oldAPP.PackageHeight != newAPP.PackageHeight {
 		updates["PackageHeight"] = newAPP.PackageHeight
-	}
-	if oldAPP.PackageNetWeight != newAPP.PackageNetWeight {
-		updates["PackageNetWeight"] = newAPP.PackageNetWeight
 	}
 	if oldAPP.PackageLength != newAPP.PackageLength {
 		updates["PackageLength"] = newAPP.PackageLength
 	}
 	if oldAPP.PackageWidth != newAPP.PackageWidth {
 		updates["PackageWidth"] = newAPP.PackageWidth
-	}
-	if oldAPP.UnitsPerBox != newAPP.UnitsPerBox {
-		updates["UnitsPerBox"] = newAPP.UnitsPerBox
 	}
 	return updates
 }
