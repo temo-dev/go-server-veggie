@@ -7,6 +7,180 @@
         "version": "1.0"
     },
     "paths": {
+        "/v1/attitude-product-package": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm tất cả Package Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Package Sản Phẩm"
+                ],
+                "summary": "Tìm tất cả Package Sản Phẩm",
+                "responses": {
+                    "200": {
+                        "description": "Tìm tất cả Package Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập Nhật Package Sản Phẩm theo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Package Sản Phẩm"
+                ],
+                "summary": "Cập Nhật Package Sản Phẩm theo ID",
+                "parameters": [
+                    {
+                        "description": "package data",
+                        "name": "package",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.AttitudeProductPackageType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập Nhật Package Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tạo Package Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Package Sản Phẩm"
+                ],
+                "summary": "Tạo Package Sản Phẩm",
+                "parameters": [
+                    {
+                        "description": "package data",
+                        "name": "package",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.AttitudeProductPackageCreationType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Package Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/attitude-product-package/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Package Sản Phẩm theo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Package Sản Phẩm"
+                ],
+                "summary": "Tìm Package Sản Phẩm theo ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "package id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tìm Package Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa Package Sản Phẩm theo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Package Sản Phẩm"
+                ],
+                "summary": "Xóa Package Sản Phẩm theo ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "package id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa Package Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/auth/login": {
             "post": {
                 "description": "Đăng Nhập tài khoản mới bằng email",
@@ -1129,6 +1303,82 @@
                 },
                 "token": {
                     "type": "string"
+                }
+            }
+        },
+        "model.AttitudeProductPackageCreationType": {
+            "type": "object",
+            "required": [
+                "package_cubic",
+                "package_gross_weight",
+                "package_length",
+                "package_net_weight",
+                "units_per_box"
+            ],
+            "properties": {
+                "attitude_product_package_code": {
+                    "type": "string"
+                },
+                "package_cubic": {
+                    "type": "number"
+                },
+                "package_gross_weight": {
+                    "type": "number"
+                },
+                "package_height": {
+                    "type": "number"
+                },
+                "package_length": {
+                    "type": "string"
+                },
+                "package_net_weight": {
+                    "type": "number"
+                },
+                "package_width": {
+                    "type": "number"
+                },
+                "units_per_box": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.AttitudeProductPackageType": {
+            "type": "object",
+            "required": [
+                "attitude_product_package_id",
+                "package_cubic",
+                "package_gross_weight",
+                "package_length",
+                "package_net_weight",
+                "units_per_box"
+            ],
+            "properties": {
+                "attitude_product_package_code": {
+                    "type": "string"
+                },
+                "attitude_product_package_id": {
+                    "type": "string"
+                },
+                "package_cubic": {
+                    "type": "number"
+                },
+                "package_gross_weight": {
+                    "type": "number"
+                },
+                "package_height": {
+                    "type": "number"
+                },
+                "package_length": {
+                    "type": "string"
+                },
+                "package_net_weight": {
+                    "type": "number"
+                },
+                "package_width": {
+                    "type": "number"
+                },
+                "units_per_box": {
+                    "type": "integer"
                 }
             }
         },

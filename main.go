@@ -49,6 +49,7 @@ func main() {
 	api.SupplierRoutes(router, db)
 	api.BrandRoutes(router, db)
 	api.SubCategoryRoutes(router, db)
+	api.AttitudeProductPackageRoutes(router, db)
 	// server run
 	router.Run(":8080")
 }

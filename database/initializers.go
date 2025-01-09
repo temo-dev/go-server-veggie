@@ -59,7 +59,6 @@ func Initializers() *gorm.DB {
 		&schema.RolePermission{},
 		&schema.Category{},
 		&schema.SubCategory{},
-		&schema.AttitudeProductSize{},
 		&schema.AttitudeProductPackage{},
 		&schema.AttitudeContainer{},
 		&schema.InStockProduct{},

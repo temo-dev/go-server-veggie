@@ -144,7 +144,12 @@ type Product struct {
 	IsPublished              bool             `gorm:"type:boolean;default:false"`
 	PublishedAt              time.Time        `gorm:"type:date"`
 	PreOrder                 time.Time        `gorm:"type:date;not null"`
-	AttitudeProductSizeID    string           `gorm:"type:uuid"`
+	Length                   string           `gorm:"type:length_enum;default:'cm'"`
+	Width                    float64          `gorm:"type:decimal(10,2)"`
+	Height                   float64          `gorm:"type:decimal(10,2)"`
+	NetWeight                float64          `gorm:"type:decimal(10,2);not null"`
+	GrossWeight              float64          `gorm:"type:decimal(10,2);not null"`
+	Cubic                    float64          `gorm:"type:decimal(10,2);not null"`
 	AttitudeProductPackageID string           `gorm:"type:uuid"`
 	PurchasePrices           []PurchasePrice  `gorm:"foreignKey:ProductID"`
 	SalesPrices              []SalesPrice     `gorm:"foreignKey:ProductID"`
@@ -156,21 +161,9 @@ type Product struct {
 	UpdatedAt                time.Time        `gorm:"autoUpdateTime"`
 }
 
-type AttitudeProductSize struct {
-	AttitudeProductSizeID   string    `gorm:"type:uuid;primaryKey"`
-	AttitudeProductSizeCode string    `gorm:"type:varchar;unique;not null"`
-	Length                  string    `gorm:"type:length_enum;default:'cm'"`
-	Width                   float64   `gorm:"type:decimal(10,2)"`
-	Height                  float64   `gorm:"type:decimal(10,2)"`
-	NetWeight               float64   `gorm:"type:decimal(10,2);not null"`
-	GrossWeight             float64   `gorm:"type:decimal(10,2);not null"`
-	Cubic                   float64   `gorm:"type:decimal(10,2);not null"`
-	Products                []Product `gorm:"foreignKey:AttitudeProductSizeID"`
-}
-
 type AttitudeProductPackage struct {
 	AttitudeProductPackageID   string    `gorm:"type:uuid;primaryKey"`
-	AttitudeProductPackageCode string    `gorm:"type:varchar;unique;not null"`
+	AttitudeProductPackageCode string    `gorm:"type:varchar;unique"`
 	PackageLength              string    `gorm:"type:length_enum;default:'cm'"`
 	PackageWidth               float64   `gorm:"type:decimal(10,2);not null"`
 	PackageHeight              float64   `gorm:"type:decimal(10,2);not null"`
