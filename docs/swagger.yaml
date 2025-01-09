@@ -199,7 +199,6 @@ definitions:
     - cubic
     - gross_weight
     - net_weight
-    - pre_order
     - product_code
     - product_name_de
     - product_name_eng
@@ -279,7 +278,6 @@ definitions:
     - cubic
     - gross_weight
     - net_weight
-    - pre_order
     - product_code
     - product_id
     - product_name_de

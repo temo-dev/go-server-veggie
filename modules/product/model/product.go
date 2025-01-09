@@ -39,7 +39,7 @@ type ProductCreationType struct {
 	Season                   string    `json:"season"`
 	IsPublished              bool      `json:"is_published"`
 	PublishedAt              time.Time `json:"published_at"`
-	PreOrder                 time.Time `json:"pre_order" validate:"required"`
+	PreOrder                 time.Time `json:"pre_order"`
 	Length                   string    `json:"length"`
 	Width                    float64   `json:"width"`
 	Height                   float64   `json:"height"`
@@ -74,7 +74,7 @@ type ProductType struct {
 	Season                   string    `json:"season"`
 	IsPublished              bool      `json:"is_published"`
 	PublishedAt              time.Time `json:"published_at"`
-	PreOrder                 time.Time `json:"pre_order" validate:"required"`
+	PreOrder                 time.Time `json:"pre_order"`
 	Length                   string    `json:"length"`
 	Width                    float64   `json:"width"`
 	Height                   float64   `json:"height"`

@@ -147,21 +147,21 @@ type Product struct {
 	Season                   string           `gorm:"type:season_enum"`
 	IsPublished              bool             `gorm:"type:boolean;default:false"`
 	PublishedAt              time.Time        `gorm:"type:date"`
-	PreOrder                 time.Time        `gorm:"type:date;not null"`
+	PreOrder                 time.Time        `gorm:"type:date"`
 	Length                   string           `gorm:"type:length_enum;default:'cm'"`
 	Width                    float64          `gorm:"type:decimal(10,2)"`
 	Height                   float64          `gorm:"type:decimal(10,2)"`
 	NetWeight                float64          `gorm:"type:decimal(10,2);not null"`
 	GrossWeight              float64          `gorm:"type:decimal(10,2);not null"`
 	Cubic                    float64          `gorm:"type:decimal(10,2);not null"`
-	AttitudeProductPackageID string           `gorm:"type:uuid"`
+	AttitudeProductPackageID string           `gorm:"type:uuid;default:null"`
 	PurchasePrices           []PurchasePrice  `gorm:"foreignKey:ProductID"`
 	SalesPrices              []SalesPrice     `gorm:"foreignKey:ProductID"`
 	InStockProducts          []InStockProduct `gorm:"foreignKey:ProductID"`
 	Suppliers                []Supplier       `gorm:"many2many:supplier_products;"`  // many to many
 	Products                 []Product        `gorm:"many2many:promotion_products;"` // many to many
 	Tags                     []Tag            `gorm:"many2many:tag_products;"`       // many to many
-	BrandID                  string           `gorm:"type:uuid"`
+	BrandID                  string           `gorm:"type:uuid;default:null"`
 	TotalQuantity            int              `gorm:"type:int;default:0"`
 	CreatedAt                time.Time        `gorm:"autoCreateTime"`
 	UpdatedAt                time.Time        `gorm:"autoUpdateTime"`
@@ -213,7 +213,7 @@ type Customer struct {
 	TotalPurchaseAmount float64   `gorm:"type:decimal(10,2);default:0.0"`
 	ZoneID              string    `gorm:"type:uuid;not null"`
 	CurrencyID          string    `gorm:"type:uuid;not null"`
-	SalesPriceID        string    `gorm:"type:uuid"`
+	SalesPriceID        string    `gorm:"type:uuid;default:null"`
 	ZonePriceID         string    `gorm:"type:uuid;not null"`
 	CreatedAt           time.Time `gorm:"autoCreateTime"`
 	UpdatedAt           time.Time `gorm:"autoUpdateTime"`
