@@ -50,6 +50,7 @@ func main() {
 	api.BrandRoutes(router, db)
 	api.SubCategoryRoutes(router, db)
 	api.AttitudeProductPackageRoutes(router, db)
+	api.TagRoutes(router, db)
 	// server run
 	router.Run(":8080")
 }

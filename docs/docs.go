@@ -1267,6 +1267,180 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/tags": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Tất Cả Tag Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag Sản Phẩm"
+                ],
+                "summary": "Tìm Tất Cả Tag Sản Phẩm",
+                "responses": {
+                    "200": {
+                        "description": "Tìm Tag Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập Nhật Tag Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag Sản Phẩm"
+                ],
+                "summary": "Cập Nhật Tag Sản Phẩm",
+                "parameters": [
+                    {
+                        "description": "Tag data",
+                        "name": "tag",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TagType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập Nhật Tag Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tạo Tag Sản Phẩm",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag Sản Phẩm"
+                ],
+                "summary": "Tạo Tag Sản Phẩm",
+                "parameters": [
+                    {
+                        "description": "Tag data",
+                        "name": "tag",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.TagCreationType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Tag Sản Phẩm Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tags/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Tag Sản Phẩm Theo Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag Sản Phẩm"
+                ],
+                "summary": "Tìm Tag Sản Phẩm Theo Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tag id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tìm Tag Sản Phẩm Theo Id Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa Tag Sản Phẩm Theo Id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag Sản Phẩm"
+                ],
+                "summary": "Xóa Tag Sản Phẩm Theo Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tag id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa Tag Sản Phẩm Theo Id Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/users": {
             "get": {
                 "security": [
@@ -2010,6 +2184,37 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "tax_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TagCreationType": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "tag_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TagType": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "tag_id": {
+                    "type": "string"
+                },
+                "tag_name": {
                     "type": "string"
                 }
             }
