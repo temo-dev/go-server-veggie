@@ -911,6 +911,180 @@
                 }
             }
         },
+        "/v1/purchase-prices": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm tất cả Giá Nhập Hàng",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Giá Nhập Hàng"
+                ],
+                "summary": "Tìm tất cả Giá Nhập Hàng",
+                "responses": {
+                    "200": {
+                        "description": "Tìm tất cả Giá Nhập Hàng Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Cập Nhật Giá Nhập Hàng",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Giá Nhập Hàng"
+                ],
+                "summary": "Cập Nhật Giá Nhập Hàng",
+                "parameters": [
+                    {
+                        "description": "Purchase Price data",
+                        "name": "purchase-price",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PurchasePriceType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cập Nhật Giá Nhập Hàng Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tạo Giá Nhập Hàng",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Giá Nhập Hàng"
+                ],
+                "summary": "Tạo Giá Nhập Hàng",
+                "parameters": [
+                    {
+                        "description": "Purchase Price data",
+                        "name": "purchase-price",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PurchasePriceCreationType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Giá Nhập Hàng Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/purchase-prices/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Tìm Giá Nhập Hàng theo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Giá Nhập Hàng"
+                ],
+                "summary": "Tìm Giá Nhập Hàng theo ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Purchase Price id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tạo Giá Nhập Hàng theo ID Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Xóa Giá Nhập Hàng theo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Giá Nhập Hàng"
+                ],
+                "summary": "Xóa Giá Nhập Hàng theo ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Purchase Price id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Xóa Giá Nhập Hàng theo ID Thành Công",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/sub-categories": {
             "get": {
                 "security": [
@@ -2024,6 +2198,92 @@
                 },
                 "width": {
                     "type": "number"
+                }
+            }
+        },
+        "model.PurchasePriceCreationType": {
+            "type": "object",
+            "required": [
+                "box_price",
+                "currency_id",
+                "product_id",
+                "retail_price",
+                "season",
+                "supplier_id"
+            ],
+            "properties": {
+                "box_price": {
+                    "type": "number"
+                },
+                "container_price": {
+                    "type": "number"
+                },
+                "currency_id": {
+                    "type": "string"
+                },
+                "pallet_price": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "retail_price": {
+                    "type": "number"
+                },
+                "season": {
+                    "type": "string"
+                },
+                "supplier_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PurchasePriceType": {
+            "type": "object",
+            "required": [
+                "box_price",
+                "container_price",
+                "currency_id",
+                "pallet_price",
+                "product_id",
+                "purchase_price_id",
+                "retail_price",
+                "season",
+                "supplier_id"
+            ],
+            "properties": {
+                "box_price": {
+                    "type": "number"
+                },
+                "container_price": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "currency_id": {
+                    "type": "string"
+                },
+                "pallet_price": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "purchase_price_id": {
+                    "type": "string"
+                },
+                "retail_price": {
+                    "type": "number"
+                },
+                "season": {
+                    "type": "string"
+                },
+                "supplier_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },

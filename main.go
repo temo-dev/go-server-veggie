@@ -51,6 +51,7 @@ func main() {
 	api.SubCategoryRoutes(router, db)
 	api.AttitudeProductPackageRoutes(router, db)
 	api.TagRoutes(router, db)
+	api.PurchasePriceRoutes(router, db)
 	// server run
 	router.Run(":8080")
 }
