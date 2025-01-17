@@ -17,7 +17,7 @@ import (
 
 func FindKeyS3Handler(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var bucketName = "veggie-bucket"
+		var bucketName = "veggie-bucket-2"
 		var data *model.CreateLinkFileType
 		//validate
 		if err := c.ShouldBindJSON(&data); err != nil {
